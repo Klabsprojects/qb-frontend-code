@@ -1,0 +1,226 @@
+<div class="row" *ngIf="userRole==='Admin'">
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Creators</h5>
+            <h6 class="mt-4 mb-0">{{dashboardData.u_creators}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Curators</h5>
+            <h6 class="mt-4 mb-0">{{dashboardData.u_curator}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Question</h5>
+            <h6 class="mt-4 mb-0">{{dashboardData.q_all}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="userRole==='Creator' || userRole==='Translate' || userRole==='Cre.Tra'">
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Question</h5>
+            <h6 class="mt-4 mb-0">{{dashboardData.q_all}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="userRole==='Curator'">
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row" *ngIf="userRole==='Cre.Tra'">
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 grid-margin stretch-card mt-2">
+    <div class="card">
+      <div class="card-body">
+        <div
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          <div>
+            <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
+            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -1,0 +1,27 @@
+.page-out{
+    line-height: 2.1;
+    float: left;
+    width: 100%;
+}
+.col-md-4{
+    padding: 10px 0px;
+}
+.q_text p{
+    float: left !important;
+}
+.choice ol li{
+    float: left;
+    width: 50%;
+    line-height:2.9;
+}
+.choice ol{
+    float: left;
+    width: 100%;
+}
+.title{
+    color: #2c73ba;
+    font-weight: bold;
+  }
+h4{
+    width:auto;
+}

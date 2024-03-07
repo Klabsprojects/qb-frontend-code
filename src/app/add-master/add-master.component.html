@@ -1,0 +1,45 @@
+<h5>Add Master Details</h5>
+
+<form [formGroup]="masterForm" (ngSubmit)="submit()" class="mt-4">
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Type</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="type">
+    </div>
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Class</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="class">
+    </div>
+
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Medium</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="medium">
+    </div>
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Subject</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="subject">
+    </div>
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Chapter</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="chapter">
+    </div>
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Topic</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="topic">
+    </div>
+
+    <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Sub Topic</label>
+        <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="sub_topic">
+    </div>
+
+ 
+<div class="col-md-12 p-0 my-2 float-left">
+ <button type="reset" class="btn btn-info">Reset</button>
+ <button type="submit" class="btn btn-info ml-2">Submit</button>
+</div>
+ </form>

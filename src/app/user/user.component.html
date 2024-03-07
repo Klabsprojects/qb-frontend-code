@@ -1,0 +1,75 @@
+<form>
+  <div class="row">
+    <div class="col-md-3">
+      Class
+      <select class="form-control form-control-sm" required name="class" ngModel #class="ngModel">
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+    </div>
+    <div class="col-md-3">Language <br><input type="checkbox" name="English" ngModel #English="ngModel">English <input
+        type="checkbox" name="Tamil" ngModel #Tamil="ngModel">Tamil</div>
+    <div class="col-md-3">Subject <select class="form-control form-control-sm" required name="subject" ngModel
+        #subject="ngModel">
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Maths">Maths</option>
+        <option value="Botony">Botony</option>
+        <option value="Zology">Zology</option>
+      </select>
+    </div>
+    <div class="col-md-3">Question Level
+      <select class="form-control form-control-sm" required name="level" ngModel #level="ngModel">
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      Question Type
+      <select class="form-control form-control-sm" required name="type" ngModel #type="ngModel">
+        <option value="MCQ">MCQ</option>
+        <option value="MSQ">MSQ</option>
+        <option value="FIB">Fill in the Blanks</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      Chapter
+      <select class="form-control form-control-sm" required name="chapter" ngModel #chapter="ngModel">
+        <option value="Chapter 1">Chapter 1</option>
+        <option value="Chapter 2">Chapter 2</option>
+        <option value="FIChapter 3">Chapter 3</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      Topic
+      <select class="form-control form-control-sm" required name="topic" ngModel #topic="ngModel">
+        <option value="Topic 1">Topic 1</option>
+        <option value="Topic 2">Topic 2</option>
+        <option value="Topic 3">Topic 3</option>
+      </select>
+    </div>
+    <div class="col-md-3 p-0 my-2" style="display: flex;justify-content: center;">
+      <button type="submit" class="btn btn-info">Retrive</button>
+      <button type="reset" class="btn btn-info ml-2">reset</button>
+    </div>
+  </div>
+</form>
+<div class="row">
+  
+</div>
+<div class="row">
+  <div class="col-md-3">
+
+  </div>
+  <div class="col-md-6">
+    
+  </div>
+  <div class="col-md-3">
+    
+  </div>
+</div>

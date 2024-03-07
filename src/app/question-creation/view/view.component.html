@@ -1,0 +1,250 @@
+<div class="page-out">
+
+    <div *ngIf="userRole != 'Admin'">
+        <div class="card p-3 mb-3">
+            <div class="col-md-12 float-left text-center">
+                <h4 class="title">{{question?.type}} - {{question?.class}} - {{question?.medium}} -
+                    {{question?.subject}} </h4>
+            </div>
+
+            <div class="col-md-12 float-left text-center">
+                <p class="pt-2"> <span>{{question?.chapter}}</span> </p>
+                <p class="pt-2"><span>{{question?.topic}}</span></p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="card p-3 mb-4">
+            <h6 class="mt-4 mb-2 title">Question & Answer</h6>
+            <ng-container *ngIf="latestTimestamp(question)==='rejected'"><p class="mt-5" *ngIf="question?.remarks && userRole==='Creator'"><b>Remark Comment : </b><span>{{question?.remarks}}</span></p></ng-container>
+            <p class="mt-4">
+                <b>Question Type : </b>
+                <span *ngIf="question?.format == 1">MCQ</span>
+                <span *ngIf="question?.format == 2">MSQ</span>
+                <span *ngIf="question?.format == 3">Fill in the blank</span>
+                <span *ngIf="question?.format == 4">Match the following</span>
+            </p>
+            <!-- English start -->
+            <p class="mt-3"><b>Question : </b>
+                <span class="text" [innerHTML]="question?.text | sanitizeHtml"> </span>
+                <span *ngIf="question?.img">
+                    <img src={{question?.img}} width = "60px">
+                </span>
+            </p>
+
+            <p> <b>Clue : </b> 
+                <span>{{question?.clue_text}}</span>
+                <span *ngIf="question?.clue_img"><img src={{question?.clue_img}} width="60px"></span>
+            </p>
+
+            <div class="col-md-12 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
+                <b>Choices</b>
+                <ol>
+                    <li *ngFor="let choiceText of choiceTextArray;let i = index">
+                        <p [innerHTML]="choiceText | sanitizeHtml"></p>
+                        <span *ngIf="question?.choices[i].choice_img"><img src={{question?.choices[i].choice_img}} width = "60px"></span>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="col-md-12 p-0" *ngIf="question?.format == 1">
+                <b>Answer : </b>
+                <span [innerHTML]="this.correct | sanitizeHtml"></span>
+                <span *ngIf="correctimg"><img src={{correctimg}} width="60px"></span>
+            </div>
+
+            <div class="col-md-12 p-0" *ngIf="question?.format == 2">
+                <b>Answer : </b>
+                <span [innerHTML]="correctChoice.join(', ')" *ngIf="correctChoice.join('')!=''"></span>
+                <ng-container *ngFor="let crctimg of correctimgselect;let i=index">
+                    <img src={{crctimg}} alt="" width="60px">
+                </ng-container>
+            </div>
+            <div class="col-md-12 p-0" *ngIf="question?.format === '3'">
+                <b>Answer : </b>
+                <span>{{ correctChoice.join(', ') | sanitizeHtml}}</span>
+            </div>
+            <div class="col-md-12 p-0" *ngIf="question?.format ==='1'">
+                <b>Solution : </b>
+                <span [innerHTML]="this.choice_note | sanitizeHtml"></span>
+                <span *ngIf="correctsolutionimg"><img src={{correctsolutionimg}} width="60px"></span>
+            </div>
+            <div class="col-md-12 p-0" *ngIf="question?.format === '2'">
+                <b>Solution : </b>
+                <span>{{choicenotejoin(question | sanitizeHtml)}}</span>
+            </div>
+
+            <div class="col-md-12 p-0" *ngIf="question?.format === '3'">
+                <b>Solution : </b>
+                <span>{{choicenotejoin(question) | sanitizeHtml}}</span>
+            </div>
+            <!-- English end -->
+            <!-- tamil start -->
+            <ng-container *ngIf="question?.text_tn">
+                <p class="mt-3"><b>கேள்வி : </b>
+                    <span class="text" [innerHTML]="question?.text_tn | sanitizeHtml"> </span>
+                    <span *ngIf="question?.img_tn">
+                        <img src={{question?.img_tn}} width = "60px">
+                    </span>
+                </p>
+    
+                <p> <b>குறிப்பு : </b> 
+                    <span>{{question?.clue_text_tn}}</span>
+                    <span *ngIf="question?.clue_img_tn"><img src={{question?.clue_img_tn}} width="60px"></span>
+                </p>
+    
+                <div class="col-md-12 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
+                    <b>தேர்ந்தெடுக்கைகள்</b>
+                    <ol>
+                        <li *ngFor="let choiceText of choiceTextArray_tn;let i = index">
+                            <p [innerHTML]="choiceText | sanitizeHtml"></p>
+                            <span *ngIf="question?.choices[i].choice_img_tn"><img src={{question?.choices[i].choice_img_tn}} width = "60px"></span>
+                        </li>
+                    </ol>
+                </div>
+    
+                <div class="col-md-12 p-0" *ngIf="question?.format == 1">
+                    <b>சரியானது : </b>
+                    <span [innerHTML]="correct_tn | sanitizeHtml"></span>
+                    <span *ngIf="correctimg_tn"><img src={{correctimg_tn}} width="60px"></span>
+                </div>
+    
+                <div class="col-md-12 p-0" *ngIf="question?.format == 2">
+                    <b>சரியானது : </b>
+                    <span [innerHTML]="correctChoice_tn.join(', ') | sanitizeHtml" *ngIf="correctChoice_tn.join('')!=''"></span>
+                    <ng-container *ngFor="let crctimg of correctimgselect_tn;let i=index">
+                        <img src={{crctimg}} alt="" width="60px">
+                    </ng-container>
+                </div>
+                <div class="col-md-12 p-0" *ngIf="question?.format === '3'">
+                    <b>சரியானது : </b>
+                    <span>{{ correctChoice_tn.join(', ') | sanitizeHtml}}</span>
+                </div>
+                <div class="col-md-12 p-0" *ngIf="question?.format ==='1'">
+                    <b>தீர்வு : </b>
+                    <span [innerHTML]="this.choice_note_tn | sanitizeHtml"></span>
+                    <span *ngIf="correctsolutionimg_tn"><img src={{correctsolutionimg_tn}} width="60px"></span>
+                </div>
+                <div class="col-md-12 p-0" *ngIf="question?.format === '2'">
+                    <b>தீர்வு : </b>
+                    <span>{{choicenotejoin_tn(question) | sanitizeHtml}}</span>
+                </div>
+    
+                <div class="col-md-12 p-0" *ngIf="question?.format === '3'">
+                    <b>தீர்வு : </b>
+                    <span>{{choicenotejoin_tn(question) | sanitizeHtml}}</span>
+                </div>
+            </ng-container>
+            <!-- tamil end -->
+
+        </div>
+    </div>
+
+    <div *ngIf="userRole == 'Admin'">
+        <div class="card p-3 mb-3">
+            <div class="col-md-12 float-left text-center">
+                <h4 class="title">{{question[0]?.type}} - {{question[0]?.class}} - {{question[0]?.medium}} -
+                    {{question[0]?.subject}} </h4>
+            </div>
+
+            <div class="col-md-12 float-left text-center">
+                <p class="pt-2"> <span>{{question[0]?.chapter}}</span> </p>
+                <p class="pt-2"><span>{{question[0]?.topic}}</span></p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="card p-3 mb-4">
+            <!-- <h6 class="mt-4 mb-2 title">Question & Answer</h6> -->
+            <ng-container *ngFor="let quest of question;let i=index;">
+                <h6 class="mt-4 mb-2 title">Question & Answer</h6>
+                <p class="mt-4">
+                    <b>Question Type : </b>
+                    <span *ngIf="quest?.format == 1">MCQ</span>
+                    <span *ngIf="quest?.format == 2">MSQ</span>
+                    <span *ngIf="quest?.format == 3">Fill in the blank</span>
+                    <span *ngIf="quest?.format == 4">Match the following</span>
+                </p>
+
+                <p class="mt-3"><b>Question : </b>
+                    <span class="text" [innerHTML]="quest?.text" *ngIf="!quest?.img"> </span>
+                    <!-- <span *ngIf="quest?.img"> -->
+                        <img src={{quest?.img}} width = "60px" *ngIf="quest?.img">
+                    <!-- </span> -->
+                </p>
+
+                <p> <b>Clue : </b> <span *ngIf="!quest?.clu_img">{{quest?.clue_text}}</span><img src={{quest?.clue_img}} alt="" *ngIf="quest?.clue_img" width="60px"></p>
+
+
+                <div class="col-md-12 choice p-0" *ngIf="quest?.format == 1 || quest?.format == 2">
+                    <b>Choices</b>
+                    <ol>
+                        <li *ngFor="let choice of quest.choices">
+                            <p [innerHTML]="choice.choice_text" *ngIf="!choice.choice_img"></p>
+                            <img src={{choice.choice_img}} alt="" *ngIf="choice.choice_img" width = "60px">
+                        </li>
+                    </ol>
+                </div>
+                <ng-container *ngFor="let choice of quest.choices">
+                    <!-- <div class="col-md-12 p-0" *ngIf="quest?.format == 1">
+                        <b>Answer : </b>
+                        <span [innerHTML]="this.correct"></span>
+                    </div>
+        
+                    <div class="col-md-12 p-0" *ngIf="quest?.format == 2">
+                        <b>Answer : </b>
+                        <span [innerHTML]="correctChoice.join(', ')"></span>
+                    </div>
+        
+                    <div class="col-md-12 p-0" *ngIf="quest?.format === 3">
+                        <b>Answer : </b>
+                        <span>{{ correctChoice.join(', ') }}</span>
+                    </div> -->
+
+                    <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn !=null">
+                        <b>Answer : </b>
+                        <span [innerHTML]="choice.choice_text"></span>
+                        <!-- <span *ngFor="let choiceItem of choices" [innerHTML]="choice.choice_text"></span> -->
+                        <img src={{choice?.choice_img}} alt="" *ngIf="choice?.choice_img" width = "60px">
+                    </div>
+                    <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn !=null">
+                        <b>Solution : </b>
+                        <span [innerHTML]="choice.choice_notes"></span>
+                    </div>
+                </ng-container>
+                <hr>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- <ng-container *ngIf="!question?.translated || question?.translated && userRole=='Curator'"> -->
+    <ng-container *ngIf="(!question?.l3_approved) && userRole=='Curator'">
+        <ng-container *ngIf="(question?.submitted && !question.vetted) || (question?.translated && question?.vetted)">
+            <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">
+                <div class="card p-3" *ngIf="showComments">
+                    <div class="col-md-12">
+                        <label>Add Comments</label>
+                        <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
+                            [(ngModel)]="commentTextModel" #commentModel="ngModel" required></textarea>
+                        <div
+                            *ngIf="commentForm.controls['commentText']?.dirty || commentForm.controls['commentText']?.touched">
+                            <small class="text-danger">Comments are required.</small>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-12 float-left">
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
+                        (click)="back()">Back</button>
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
+                        (click)="reject(question.id,commentForm)" [disabled]="!commentForm.valid">Reject</button>
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
+                        (click)="approve(question.id)">Approve</button>
+                </div>
+            </form>
+        </ng-container>
+    </ng-container>
+    <div class="col-md-12 float-left" *ngIf="question?.vetted && !question?.translated">
+        <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;" (click)="back()">Back</button>
+    </div>
+</div>

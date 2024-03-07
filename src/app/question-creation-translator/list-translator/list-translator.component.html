@@ -1,0 +1,114 @@
+<div class="col-md-12 p-0">
+  <div class="row">
+    <div class="col-md-12" style="display: flex;justify-content: center;">
+      <h5>Question Bank</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 align-items-end" style="display: flex;justify-content: left;"><h5><span><a [routerLink]="['/dashboard']">Home</a> <i
+      class="mdi mdi-chevron-right"></i> Question</span></h5></div>
+    <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;">
+      <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button>
+    </div>
+  </div>
+  <!-- <h5 class="float-left w-100">Question<span> <a [routerLink]="['/dashboard']">Home</a> <i
+        class="mdi mdi-chevron-right"></i> Question</span></h5>
+  <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button> -->
+  <div class="btn-outer" *ngIf="showButton">
+    <button type="button" class="btn btn-info btn-action mt-4" style="background-color: orange;"
+      (click)="wordDownload()">Word</button>
+    <button type="button" class="btn btn-info btn-action mt-4" (click)="pdfDownload()">PDF</button>
+  </div>
+</div>
+<div class="table-container">
+
+  <table class="table table-bordered table-striped table-hover mt-4">
+    <thead class="table-info">
+      <th *ngIf="showButton"><input type="checkbox" (change)="selectAllCheckbox($event)"></th>
+      <th style="width:3%;"> # </th>
+      <th>
+        Type
+        <select id="dropdown" [(ngModel)]="selectedOptiontype" style="border-radius: 5px;max-width: 18px;" class="form-select">
+          <option value="" selected>All</option>
+          <option *ngFor="let option of dropdonwDatatype" [value]="option">{{ option }}</option>
+        </select>
+      </th>
+      <!-- <th>Class </th> -->
+      <th>
+        Class
+        <select id="dropdown" [(ngModel)]="selectedOptionclass" style="border-radius: 5px;max-width: 18px;" class="form-select">
+          <option value="" selected>All</option>
+          <option *ngFor="let option of dropdownDataclass" [value]="option">{{ option }}</option>
+        </select>
+    </th>
+      <th>Medium</th>
+      <!-- <th>Subject</th> -->
+      <th>
+        Subject
+          <select id="dropdown" [(ngModel)]="selectedOptionsubject" style="border-radius: 5px;max-width: 18px;">
+            <option value="" selected>All</option>
+            <option *ngFor="let option of dropdownDatasubject" [value]="option">{{ option }}</option>
+          </select>
+      </th>
+      <th>Chapter
+        <select id="dropdown" [(ngModel)]="selectedOptionchapter" style="border-radius: 5px;max-width: 18px;">
+          <option value="" selected>All</option>
+          <option *ngFor="let option of dropdownDatachapter" [value]="option">{{ option }}</option>
+        </select></th>
+      <th>Topic</th>
+      <th *ngIf="showAdmin">Question Count</th>
+      <th *ngIf="showCreator">
+        Level
+        <select id="dropdown" [(ngModel)]="selectedOptionlevel" style="border-radius: 5px;max-width: 18px;">
+          <option value="" selected>All</option>
+          <option *ngFor="let option of dropdownDatalevel" [value]="option">{{ option }}</option>
+        </select>
+      </th>
+      <th *ngIf="userRole == 'Cre.Tra'">Status</th>
+      <th *ngIf="showButton">Status</th>
+      <th style="width:3%;">Action</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of list | filterByClassTranslator:selectedOptionclass | filterBySubjectTranslator:selectedOptionsubject | filterByChapter:selectedOptionchapter | filterByLevelTranslator:selectedOptionlevel | filterByTypeTranslator:selectedOptiontype | paginate: { itemsPerPage: 10, currentPage: p }; index as row">
+        <td *ngIf="showButton"><input type="checkbox" [(ngModel)]="data.selected"></td>
+        <td>{{row + 1}}</td>
+        <td>{{data.type}}</td>
+        <td>{{data.class}}</td>
+        <td>{{data.medium}}</td>
+        <td>{{data.subject}}</td>
+        <td style="min-width: 120px;max-width: 120px;" class="text-wrap">{{data.chapter}}</td>
+        <td style="min-width: 120px;max-width: 120px;" class="text-wrap">{{data.topic}}</td>
+        <td *ngIf="showAdmin">{{data.q_count}}</td>
+        <td *ngIf="showCreator">{{data.difficulty}}</td>
+        <td *ngIf="userRole == 'Cre.Tra'">
+          {{latestTimestamp(data)}}
+        </td>
+        <td *ngIf="showButton">
+          {{latestTimestampcurator(data)}}
+        </td>
+        <td style="display: flex; justify-content: center;">
+          <ng-container *ngIf="latestTimestamp(data)==='Rejected'">
+            <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
+            *ngIf="userRole === 'Cre.Tra'"></i>
+          </ng-container>
+          <!-- <ng-container>
+            <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
+            *ngIf="userRole === 'Cre.Tra'"></i>
+          </ng-container> -->
+          <i class="mdi mdi-eye" style="margin-top:2px;" (click)="view(data)" title="View"></i>
+          <button type="button" class="btn btn-info btn-action"
+            style="background-color: orange; border:0px; padding: 8px; margin-right: 10px;"
+            (click)="singlewordDownload(data.id)" *ngIf="showButton"> Word</button>
+          <button type="button" class="btn btn-info btn-action" (click)="singlepdfDownload(data.id)"
+            style="border:0px; padding: 8px; background-color: green;" *ngIf="showButton">PDF</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br>
+<div class="row">
+  <div class="col-lg-12 d-flex justify-content-end">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

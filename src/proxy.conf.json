@@ -1,0 +1,10 @@
+{
+    "/proxy/*": {
+      "target": "https://18.139.1.194:3000",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": {"^/proxy" : ""}
+      }
+  }
+  

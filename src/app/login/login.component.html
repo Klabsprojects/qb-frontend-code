@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="login-inner">
+      <div><img src="./assets/images/logo.png" width="20%"/></div>
+     <div class="outer">
+      <h3>Question Bank Login</h3>
+ 
+     <form #loginForm="ngForm" autocomplete="off" (ngSubmit)="loginSubmit(loginForm)">
+       <div class="col-md-12 px-2 mb-4"> 
+         <input type="text" name="username"  class="form-control p-2" placeholder="User name *" 
+         [(ngModel)]="userLogin.username" #username="ngModel" style="border-radius: 10px;" required />
+         <div *ngIf="loginForm.submitted && username.errors?.['required']" class="in-valid">Username is required</div>
+       </div>
+ 
+       <div class="col-md-12 px-2 mb-4 position-relative"> 
+         <input type="{{showPassword ? 'text' : 'password'}}" name="password" class="form-control p-2" placeholder="Password *" 
+         [(ngModel)]="userLogin.password" #password="ngModel" required style="border-radius: 10px;" />
+         <i class="mdi" [ngClass]="{'mdi-eye': !showPassword, 'mdi-eye-off': showPassword}"  (click)="togglePasswordVisibility()"></i>
+         <div *ngIf="loginForm.submitted && password.errors?.['required']" class="in-valid">Password is required</div>
+       </div>
+ 
+       <div class="col-md-12 my-4 float-left">
+         <a  class="forgot" [routerLink]="['forgot-password']">Forgot Password?</a>
+         <button type="submit" name="submit" class="login-button rounded-3">Login</button>
+       </div>
+ 
+     </form>
+    </div>
+   </div>
+ </div>

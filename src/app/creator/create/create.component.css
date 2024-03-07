@@ -1,0 +1,23 @@
+span{
+    float: right;
+    font-size: 15px;
+}
+.w-75{
+    width:80% !important;
+}
+
+.form-control1{
+    float: left;
+    width: 82%;
+    height: 38px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    padding-left: 5px;
+  }
+  .col-md-4.position-relative .mdi {
+    right: 25%;
+    bottom: 19px;
+    transform: translateY(50%);
+    font-size: 20px;
+    position: absolute;
+}

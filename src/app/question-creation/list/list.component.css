@@ -1,0 +1,72 @@
+h5 span{
+    font-size: 14px;
+    float:right;
+}
+.btn-add{
+    padding: 13px;
+}
+.approved {
+    background-color: green;
+    color: white;
+    padding:5px 10px;
+    width:80%;
+    float: left;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 13px;
+}
+.in-review {
+    background-color: #f39915;
+    color: black; 
+    padding:5px 10px;
+    width:80%;
+    float: left;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 13px;
+}
+.draft {
+    background-color: #dc3545;
+    color: white;
+    padding:5px 10px;
+    width:80%;
+    float: left;
+    text-align: center;
+    font-size: 13px;
+    border-radius: 15px;
+}
+.table td i{
+    font-size:25px;
+    color:#3b86d1;
+    margin-right:5px;
+    float: left;
+}
+.btn-outer{
+    float: right;
+}
+.btn-outer button{
+    margin-right: 10px;
+    background-color: green;
+    border: 0px;
+}
+.form-control1{
+    float: left;
+    width: 82%;
+    height: 38px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    padding-left: 5px;
+  }
+  .form-control{
+    border: 1px solid #ccc;
+  }
+  
+select.form-control{
+    color:#464242;
+  }
+  .table-container {
+    overflow-x: auto;
+    width: 100%;
+    white-space: nowrap;
+  }
+  

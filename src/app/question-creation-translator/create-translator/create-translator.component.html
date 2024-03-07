@@ -1,0 +1,607 @@
+<div *ngIf="currentStep === 1">
+
+    <form #detailsForm="ngForm" (ngSubmit)="nextStep(detailsForm)">
+        <h6 class="mt-4 mb-2 title">Step 1 : Details</h6>
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Type</label>
+            <select class="form-control form-control1" (change)="selectType($event)" [(ngModel)]="questionAdd.type"
+                required name="type" #type="ngModel">
+                <option value="" selected>Select</option>
+                <option value="NEET">NEET</option>
+                <option value="JEE">JEE</option>
+                <option value="Foundation">Foundation</option>
+                <!-- <option value="Foundation">Cut</option> -->
+            </select>
+            <div *ngIf="detailsForm.submitted && type.invalid" class="in-valid col-md-12 p-0">Please Select Type</div>
+        </div>
+
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Class</label>
+            <select class="form-control form-control1" (change)="selectChange($event)" [(ngModel)]="questionAdd.class"
+                #class="ngModel" name="class" required>
+                <option value="">Select</option>
+                <option *ngFor="let classOption of classOptions" [value]="classOption">{{ classOption }}</option>
+            </select>
+            <div *ngIf="detailsForm.submitted && class.invalid" class="in-valid col-md-12 p-0">Please Select Class</div>
+        </div>
+
+        <!-- <div class="col-md-4 float-left p-0 mb-4">
+        <label class="float-left w-100">Medium</label>
+        <select class="form-control form-control1" (change)="selectMedium($event)" [(ngModel)]="questionAdd.medium"
+          #medium="ngModel" name="medium" required>
+          <option value="">Select</option>
+          <option *ngFor="let medium of mediumOptions" [value]="medium">{{medium }}</option>
+        </select>
+        <div *ngIf="detailsForm.submitted && medium.invalid" class="in-valid col-md-12 p-0">Please Select Medium</div>
+      </div> -->
+
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Subject</label>
+            <select class="form-control form-control1" (change)="selectSubject($event)"
+                [(ngModel)]="questionAdd.subject" #subject="ngModel" name="subject" required>
+                <option value="">Select</option>
+                <option *ngFor="let subjectOption of subjectOptions" [value]="subjectOption">{{ subjectOption }}
+                </option>
+            </select>
+            <div *ngIf="detailsForm.submitted && subject.invalid" class="in-valid col-md-12 p-0">Please Select Subject
+            </div>
+        </div>
+
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Chapter</label>
+            <select class="form-control form-control1" (change)="selectChapter($event)"
+                [(ngModel)]="questionAdd.chapter" #chapter="ngModel" name="chapter" required>
+                <option value="">Select</option>
+                <option *ngFor="let chapterOption of chapterOptions" [value]="chapterOption">{{chapterOption}}</option>
+            </select>
+            <div *ngIf="detailsForm.submitted && chapter.invalid" class="in-valid col-md-12 p-0">Please Select Chapter
+            </div>
+        </div>
+
+
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Topic</label>
+            <select class="form-control form-control1" (change)="selectTopic($event)" [(ngModel)]="questionAdd.topic"
+                #topic="ngModel" name="topic" required>
+                <option value="">Select</option>
+                <option *ngFor="let topicOption of topicOptions" [value]="topicOption">{{topicOption}}</option>
+            </select>
+            <div *ngIf="detailsForm.submitted && topic.invalid" class="in-valid col-md-12 p-0">Please Select Topic</div>
+        </div>
+        <div *ngIf="showInput">
+        </div>
+
+        <div class="col-md-12 p-0 my-2 float-left">
+            <button type="submit" class="btn btn-info" (click)="back()">Back</button>
+
+            <button type="submit" class="btn btn-info ml-2">Next</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="currentStep === 2">
+    <form #questionForm="ngForm" (ngSubmit)="questionCreation(questionForm)">
+
+        <div class="col-md-12 p-0">
+            <label class="radio-label float-left w-100 mt-2"><b>Type</b></label>
+            <div *ngFor="let option of radiooptions; let i = index" class="radio-container">
+                <input type="radio" id="{{ option }}" name="format" (click)="radioChange(i+1)"
+                    [(ngModel)]="questionAdd.format" #format="ngModel" [value]="i + 1" required class="radio-input">
+                <label for="{{ option }}" class="radio-label mb-0">{{ option }}</label>
+            </div>
+            <div *ngIf="questionForm.submitted && isQFormatInvalid" class="in-valid col-md-12 p-0">
+                Please Select Question Type
+            </div>
+        </div>
+
+        <div class="col-md-6 p-0" *ngIf="showFormat">
+            <label class="check-label float-left w-100 my-2"><b>Format</b></label>
+            <div *ngFor="let checkoption of checkoptions" class="check-container">
+                <input type="checkbox" id="{{ checkoption }}" #inputElement name="{{checkoption}}"
+                    (click)="checkboxChange($event)" [(ngModel)]="checkSelected[checkoption]" [value]="checkoption"
+                    class="check-input">
+                <label for="{{ checkoption }}" class="check-label mb-0">{{ checkoption }}</label>
+            </div>
+            <div *ngIf="questionForm.submitted && !isAtLeastOneCheckboxSelected" class="in-valid col-md-12 p-0">
+                Please select at least one option
+            </div>
+            <div class="row" *ngIf="editquestion.remarks">
+                <span style="color: red;"><b>Rejected Reason : {{reason(editquestion.remarks)}}</b> </span>
+            </div>
+        </div>
+
+
+        <ng-container>
+            <!-- English -->
+            <div class="col-md-12 float-left p-0" *ngIf="showQuestionEditor">
+                <label><b>Enter Question</b></label>
+                <div class="col-md-12 float-left p-0">
+                    <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="questionAdd.text" name="text"
+                        #text="ngModel" [required]="showQuestionEditor"></ckeditor>
+                    <div *ngIf="questionForm.submitted && text.errors?.['required']" class="in-valid">
+                        Please Enter Your Question
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!-- Tamil -->
+            <div class="col-md-12 float-left p-0" *ngIf="showQuestionEditor">
+                <!-- <label><b>Enter Question</b></label> -->
+                <label><b>கேள்வியை உள்ளிடவுவும்</b></label>
+                <div class="col-md-12 float-left p-0">
+                    <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="text_tn" name="text_tn" #text="ngModel"
+                        [required]="showQuestionEditor"></ckeditor>
+                    <div *ngIf="questionForm.submitted && text.errors?.['required']" class="in-valid">
+                        <!-- Please Enter Your Question -->
+                        தயவுசெய்து உங்கள் கேள்வியை உள்ளிடவும்
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="clearfix"></div>
+
+        <ng-container *ngIf="radioSelected === 1 || radioSelected === 2">
+            <!-- English -->
+            <div class="col-md-6 float-left p-0 my-2" *ngIf="showQuestionImage">
+                <label class="float-left w-100"><b>Question Image</b></label>
+                <label class="file-label center_align float-left">
+                    <input type="file" class="invisible" name="img" accept=".jpg, .jpeg, .png"
+                        (change)="questionImageURL($event);" [(ngModel)]="questionAdd.img" #img="ngModel">
+                    <img [src]="questionImageSrc || '/assets/images/photo.png'" alt=""
+                        [ngClass]="{'small-icon': !questionImageSrc, 'small-image': questionImageSrc && !questionDisableIcon}" />
+                </label>
+                <span class="mdi mdi-window-close m-0" *ngIf="questionImageSrc && !questionDisableIcon"
+                    (click)="questionRemove()"></span>
+                <div *ngIf="questionForm.submitted && !questionAdd.img" class="in-valid col-md-12 p-0">Please Select
+                    Image</div>
+            </div>
+            <!-- Tamil -->
+            <div class="col-md-6 float-left p-0 my-2" *ngIf="showQuestionImage_tn">
+                <label class="float-left w-100"><b>கேள்வி படம்</b></label>
+                <label class="file-label center_align float-left">
+                    <input type="file" class="invisible" accept=".jpg, .jpeg, .png"
+                        (change)="questionImageURLtn($event);" [(ngModel)]="img_tn">
+                    <img [src]="questionImageSrc_tn || '/assets/images/photo.png'" alt=""
+                        [ngClass]="{'small-icon': !questionImageSrc_tn, 'small-image': questionImageSrc_tn && !questionDisableIcon}" />
+                </label>
+                <span class="mdi mdi-window-close m-0" *ngIf="questionImageSrc_tn && !questionDisableIcon"
+                    (click)="questionRemovetn()"></span>
+                <div *ngIf="questionForm.submitted && !questionAdd.img" class="in-valid col-md-12 p-0">தயவுசெய்து
+                    படத்தைத் தேர்ந்தெடுக்கவும்</div>
+            </div>
+        </ng-container>
+
+        <div class="col-md-6 float-left p-0 my-2">
+            <label class="float-left w-100"><b>Clue</b></label>
+            <ng-container *ngIf="!clueImageSrc">
+                <input type="text" class="form-control h-auto w-75 p-1 mr-2 float-left" style="border: 1px solid #ccc;"
+                    (input)="getClueInputValue($event)" [(ngModel)]="questionAdd.clue_text" #clue_text="ngModel"
+                    name="clue_text">
+            </ng-container>
+            <ng-container *ngIf="showClueImage">
+                <!-- English -->
+                <label class="float-left">
+                    <input type="file" class="invisible" name="clue_img" accept=".jpg, .jpeg, .png"
+                        (change)="clueImageURL($event);" [(ngModel)]="questionAdd.clue_img" #clue_img="ngModel">
+                    <img [src]="clueImageSrc || '/assets/images/photo.png'" alt=""
+                        [ngClass]="{'small-icon': !clueImageSrc, 'small-image': clueImageSrc && !clueDisableIcon}" />
+                </label>
+                <span class="mdi mdi-window-close m-0" *ngIf="clueImageSrc && !clueDisableIcon"
+                    (click)="clueRemove()"></span>
+            </ng-container>
+            <!-- <div *ngIf="questionForm.submitted && clue_text.errors?.['required']" class="in-valid col-md-12 p-0">Please Enter Clue</div> -->
+        </div>
+        <div class="col-md-6 float-left p-0 my-2">
+            <label class="float-left w-100"><b>குறிப்பு</b></label>
+            <ng-container *ngIf="!clueImageSrc_tn">
+                <input type="text" class="form-control h-auto w-75 p-1 mr-2 float-left" style="border: 1px solid #ccc;"
+                    (input)="getClueInputValue_tn($event)" [(ngModel)]="clue_text_tn" #clue_text="ngModel"
+                    name="clue_text">
+            </ng-container>
+            <ng-container *ngIf="showClueImage_tn">
+                <!-- Tamil -->
+                <label class="float-left">
+                    <input type="file" class="invisible" name="clue_img" accept=".jpg, .jpeg, .png"
+                        (change)="clueImageURL($event);" [(ngModel)]="questionAdd.clue_img" #clue_img="ngModel">
+                    <img [src]="clueImageSrc_tn || '/assets/images/photo.png'" alt=""
+                        [ngClass]="{'small-icon': !clueImageSrc_tn, 'small-image': clueImageSrc_tn && !clueDisableIcon_tn}" />
+                </label>
+                <span class="mdi mdi-window-close m-0" *ngIf="clueImageSrc_tn && !clueDisableIcon_tn"
+                    (click)="clueRemove_tn()"></span>
+            </ng-container>
+            <!-- <div *ngIf="questionForm.submitted && clue_text.errors?.['required']" class="in-valid col-md-12 p-0">Please Enter Clue</div> -->
+        </div>
+
+
+        <div class="col-md-6 float-left p-0 mb-4">
+            <label class="float-left w-100">Level</label>
+            <select class="form-control form-control1" style="width: 100%;" [(ngModel)]="questionAdd.difficulty"
+                required name="difficulty" #difficulty="ngModel">
+                <option value="" selected>Select</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+            <!-- <div *ngIf="detailsForm.submitted && difficulty.invalid" class="in-valid col-md-12 p-0">Please Select Level</div> -->
+        </div>
+
+        <div class="clearfix"></div>
+
+        <ng-container *ngIf="radioSelected!= 4">
+            <h6 class="title">Answer</h6>
+        </ng-container>
+
+        <ng-container *ngIf='radioSelected === 1 || radioSelected === 2'>
+            <table class="table table-bordered">
+                <thead>
+                    <th style="width:10%;">S.no</th>
+                    <th>Choice </th>
+                    <th>Correct</th>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let choice of showChoices; let i = index">
+                        <td>{{ i + 1}}.</td>
+                        <td>
+                            <!-- mcq choice -->
+                            <div class="row">
+                                <ng-container *ngIf="!imageSrcArray[i]">
+                                    <input type="text" class="form-control form-control1"
+                                        (input)="getChoiceInputValue($event, i)"
+                                        [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]"
+                                        #choice_text="ngModel" name="choice_text{{i}}" *ngIf="showChoiceInput[i]"
+                                        placeholder="Choice" style="margin-left: 1%;">
+                                </ng-container>
+
+
+                                <div class="right-img">
+                                    <!-- image lable and display -->
+                                    <label class="file-label center_align float-left">
+                                        <input type="file" class="invisible" accept=".jpg, .jpeg, .png"
+                                            (change)="choiceImageURL($event, i);">
+                                        <img [src]="imageSrcArray[i] || '/assets/images/photo.png'"
+                                            *ngIf="!showEditors[i]" alt=""
+                                            [ngClass]="{'small-icon': !imageSrcArray[i] && imageSrcArray[i] !== '/assets/images/photo.png', 'large-icon': imageSrcArray[i] && !disableIconArray[i]}" />
+                                    </label>
+                                    <!-- Remove icon -->
+                                    <span class="mdi mdi-window-close m-0"
+                                        *ngIf="imageSrcArray[i] && !disableIconArray[i]"
+                                        (click)="removeImages(i)"></span>
+                                    <!-- formula icon -->
+                                    <ng-container *ngIf="!imageSrcArray[i]">
+                                        <img src="/assets/images/math.png" class="formula-icon"
+                                            (click)="firstEditor(i)" />
+                                    </ng-container>
+                                </div>
+
+                                <div *ngIf="showEditors[i]" class="col-md-12 pl-0 mt-2 float-left">
+                                    <ckeditor [editor]="Editor" [config]="answerConfig"
+                                        [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]"
+                                        #choice_text="ngModel" name="choice_text{{i}}" #editor></ckeditor>
+                                </div>
+                            </div>
+
+
+                            <!-- <p class="mt-2 col-md-12 pl-0 float-left">Solution</p> -->
+
+                            <!-- solution -->
+                            <div class="row" style="margin-left: 1px;">
+                                <ng-container *ngIf="showChoiceInput_solution&&!showEditors_solution[i]">
+                                    <input type="text" class="form-control form-control1 mt-2" placeholder="Solution"
+                                        [(ngModel)]="addChoices.choice_notes && addChoices.choice_notes[i]"
+                                        #choice_notes="ngModel" name="choice_notes{{i}}"
+                                        (input)="getSolutionValue($event, i)" style="margin-left: 1%;">
+                                </ng-container>
+
+                                <div class="right-img">
+                                    <label class="file-label center_align float-left">
+                                        <input type="file" class="invisible" accept=".jpg, .jpeg, .png"
+                                            (change)="solutionImageURL($event, i);">
+                                        <img [src]="!solutionImageSrcArray[i] && '/assets/images/photo.png'" alt=""
+                                            *ngIf="!solutionImageSrcArray[i]"
+                                            [ngClass]="{'small-icon': !solutionImageSrcArray[i], 'large-icon': solutionImageSrcArray[i] && !solutionDisableIconArray[i]}"
+                                            style="margin-top:7px;" />
+                                    </label>
+                                    <!-- <span class="mdi mdi-window-close m-0"
+                                        *ngIf="solutionImageSrcArray[i] && !solutionDisableIconArray[i]"
+                                        (click)="removeSolutionImage(i)"></span> -->
+                                    <img src="/assets/images/math.png" class="formula-icon"
+                                        (click)="firstEditorsolution(i)">
+                                </div>
+                                <div *ngIf="showEditors_solution[i]" class="col-md-12 pl-0 mt-2 float-left">
+                                    <ckeditor [editor]="Editor" [config]="answerConfig"
+                                        [(ngModel)]="addChoices.choice_notes && addChoices.choice_notes[i]"
+                                        #choice_notes="ngModel" name="choice_notes{{i}}" #editor></ckeditor>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="right-img">
+                                    <label class="file-label center_align float-left">
+                                        <img [src]="solutionImageSrcArray[i]" *ngIf="solutionImageSrcArray[i]"
+                                            [ngClass]="{'large-icon': solutionImageSrcArray[i] && !solutionDisableIconArray[i]}"
+                                            style="margin-left: 7%;margin-top: 2%;" />
+                                    </label>
+                                    <span class="mdi mdi-window-close m-0"
+                                        *ngIf="solutionImageSrcArray[i] && !solutionDisableIconArray[i]"
+                                        (click)="removeSolutionImage(i)"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="radioSelected === 1">
+                                <input type="radio" name="radioGroup" [value]="i" (click)="radiochoose(i)"
+                                    [(ngModel)]="addChoices.choice_correct_yn && addChoices.choice_correct_yn[i]"
+                                    #choice_correct_yn="ngModel" name="choice_correct_yn{{i}}">
+                                <!-- <p>where 1</p> -->
+                            </ng-container>
+                            <ng-container *ngIf="radioSelected === 2">
+                                <input type="checkbox" name="checkboxGroup" [value]="i"
+                                    [(ngModel)]="addChoices.choice_correct_yn && addChoices.choice_correct_yn[i]"
+                                    #choice_correct_yn="ngModel" name="choice_correct_yn{{i}}">
+                                <!-- <p>where 2</p> -->
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- tamil -->
+            <!-- <hr> -->
+            <br>
+            <h6 class="title">பதில்</h6>
+            <table class="table table-bordered">
+                <thead>
+                    <th style="width:10%;">வ.எண்</th>
+                    <th>தேர்வு </th>
+                    <th>சரியானது</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let choice of showChoices_tn; let i = index">
+                        <td>{{ i + 1}}.</td>
+                        <td>
+                            <!-- mcq choice -->
+                            <div class="row">
+                                <ng-container *ngIf="!imageSrcArray_tn[i]">
+                                    <input type="text" class="form-control form-control1"
+                                        (input)="getChoiceInputValue($event, i)"
+                                        [(ngModel)]="addChoices.choice_text_tn && addChoices.choice_text_tn[i]"
+                                        #choice_text_tn="ngModel" name="choice_text_tn{{i}}"
+                                        *ngIf="showChoiceInput_tn[i]" placeholder="தேர்வு" style="margin-left: 1%;">
+                                </ng-container>
+
+
+                                <div class="right-img">
+                                    <!-- image lable and display -->
+                                    <label class="file-label center_align float-left">
+                                        <input type="file" class="invisible" accept=".jpg, .jpeg, .png"
+                                            (change)="choiceImageURL_tn($event, i);">
+                                        <img [src]="imageSrcArray_tn[i] || '/assets/images/photo.png'"
+                                            *ngIf="!showEditors_tn[i]" alt=""
+                                            [ngClass]="{'small-icon': !imageSrcArray_tn[i] && imageSrcArray_tn[i] !== '/assets/images/photo.png', 'large-icon': imageSrcArray_tn[i] && !disableIconArray_tn[i]}" />
+                                    </label>
+                                    <!-- Remove icon -->
+                                    <span class="mdi mdi-window-close m-0"
+                                        *ngIf="imageSrcArray_tn[i] && !disableIconArray_tn[i]"
+                                        (click)="removeImages_tn(i)"></span>
+                                    <!-- formula icon -->
+                                    <ng-container *ngIf="!imageSrcArray_tn[i]">
+                                        <img src="/assets/images/math.png" class="formula-icon"
+                                            (click)="firstEditortn(i)" />
+                                    </ng-container>
+                                </div>
+
+                                <!---<div *ngIf="showEditors_tn[i]" class="col-md-12 pl-0 mt-2 float-left">
+                                            <ckeditor [editor]="Editor" [config]="answerConfig"
+                                                [(ngModel)]="addChoices.choice_text_tn && addChoices.choice_text_tn[i]"
+                                                #choice_text_tn="ngModel" name="choice_text_tn{{i}}" #editor></ckeditor>
+                                        </div> -->
+                            </div>
+
+
+                            <!-- <p class="mt-2 col-md-12 pl-0 float-left">Solution</p> -->
+
+                            <!-- solution -->
+                            <div class="row" style="margin-left: 1px;">
+                                <ng-container *ngIf="showChoiceInput_tn_solution&&!showEditors_tn_solution[i]">
+                                    <input type="text" class="form-control form-control1 mt-2" placeholder="தீர்வு"
+                                        [(ngModel)]="addChoices.choice_notes_tn && addChoices.choice_notes_tn[i]"
+                                        #choice_notes_tn="ngModel" name="choice_notes_tn{{i}}"
+                                        (input)="getSolutionValue_tn($event, i)" style="margin-left: 1%;">
+                                </ng-container>
+
+                                <div class="right-img">
+                                    <label class="file-label center_align float-left">
+                                        <input type="file" class="invisible" accept=".jpg, .jpeg, .png"
+                                            (change)="solutionImageURLtn($event, i);">
+                                        <img [src]="!solutionImageSrcArraytn[i] && '/assets/images/photo.png'" alt=""
+                                            *ngIf="!solutionImageSrcArraytn[i]"
+                                            [ngClass]="{'small-icon': !solutionImageSrcArraytn[i], 'large-icon': solutionImageSrcArraytn[i] && !solutionDisableIconArraytn[i]}"
+                                            style="margin-top:7px;" />
+                                    </label>
+                                    <!-- <span class="mdi mdi-window-close m-0"
+                                                *ngIf="solutionImageSrcArraytn[i] && !solutionDisableIconArraytn[i]"
+                                                (click)="removeSolutionImagetn(i)"></span> -->
+                                    <img src="/assets/images/math.png" class="formula-icon"
+                                        (click)="firstEditortnsolution(i)">
+                                </div>
+                                <div *ngIf="showEditors_tn_solution[i]" class="col-md-12 pl-0 mt-2 float-left">
+                                    <ckeditor [editor]="Editor" [config]="answerConfig"
+                                        [(ngModel)]="addChoices.choice_notes_tn && addChoices.choice_notes_tn[i]"
+                                        #choice_notes_tn="ngModel" name="choice_notes_tn{{i}}" #editor
+                                        style="width: 98%;margin-left: auto;margin-right: auto;"></ckeditor>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="right-img">
+                                    <label class="file-label center_align float-left">
+                                        <img [src]="solutionImageSrcArraytn[i]" alt=""
+                                            *ngIf="solutionImageSrcArraytn[i]"
+                                            [ngClass]="{'large-icon': solutionImageSrcArraytn[i] && !solutionDisableIconArraytn[i]}"
+                                            style="margin-left: 7%;margin-top: 2%;" />
+                                    </label>
+                                    <span class="mdi mdi-window-close m-0"
+                                        *ngIf="solutionImageSrcArraytn[i] && !solutionDisableIconArraytn[i]"
+                                        (click)="removeSolutionImagetn(i)"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="radioSelected === 1">
+                                <input type="radio" name="radioGrouptn" [value]="i" (click)="radiochoosetn(i)"
+                                    [(ngModel)]="addChoices.choice_correct_yn_tn && addChoices.choice_correct_yn_tn[i]"
+                                    #choice_correct_yn_tn="ngModel" name="choice_correct_yn_tn{{i}}">
+                                <!-- <p>where 1</p> -->
+                            </ng-container>
+                            <ng-container *ngIf="radioSelected === 2">
+                                <input type="checkbox" name="checkboxGroup" [value]="i"
+                                    [(ngModel)]="addChoices.choice_correct_yn_tn && addChoices.choice_correct_yn_tn[i]"
+                                    #choice_correct_yn_tn="ngModel" name="choice_correct_yn_tn{{i}}">
+                                <!-- <p>where 2</p> -->
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+
+        <ng-container *ngIf="radioSelected === 3">
+            <table class="table table-bordered">
+                <thead>
+                    <th style="width:10%;">S.no</th>
+                    <th style="width:40%;">Blanks</th>
+                    <th>Solutions</th>
+                    <th>Add</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items; let i = index">
+                        <td>{{ item.id }}</td>
+                        <td>
+                            <input type="text" class="form-control form-control1"
+                                *ngIf="showDynamicInput && (!items[i]?.dynamicImageSrc)"
+                                (input)="getDynamicInputValue($event, i)"
+                                [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]" #choice_text="ngModel"
+                                name="choice_text{{i}}">
+                            <div class="right-img" *ngIf="showDynamicImage">
+                                <label class="file-label center_align float-left">
+                                    <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
+                                        (change)="dynamicImage($event, i)">
+                                    <img [src]="items[i]?.dynamicImageSrc || '/assets/images/photo.png'" alt=""
+                                        [ngClass]="{'small-icon': !items[i]?.dynamicImageSrc, 'large-icon': items[i]?.dynamicImageSrc}"
+                                        style="margin-top: 7px;" />
+                                </label>
+                                <span class="mdi mdi-window-close m-0" *ngIf="items[i]?.dynamicImageSrc"
+                                    (click)="dynamicremoveImage(i)"></span>
+                                <img src="/assets/images/math.png" class="formula-icon"
+                                    *ngIf="showDynamicInput && (!items[i]?.dynamicImageSrc)">
+                            </div>
+                        </td>
+
+                        <td>
+                            <input type="text" class="form-control form-control1"
+                                *ngIf="showDynamicInput && (!items[i]?.dynamicsolutionImageSrc)"
+                                (input)="getDynamicInputValue($event, i)"
+                                [(ngModel)]="addChoices.choice_notes && addChoices.choice_notes[i]"
+                                #choice_notes="ngModel" name="choice_notes{{i}}">
+                            <div class="right-img" *ngIf="showDynamicImage">
+                                <label class="file-label center_align float-left">
+                                    <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
+                                        (change)="dynamicImageSolution($event, i)">
+                                    <img [src]="items[i]?.dynamicsolutionImageSrc || '/assets/images/photo.png'" alt=""
+                                        [ngClass]="{'small-icon': !items[i]?.dynamicsolutionImageSrc, 'large-icon': items[i]?.dynamicsolutionImageSrc}"
+                                        style="margin-top: 7px;" />
+                                </label>
+                                <span class="mdi mdi-window-close m-0" *ngIf="items[i]?.dynamicsolutionImageSrc"
+                                    (click)="dynamicremoveSolution(i)"></span>
+                                <img src="/assets/images/math.png" class="formula-icon"
+                                    *ngIf="showDynamicInput && (!items[i]?.dynamicsolutionImageSrc)">
+                            </div>
+                        </td>
+
+                        <td>
+                            <ng-container *ngIf="i == 0">
+                                <i class="mdi mdi-plus-circle add-icon" (click)="addRow()"></i>
+                            </ng-container>
+                            <ng-container *ngIf="i > 0">
+                                <i class="mdi mdi-delete delete-icon" (click)="deleteRow(i)"></i>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <h6 class="title">பதில்</h6>
+            <table class="table table-bordered">
+                <thead>
+                    <th style="width:10%;">வ.எண்</th>
+                    <th style="width:40%;">வெற்றிடங்கள்</th>
+                    <th>தீர்வுகள்</th>
+                    <th>சேர்க்க</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items; let i = index">
+                        <td>{{ item.id }}</td>
+                        <td>
+                            <input type="text" class="form-control form-control1"
+                                *ngIf="showDynamicInput && (!items[i]?.dynamicImageSrctn)"
+                                (input)="getDynamicInputValue($event, i)"
+                                [(ngModel)]="addChoices.choice_text_tn && addChoices.choice_text_tn[i]"
+                                #choice_text_tn="ngModel" name="choice_text_tn{{i}}">
+                            <div class="right-img" *ngIf="showDynamicImage">
+                                <label class="file-label center_align float-left">
+                                    <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
+                                        (change)="dynamicImagetn($event, i)">
+                                    <img [src]="items[i]?.dynamicImageSrctn || '/assets/images/photo.png'" alt=""
+                                        [ngClass]="{'small-icon': !items[i]?.dynamicImageSrctn, 'large-icon': items[i]?.dynamicImageSrctn}"
+                                        style="margin-top: 7px;" />
+                                </label>
+                                <span class="mdi mdi-window-close m-0" *ngIf="items[i]?.dynamicImageSrctn"
+                                    (click)="dynamicremoveImagetn(i)"></span>
+                                <img src="/assets/images/math.png" class="formula-icon"
+                                    *ngIf="showDynamicInput && (!items[i]?.dynamicImageSrctn)">
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control1"
+                                *ngIf="showDynamicInput && (!items[i]?.dynamicsolutionImageSrctn)"
+                                (input)="getDynamicInputValue($event, i)"
+                                [(ngModel)]="addChoices.choice_notes_tn && addChoices.choice_notes_tn[i]"
+                                #choice_notes_tn="ngModel" name="choice_notes_tn{{i}}">
+                            <div class="right-img" *ngIf="showDynamicImage">
+                                <label class="file-label center_align float-left">
+                                    <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
+                                        (change)="dynamicImageSolutiontn($event, i)">
+                                    <img [src]="items[i]?.dynamicsolutionImageSrctn || '/assets/images/photo.png'"
+                                        alt=""
+                                        [ngClass]="{'small-icon': !items[i]?.dynamicsolutionImageSrctn, 'large-icon': items[i]?.dynamicsolutionImageSrctn}"
+                                        style="margin-top: 7px;" />
+                                </label>
+                                <span class="mdi mdi-window-close m-0" *ngIf="items[i]?.dynamicsolutionImageSrctn"
+                                    (click)="dynamicremoveSolutiontn(i)"></span>
+                                <img src="/assets/images/math.png" class="formula-icon"
+                                    *ngIf="showDynamicInput && (!items[i]?.dynamicsolutionImageSrctn)">
+                            </div>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="i == 0">
+                                <i class="mdi mdi-plus-circle add-icon" (click)="addRow()"></i>
+                            </ng-container>
+                            <ng-container *ngIf="i > 0">
+                                <i class="mdi mdi-delete delete-icon" (click)="deleteRow(i)"></i>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
+
+
+        <div class="col-md-12 p-0 my-4 float-left">
+            <button type="button" class="btn btn-info" (click)="previousStep()">Previous</button>
+            <button type="submit" class="btn btn-info ml-2" *ngIf="mode!='EDIT'">Submit</button>
+            <button type="submit" class="btn btn-info ml-2" *ngIf="mode==='EDIT'">Update</button>
+        </div>
+
+    </form>
+</div>
