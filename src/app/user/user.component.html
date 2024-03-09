@@ -1,75 +1,135 @@
 <form>
   <div class="row">
     <div class="col-md-3">
+      Type
+      <select class="form-control form-control-sm dropselect" name="type" ngModel #type="ngModel" (change)="selectClass($event)">
+        <option *ngFor="let Exam_type of Exam_types" value="{{Exam_type}}">{{Exam_type}}</option>
+      </select>
+    </div>
+    <div class="col-md-3">
       Class
-      <select class="form-control form-control-sm" required name="class" ngModel #class="ngModel">
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
+      <select class="form-control form-control-sm dropselect" required name="class" ngModel #class="ngModel" (change)="selectSubject($event)">
+        <option *ngFor="let Class of Classes" value="{{Class}}">{{Class}}</option>
       </select>
     </div>
-    <div class="col-md-3">Language <br><input type="checkbox" name="English" ngModel #English="ngModel">English <input
-        type="checkbox" name="Tamil" ngModel #Tamil="ngModel">Tamil</div>
-    <div class="col-md-3">Subject <select class="form-control form-control-sm" required name="subject" ngModel
-        #subject="ngModel">
-        <option value="Physics">Physics</option>
-        <option value="Chemistry">Chemistry</option>
-        <option value="Maths">Maths</option>
-        <option value="Botony">Botony</option>
-        <option value="Zology">Zology</option>
-      </select>
+    <div class="col-md-3">Language <br>
+      <div class="row">
+        <div class="col-md-6"><input type="checkbox" name="English" ngModel #English="ngModel">English </div>
+        <div class="col-md-6"><input type="checkbox" name="Tamil" ngModel #Tamil="ngModel">Tamil</div>
+      </div>
     </div>
-    <div class="col-md-3">Question Level
-      <select class="form-control form-control-sm" required name="level" ngModel #level="ngModel">
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
+    <div class="col-md-3">Subject <select class="form-control form-control-sm dropselect" required name="subject" (change)="selectChapter($event)"
+        ngModel #subject="ngModel">
+        <option *ngFor="let Subject of Subjects" value="{{Subject}}">{{Subject}}</option>
       </select>
     </div>
   </div>
   <div class="row">
+    <div class="col-md-3">Question Level
+      <select class="form-control form-control-sm dropselect" required name="level" ngModel #level="ngModel">
+        <option *ngFor="let Level of Levels" value="{{Level}}">{{Level}}</option>
+      </select>
+    </div>
     <div class="col-md-3">
       Question Type
-      <select class="form-control form-control-sm" required name="type" ngModel #type="ngModel">
-        <option value="MCQ">MCQ</option>
-        <option value="MSQ">MSQ</option>
-        <option value="FIB">Fill in the Blanks</option>
+      <select class="form-control form-control-sm dropselect" required name="type" ngModel #type="ngModel">
+        <option *ngFor="let Question_type of Question_types" value="{{Question_type}}">{{Question_type}}</option>
       </select>
     </div>
     <div class="col-md-3">
       Chapter
-      <select class="form-control form-control-sm" required name="chapter" ngModel #chapter="ngModel">
+      <select class="form-control form-control-sm dropselect" required name="chapter" ngModel #chapter="ngModel">
         <option value="Chapter 1">Chapter 1</option>
         <option value="Chapter 2">Chapter 2</option>
-        <option value="FIChapter 3">Chapter 3</option>
+        <option value="Chapter 3">Chapter 3</option>
       </select>
     </div>
     <div class="col-md-3">
       Topic
-      <select class="form-control form-control-sm" required name="topic" ngModel #topic="ngModel">
+      <select class="form-control form-control-sm dropselect" required name="topic" ngModel #topic="ngModel">
         <option value="Topic 1">Topic 1</option>
         <option value="Topic 2">Topic 2</option>
         <option value="Topic 3">Topic 3</option>
       </select>
     </div>
-    <div class="col-md-3 p-0 my-2" style="display: flex;justify-content: center;">
+    <!-- <div class="col-md-3 p-0 my-2" style="display: flex;justify-content: center;">
       <button type="submit" class="btn btn-info">Retrive</button>
       <button type="reset" class="btn btn-info ml-2">reset</button>
-    </div>
+    </div> -->
   </div>
 </form>
+<br>
 <div class="row">
-  
+  <div class="col-md-4"><span>Selected Questions</span></div>
+  <div class="col-md-4"><span>Total Available Questions</span></div>
+  <div class="col-md-4"><span>Used Question</span></div>
 </div>
-<div class="row">
-  <div class="col-md-3">
-
+<br><br>
+<div class="row" style="border: 1px solid black;">
+  <div class="col-md-3" style="border: 1px solid black;">
+    <div class="row">
+      <div class="col-md-4 d-flex justify-content-center"><button class="btn btn-info" style="font-size: x-small;">Add to Paper</button></div>
+      <div class="col-md-4 d-flex justify-content-center"><button class="btn btn-info" style="font-size: x-small;;">Unmark</button></div>
+      <div class="col-md-4 d-flex justify-content-center"><button class="btn btn-info" style="font-size: x-small;">Select all</button></div>
+    </div>
+    <div class="row">
+      <table class="table table-bordered table-striped table-hover mt-4">
+        <thead class="table-info">
+          <th>S.no</th>
+          <th>Question</th>
+          <th>Select</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sample Question</td>
+            <td><input type="checkbox"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="col-md-6">
-    
+  <div class="col-md-6" style="border-bottom: 1px solid black;border-top: 1px solid black;">
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <textarea name="" id="" cols="70" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <textarea name="" id="" cols="70" rows="10"></textarea>
+      </div>
+    </div>
   </div>
-  <div class="col-md-3">
-    
+  <div class="col-md-3" style="border: 1px solid black;">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12"><button class="btn btn-info">Show Summary</button></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><button class="btn btn-info">Generate Question Paper</button></div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><button class="btn btn-info">Save Paper</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped table-hover mt-4">
+          <thead class="table-info">
+            <th>S.no</th>
+            <th>Question</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

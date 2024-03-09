@@ -1,0 +1,10 @@
+.dropselect {
+    border: 1px solid black;
+}
+
+.btn-info1 {
+    color: #fff;
+    background-color: #2c73ba;
+    border-color: #296db0;
+    box-shadow: 0 0 0 0.2rem rgba(88, 152, 216, 0.5);
+}
