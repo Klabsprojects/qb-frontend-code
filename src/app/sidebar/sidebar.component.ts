@@ -61,6 +61,9 @@ export class SidebarComponent implements OnInit {
     if(this.userRole==='Translate'){
       return 'question-translation'
     }
+    if (this.userRole==='Teacher'){
+      return 'user'
+    }
     return ''
   }
 }
