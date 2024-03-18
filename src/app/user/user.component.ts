@@ -77,7 +77,7 @@ export class UserComponent implements OnInit {
     this.shared.search_questions(form.value).subscribe((res: any) => {
       this.totalquestionsnumber = res.data.length
       this.totalquestions = res.data
-      console.log("this.totalquestions",this.totalquestions)
+      console.log("this.totalquestions", this.totalquestions)
       alert('Questions Retrived')
     }, error => {
       alert(error.error.message)
@@ -182,9 +182,10 @@ export class UserComponent implements OnInit {
     this.selectedQuestionIds = this.totalquestions.filter((data) => data.selected).map((data) => data.id);
     this.selectedquestionnumber = this.selectedQuestionIds.length
   }
-  generateWordDocument(data: any[]): void {
+  generatequestion(data: any[]) {
+    var htmlContent: any;
     if (this.englishselected && !this.tamilselected) {
-      const htmlContent = data.map((question: any, index: number) =>
+      htmlContent = data.map((question: any, index: number) =>
         `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
     <strong>Choices : </strong> 
     <div>
@@ -194,25 +195,9 @@ export class UserComponent implements OnInit {
     </div>
     <br>`
       ).join('');
-
-      // Create a new Blob containing the HTML content
-      const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-        type: 'application/msword',
-      });
-
-      // Create a link element to trigger the download
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'questions.doc';
-
-      // Append the link to the document and trigger the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
     }
     if (this.englishselected && this.tamilselected) {
-      const htmlContent = data.map((question: any, index: number) =>
+      htmlContent = data.map((question: any, index: number) =>
         `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
     <strong>Choices : </strong> 
     <div>
@@ -230,24 +215,9 @@ export class UserComponent implements OnInit {
     </div>
     <br>`
       ).join('');
-
-      // Create a new Blob containing the HTML content
-      const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-        type: 'application/msword',
-      });
-
-      // Create a link element to trigger the download
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'questions.doc';
-
-      // Append the link to the document and trigger the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
     if (!this.englishselected && this.tamilselected) {
-      const htmlContent = data.map((question: any, index: number) =>
+      htmlContent = data.map((question: any, index: number) =>
         `<p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
       <strong>தேர்வுகள் : </strong> 
       <div>
@@ -257,22 +227,141 @@ export class UserComponent implements OnInit {
       </div>
       <br>`
       ).join('');
-
-      // Create a new Blob containing the HTML content
-      const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-        type: 'application/msword',
-      });
-
-      // Create a link element to trigger the download
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'questions.doc';
-
-      // Append the link to the document and trigger the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
+    // Create a new Blob containing the HTML content
+    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
+      type: 'application/msword',
+    });
+
+    // Create a link element to trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'questions.doc';
+
+    // Append the link to the document and trigger the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  generatesolution(data: any[]) {
+    var htmlContent: any
+    if (this.englishselected && !this.tamilselected) {
+      htmlContent = data.map((question: any, index: number) =>
+        `<p><strong>${index + 1} . Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+        <p><strong>${index + 1} . Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <br>`
+      ).join('');
+    }
+    if (!this.englishselected && this.tamilselected) {
+      htmlContent = data.map((question: any, index: number) =>
+        `<p><strong>${index + 1} . பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>${index + 1} . தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>`
+      ).join('');
+    }
+
+    if (this.englishselected && this.tamilselected) {
+      htmlContent = data.map((question: any, index: number) =>
+        `<p><strong>${index + 1} . Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+        <p><strong>${index + 1} . Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+        <br>
+        <p><strong>${index + 1} . பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>${index + 1} . தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>`
+      ).join('');
+    }
+    // Create a new Blob containing the HTML content
+    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
+      type: 'application/msword',
+    });
+
+    // Create a link element to trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'solution.doc';
+
+    // Append the link to the document and trigger the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  generatequestion_solution(data: any[]) {
+    var htmlContent: any;
+    if(this.englishselected && !this.tamilselected){
+      htmlContent = data.map((question: any, index: number) =>
+      `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
+    <strong>Choices : </strong> 
+    <div>
+      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      <br><br>
+      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+    </div>
+    <br>
+    <p><strong>${index + 1} . Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+    <p><strong>${index + 1} . Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <br>`).join('');
+    }
+
+    if (!this.englishselected && this.tamilselected){
+      htmlContent = data.map((question: any, index: number) =>
+        `<p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
+      <strong>தேர்வுகள் : </strong> 
+      <div>
+      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      <br><br>
+      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      </div>
+      <br>
+      <p><strong>${index + 1} . பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>${index + 1} . தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>`
+      ).join('');
+    }
+
+    if(this.englishselected && this.tamilselected){
+      htmlContent = data.map((question: any, index: number) =>
+      `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
+    <strong>Choices : </strong> 
+    <div>
+      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      <br><br>
+      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+    </div>
+    <br>
+    <p><strong>${index + 1} . Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+    <p><strong>${index + 1} . Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <br><br>
+    <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
+      <strong>தேர்வுகள் : </strong> 
+      <div>
+      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      <br><br>
+      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      </div>
+      <br>
+      <p><strong>${index + 1} . பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>${index + 1} . தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>
+    `).join('');
+    }
+
+    // Create a new Blob containing the HTML content
+    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
+      type: 'application/msword',
+    });
+
+    // Create a link element to trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'question_solution.doc';
+
+    // Append the link to the document and trigger the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  filterChoices(choices: any[]) {
+    return choices.filter(choice => choice.choice_correct_yn !== null)[0];
   }
 
 }

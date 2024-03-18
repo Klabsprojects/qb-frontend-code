@@ -168,13 +168,13 @@
   <div class="col-md-3">
     <div class="row">
       <div class="col-md-4 d-flex justify-content-center">
-        <button class="btn btn-info" style="font-size: x-small;">Show Summary</button>
+        <button class="btn btn-info" style="font-size: x-small;" (click)="generatequestion_solution(choosenquestions)">Download <br> Questiona & Solution</button>
       </div>
       <div class="col-md-4 d-flex justify-content-center">
-        <button class="btn btn-info" style="font-size: x-small;;">Generate Question Paper</button>
+        <button class="btn btn-info" style="font-size: x-small;" (click)="generatequestion(choosenquestions)">Download<br>Questions</button>
       </div>
       <div class="col-md-4 d-flex justify-content-center">
-        <button class="btn btn-info" style="font-size: x-small;" (click)="generateWordDocument(choosenquestions)">Save Paper</button>
+        <button class="btn btn-info" style="font-size: x-small;" (click)="generatesolution(choosenquestions)">Download<br>Solutions</button>
       </div>
     </div>
     <div class="row">
