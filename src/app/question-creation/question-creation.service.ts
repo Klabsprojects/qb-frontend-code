@@ -85,14 +85,12 @@ export class QuestionCreationService {
     return this.http.get<any[]>(termUrl, { headers: this.getHeaders() });
   }
 
-  getChapterOptions(selectedType: any, selectedClass: number, selectedMedium: number, selectedSubject: number): Observable<any[]> {
-    const chapterUrl = `${this.typeUrl}/${selectedType}/${selectedClass}/${selectedMedium}/${selectedSubject}`;
+  getChapterOptions(selectedClass: number, selectedSubject: number): Observable<any[]> {
     const newchapterUrl = 'https://api-qgen.a2zweb.in/api/master/detail/' + selectedClass + '/' + selectedSubject
     return this.http.get<any[]>(newchapterUrl, { headers: this.getHeaders() });
   }
 
-  getTopicOptions(selectedType: any, selectedClass: number, selectedMedium: number, selectedSubject: number, selectedChapter: number): Observable<any[]> {
-    const topicUrl = `${this.typeUrl}/${selectedType}/${selectedClass}/${selectedMedium}/${selectedSubject}/${selectedChapter}`;
+  getTopicOptions(selectedClass: number,selectedSubject: number, selectedChapter: number): Observable<any[]> {
     const newtopicUrl = 'https://api-qgen.a2zweb.in/api/master/detail/' + selectedClass + '/' + selectedSubject + '/' + selectedChapter
     return this.http.get<any[]>(newtopicUrl, { headers: this.getHeaders() });
   }

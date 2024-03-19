@@ -6,7 +6,7 @@
       <label class="float-left w-100">Type</label>
       <select class="form-control form-control1" (change)="selectType($event)" [(ngModel)]="questionAdd.type" required
         name="type" #type="ngModel">
-        <option value="" selected>Select</option>
+        <!-- <option value="" selected>Select</option> -->
         <option value="NEET">NEET</option>
         <option value="JEE">JEE</option>
         <option value="Foundation">Foundation</option>
@@ -19,7 +19,7 @@
       <label class="float-left w-100">Class</label>
       <select class="form-control form-control1" (change)="selectChange($event)" [(ngModel)]="questionAdd.class"
         #class="ngModel" name="class" required>
-        <option value="">Select</option>
+        <!-- <option value="">Select</option> -->
         <option *ngFor="let classOption of classOptions" [value]="classOption">{{ classOption }}</option>
       </select>
       <div *ngIf="detailsForm.submitted && class.invalid" class="in-valid col-md-12 p-0">Please Select Class</div>
@@ -29,7 +29,7 @@
       <label class="float-left w-100">Medium</label>
       <select class="form-control form-control1" (change)="selectMedium($event)" [(ngModel)]="questionAdd.medium"
         #medium="ngModel" name="medium" required>
-        <option value="">Select</option>
+        <!-- <option value="">Select</option> -->
         <option *ngFor="let medium of mediumOptions" [value]="medium">{{medium }}</option>
       </select>
       <div *ngIf="detailsForm.submitted && medium.invalid" class="in-valid col-md-12 p-0">Please Select Medium</div>
@@ -39,7 +39,7 @@
       <label class="float-left w-100">Subject</label>
       <select class="form-control form-control1" (change)="selectSubject($event)" [(ngModel)]="questionAdd.subject"
         #subject="ngModel" name="subject" required>
-        <option value="">Select</option>
+        <!-- <option value="">Select</option> -->
         <option *ngFor="let subjectOption of subjectOptions" [value]="subjectOption">{{ subjectOption }}</option>
       </select>
       <div *ngIf="detailsForm.submitted && subject.invalid" class="in-valid col-md-12 p-0">Please Select Subject</div>
@@ -49,7 +49,7 @@
       <label class="float-left w-100">Chapter</label>
       <select class="form-control form-control1" (change)="selectChapter($event)" [(ngModel)]="questionAdd.chapter"
         #chapter="ngModel" name="chapter" required>
-        <option value="">Select</option>
+        <!-- <option value="">Select</option> -->
         <option *ngFor="let chapterOption of chapterOptions" [value]="chapterOption">{{chapterOption}}</option>
       </select>
       <div *ngIf="detailsForm.submitted && chapter.invalid" class="in-valid col-md-12 p-0">Please Select Chapter</div>
@@ -60,7 +60,7 @@
       <label class="float-left w-100">Topic</label>
       <select class="form-control form-control1" (change)="selectTopic($event)" [(ngModel)]="questionAdd.topic"
         #topic="ngModel" name="topic" required>
-        <option value="">Select</option>
+        <!-- <option value="">Select</option> -->
         <option *ngFor="let topicOption of topicOptions" [value]="topicOption">{{topicOption}}</option>
       </select>
       <div *ngIf="detailsForm.submitted && topic.invalid" class="in-valid col-md-12 p-0">Please Select Topic</div>
@@ -71,7 +71,7 @@
     <div class="col-md-12 p-0 my-2 float-left">
       <button type="submit" class="btn btn-info" (click)="back()">Back</button>
 
-      <button type="submit" class="btn btn-info ml-2">Next</button>
+      <button type="submit" class="btn btn-info ml-2" [disabled]="detailsForm.invalid">Next</button>
     </div>
   </form>
 </div>
@@ -112,7 +112,7 @@
         <label><b>Enter Question</b></label>
         <div class="col-md-12 float-left p-0">
           <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="questionAdd.text" name="text" #text="ngModel"
-            [required]="showQuestionEditor"></ckeditor>
+            [required]="showQuestionEditor" required></ckeditor>
           <div *ngIf="questionForm.submitted && text.errors?.['required']" class="in-valid">
             Please Enter Your Question
           </div>
@@ -130,7 +130,7 @@
             (change)="questionImageURL($event);" [(ngModel)]="questionAdd.img" [required]="showQuestionImage"
             #img="ngModel"> -->
           <input type="file" class="invisible" name="img" accept=".jpg, .jpeg, .png"
-            (change)="questionImageURL($event);" [(ngModel)]="questionAdd.img" #img="ngModel">
+            (change)="questionImageURL($event);" [(ngModel)]="questionAdd.img" #img="ngModel" required>
           <img [src]="questionImageSrc || '/assets/images/photo.png'" alt=""
             [ngClass]="{'small-icon': !questionImageSrc, 'small-image': questionImageSrc && !questionDisableIcon}" />
         </label>
@@ -161,9 +161,9 @@
 
     <div class="col-md-6 float-left p-0 mb-4">
       <label class="float-left w-100">Level</label>
-      <select class="form-control form-control1" style="width: 100%;" [(ngModel)]="questionAdd.difficulty" required
-        name="difficulty" #difficulty="ngModel">
-        <option value="" selected>Select</option>
+      <select class="form-control form-control1" style="width: 100%;" [(ngModel)]="questionAdd.difficulty"
+        name="difficulty" #difficulty="ngModel" required>
+        <!-- <option value="" selected>Select</option> -->
         <option value="Easy">Easy</option>
         <option value="Medium">Medium</option>
         <option value="Hard">Hard</option>
@@ -194,7 +194,7 @@
                 <ng-container *ngIf="!imageSrcArray[i]">
                   <input type="text" class="form-control form-control1" (input)="getChoiceInputValue($event, i)"
                     [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]" #choice_text="ngModel"
-                    name="choice_text{{i}}" *ngIf="showChoiceInput[i]" placeholder="Choice" style="margin-left: 1%;">
+                    name="choice_text{{i}}" *ngIf="showChoiceInput[i]" placeholder="Choice" style="margin-left: 1%;" required>
                 </ng-container>
 
 
@@ -218,7 +218,7 @@
                 <div *ngIf="showEditors[i]" class="col-md-12 pl-0 mt-2 float-left">
                   <ckeditor [editor]="Editor" [config]="answerConfig"
                     [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]" #choice_text="ngModel"
-                    name="choice_text{{i}}" #editor></ckeditor>
+                    name="choice_text{{i}}" #editor required></ckeditor>
                 </div>
               </div>
 
@@ -298,11 +298,11 @@
               <input type="text" class="form-control form-control1"
                 *ngIf="showDynamicInput && (!items[i]?.dynamicImageSrc)" (input)="getDynamicInputValue($event, i)"
                 [(ngModel)]="addChoices.choice_text && addChoices.choice_text[i]" #choice_text="ngModel"
-                name="choice_text{{i}}">
+                name="choice_text{{i}}" required>
               <div class="right-img" *ngIf="showDynamicImage">
                 <label class="file-label center_align float-left">
                   <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
-                    (change)="dynamicImage($event, i)">
+                    (change)="dynamicImage($event, i)" required>
                   <img [src]="items[i]?.dynamicImageSrc || '/assets/images/photo.png'" alt=""
                     [ngClass]="{'small-icon': !items[i]?.dynamicImageSrc, 'large-icon': items[i]?.dynamicImageSrc}"
                     style="margin-top: 7px;" />
@@ -319,11 +319,11 @@
                 *ngIf="showDynamicInput_solution && (!items[i]?.dynamicsolutionImageSrc)"
                 (input)="getDynamicInputValue($event, i)"
                 [(ngModel)]="addChoices.choice_notes && addChoices.choice_notes[i]" #choice_notes="ngModel"
-                name="choice_notes{{i}}">
+                name="choice_notes{{i}}" required>
               <div class="right-img" *ngIf="showDynamicImage">
                 <label class="file-label center_align float-left">
                   <input type="file" class="invisible" name="profile" accept=".jpg, .jpeg, .png"
-                    (change)="dynamicImageSolution($event, i)">
+                    (change)="dynamicImageSolution($event, i)" required>
                   <img [src]="items[i]?.dynamicsolutionImageSrc || '/assets/images/photo.png'" alt=""
                     [ngClass]="{'small-icon': !items[i]?.dynamicsolutionImageSrc, 'large-icon': items[i]?.dynamicsolutionImageSrc}"
                     style="margin-top: 7px;" />
@@ -352,8 +352,8 @@
 
     <div class="col-md-12 p-0 my-4 float-left">
       <button type="button" class="btn btn-info" (click)="previousStep()">Previous</button>
-      <button type="submit" class="btn btn-info ml-2" *ngIf="mode!='EDIT'">Submit</button>
-      <button type="submit" class="btn btn-info ml-2" *ngIf="mode==='EDIT'">Update</button>
+      <button type="submit" class="btn btn-info ml-2" *ngIf="mode!='EDIT'" [disabled]="questionForm.invalid">Submit</button>
+      <button type="submit" class="btn btn-info ml-2" *ngIf="mode==='EDIT'" [disabled]="questionForm.invalid">Update</button>
     </div>
 
   </form>

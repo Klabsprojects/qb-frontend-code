@@ -142,7 +142,7 @@ export class CreateComponent implements OnInit {
   showQuestionEditor = true;
   showQuestionImage = false;
   isQFormatInvalid = false;
-  isAtLeastOneCheckboxSelected = false;
+  isAtLeastOneCheckboxSelected = true;
   @ViewChildren('inputElement') inputElements!: QueryList<ElementRef>;
   //Answer Choices
   public Choices: any[] = [];
@@ -193,6 +193,17 @@ export class CreateComponent implements OnInit {
   allCheckboxesSelected = false;
   formData: any = {};
   public current_editing_id = ""
+  public class_options: { [key: string]: string[] } = {
+    'JEE': ['11', '12'],
+    'NEET': ['11', '12'],
+    'Foundation':['9','10']
+  };
+  public selectsubject :{ [key: string]: string[] } = {
+    '9': ['Maths', 'Chemistry','Physics','Biology'],
+    '10': ['Maths', 'Chemistry','Physics','Biology'],
+    '11':['Botany','Zoology','Physics','Chemistry','Maths'],
+    '12':['Botany','Zoology','Physics','Chemistry','Maths']
+  };
 
   constructor(private auth: authService, private questionService: QuestionCreationService, private cdr: ChangeDetectorRef, private zone: NgZone, private renderer: Renderer2, private ElementRef: ElementRef) {
     for (let i = 0; i < 4; i++) {
@@ -370,16 +381,6 @@ export class CreateComponent implements OnInit {
         console.log(err);
       }
     }))
-    // const file = event.target.files[0];
-    // const imageSelected = event.target.files && event.target.files.length > 0;
-    // this.showChoiceInput[index] = !imageSelected;
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     this.imageSrcArray[index] = reader.result as string;
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
   }
 
   solutionImageURL(event: any, i: number) {
@@ -404,13 +405,9 @@ export class CreateComponent implements OnInit {
   }
 
   removeSolutionImage(i: number) {
-    // this.showChoices[i].solutionImageSrc = '/assets/images/photo.png';
     this.solutionImageSrcArray[i] = ''
     this.showChoiceInput_solution[i] = true
     this.showChoices[i].solutionDisableIconArray = true
-    // this.showChoices[i].solutionImageSrc = '';
-    // this.showChoices[i].solutiondisableIcon = true;
-    // this.showChoices[i].showSolutionInput = true;
   }
 
 
@@ -418,7 +415,6 @@ export class CreateComponent implements OnInit {
   removeImages(i: number) {
     this.showChoices[i].disableIconArray = true;
     this.showChoiceInput[i] = true;
-    // this.imageSrcArray[i] = '/assets/images/photo.png';
     this.imageSrcArray[i] = '';
   }
 
@@ -459,14 +455,6 @@ export class CreateComponent implements OnInit {
     this.radioSelected = option;
     this.questionAdd.format = option;
     this.isQFormatInvalid = false;
-    // if(this.radioSelected == 1 || this.radioSelected == 2){
-    //   this.showFormat = true;
-
-    // }
-    // else {
-    //   this.showFormat = false;
-
-    // }
   }
 
   questionImageURL(event: any): void {
@@ -482,26 +470,10 @@ export class CreateComponent implements OnInit {
         console.log(err);
       }
     }))
-
-    // const target = event.target as HTMLInputElement;
-    // const file = target.files && target.files[0];
-
-
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onload = (e: any) => {
-    //     this.questionImageSrc = e.target.result;
-    //     this.questionBase64 = e.target.result.split(',')[1];
-    //     // console.log(this.questionImageSrc);
-    //     this.questionDisableIcon = false;
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
   }
 
 
   questionRemove() {
-    // this.questionImageSrc = '/assets/images/photo.png';
     this.questionImageSrc = '';
     this.questionDisableIcon = true;
     this.cdr.detectChanges();
@@ -522,23 +494,9 @@ export class CreateComponent implements OnInit {
         console.log(err);
       }
     }))
-    // const target = event.target as HTMLInputElement;
-    // const file: File = (target.files as FileList)[0];
-    // if (file) {
-    //   const reader = new FileReader();
-    //   // console.log(reader);
-    //   reader.onload = (e: any) => {
-    //     this.clueImageSrc = e.target.result;
-    //     this.clueBase64 = e.target.result.split(',')[1];
-    //     this.clueDisableIcon = false;
-    //   };
-    //   this.showClue = false;
-    //   reader.readAsDataURL(file);
-    // }
   }
 
   clueRemove() {
-    // this.clueImageSrc = '/assets/images/photo.png';
     this.clueImageSrc = ''
     this.clueDisableIcon = true;
     this.showClue = true;
@@ -660,13 +618,9 @@ export class CreateComponent implements OnInit {
 
   dynamicremoveImage(index: number) {
     this.zone.run(() => {
-      // console.log(index);
-      // console.log(this.items[index].showDynamicInput);
-      // this.items[index].dynamicImageSrc = '/assets/images/photo.png';
       this.items[index].dynamicImageSrc = '';
       this.items[index].dynamicdisableIcon = true;
       this.items[index].showDynamicInput = true;
-      // console.log(this.items[index].showDynamicInput);
     });
 
   }
@@ -1088,91 +1042,33 @@ export class CreateComponent implements OnInit {
     this.questionService.Question.next({ Mode: 'LIST' });
   }
 
-  public class_options: { [key: string]: string[] } = {
-    'JEE': ['11', '12'],
-    'NEET': ['11', '12'],
-    'Foundation':['9','10']
-  };
   selectType(event: any) {
     this.Type = event.target.value
     this.classOptions = this.class_options[this.Type]
-    // this.Type = event.target.value;
-    // console.log('type',this.Type)
-    // this.questionService.getType(this.Type).subscribe(({
-    //   next: (res: any) => {
-    //     this.classOptions = res.data.map((item: any) => item.class);
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   }
-    // }))
   }
   selectChange(event: any): void {
     this.selectedClass = event.target.value;
     this.mediumOptions[0] = "English";
-    // const selectedType = this.Type;
-    // const selectedValue = this.selectedClass;
-    // this.questionService.getMediumOptions(selectedType, selectedValue).subscribe(
-    //   (response: any) => {
-    //     this.mediumOptions = response.data.map((item: any) => item.medium);
-    //     console.log("medium",this.mediumOptions)
-    //   },
-    //   (error: any) => {
-    //     console.error('Error:', error);
-    //   }
-    // );
   }
-
-  public selectsubject :{ [key: string]: string[] } = {
-    '9': ['Maths', 'Chemistry','Physics','Biology'],
-    '10': ['Maths', 'Chemistry','Physics','Biology'],
-    '11':['Botany','Zoology','Physics','Chemistry','Maths'],
-    '12':['Botany','Zoology','Physics','Chemistry','Maths']
-  };
   selectMedium(event: any): void {
     this.selectedSubject = event.target.value;
     this.subjectOptions = this.selectsubject[this.selectedClass]
-    // const selectedType = this.Type;
-    // const selectMediumValue = this.selectedSubject;
-    // const selectedClassValue = this.selectedClass;
-    // this.questionService.getSubjectOptions(selectedType, selectedClassValue, selectMediumValue).subscribe(
-    //   (response: any) => {
-    //     const data = response.data;
-    //     this.subjectOptions = data.map((subject: any) => subject.subject);
-    //   },
-    //   (error: any) => {
-    //     console.error('Error:', error);
-    //   }
-    // );
   }
 
 
   selectSubject(event: any): void {
     this.selectSubjects = event.target.value;
-    const selectedType = this.Type;
-    const selectedClassValue = this.selectedClass;
-    const selectMediumValue = this.selectedSubject;
-    const selectedSubject = this.selectSubjects;
-    console.log("selectedSubject",selectedSubject,"selectedClassValue",selectedClassValue)
-    this.questionService.getChapterOptions(selectedType, selectedClassValue, selectMediumValue, selectedSubject).subscribe(
+    this.questionService.getChapterOptions(this.selectedClass, this.selectSubjects).subscribe(
       (response: any) => {
-        const data = response.data;
-        console.log(response);
-        this.chapterOptions = data.map((item: any) => item.chapter);
+        this.chapterOptions = response.data.map((item: any) => item.chapter);
       });
   }
 
   selectChapter(event: any): void {
     this.selectedChapter = event.target.value;
-    const selectedType = this.Type;
-    const selectChapterValue = this.selectedChapter;
-    const selectedSubjects = this.selectSubjects
-    const selectMediumValue = this.selectedSubject;
-    const selectedClassValue = this.selectedClass;
-    this.questionService.getTopicOptions(selectedType, selectedClassValue, selectMediumValue, selectedSubjects, selectChapterValue).subscribe(
+    this.questionService.getTopicOptions(this.selectedClass,this.selectSubjects,this.selectedChapter).subscribe(
       (response: any) => {
-        const data = response.data;
-        this.topicOptions = data.map((item: any) => item.topic);
+        this.topicOptions = response.data.map((item: any) => item.topic);
       })
   }
 
@@ -1195,41 +1091,6 @@ export class CreateComponent implements OnInit {
         }
         const subTopic = data.map((item: any) => item.sub_topic);
         if (subTopic != null) { this.addDetails.q_sub_topic = subTopic; }
-        // const taxonomyId = data.map((item:any)=>item.taxonomy_id);
-
-        //   if (data.length > 1) {
-        //     this.questionService.getSubTopicOptions(selectedClassValue, selectMediumValue, selectTermValue, selectChapterValue, selectTopicValue, selectSubTopicValue).subscribe(
-        //       (subTopicResponse: any) => {
-        //         const subTopicData = subTopicResponse.data;
-        //         this.subtopicOptions = subTopicData;
-        //         this.showSubTopic = true;
-        //         this.showInput = true;
-        //       });
-        //   }
-        //  else if (data.length == 1) {
-        //     this.questionService.getAllData(taxonomyId).subscribe(
-        //       (allDataResponse: any) => {
-        //         const allData = allDataResponse.data;
-        //         this.showSubTopic = false;
-        //         this.showInput = true;
-        //         this.subTopicName = allData.sub_topic_name;
-        //         this.conceptName = allData.concept_name;
-        //         this.learningOutcome = allData.learn_outcome;
-        //         this.Competency = allData.comptny;
-        //         this.micComptny1 = allData.mic_comptny1;
-        //       });
-        //     } 
-        // this.questionService.getAllData(taxonomyId).subscribe(
-        //         (allDataResponse: any) => {
-        //           const allData = allDataResponse.data;
-        //           this.showSubTopic = false;
-        //           this.showInput = true;
-        //          if(allData.sub_topic_name !=null) { this.addDetails.q_sub_topic = allData.sub_topic_name;}
-        //          if(allData.concept_name !=null) { this.addDetails.q_concept = allData.concept_name; this.showConcept = true;}
-        //          if(allData.learn_outcome !=null) { this.addDetails.q_lo = allData.learn_outcome; this.showLo = true; }
-        //          if(allData.comptny !=null) { this.addDetails.q_competence = allData.comptny; this.showCompetency = true; }
-        //          if(allData.mic_comptny1!=null) { this.addDetails.q_mmcompetence = allData.mic_comptny1; this.showmmc = true; }
-        //         });
       });
   }
 
@@ -1279,10 +1140,16 @@ export class CreateComponent implements OnInit {
         this.addChoices.choice_notes = this.editquestion.choices.map((choice: any) => choice.choice_notes);
         this.addChoices.choice_correct_yn = this.editquestion.choices.map((choice: any) => choice.choice_correct_yn);
       }
+      else{
+        setTimeout(()=>{
+          this.radiochoose(0)
+        },100)
+      }
     }
   }
 
   questionCreation(form: NgForm): void {
+    console.log("form value",form.value)
     const firstStepData = this.formData;
     const secondStepData = form.value;
     const combinedFormData = { ...firstStepData, ...secondStepData };
@@ -1403,22 +1270,22 @@ export class CreateComponent implements OnInit {
           }
         });
       }
-      if (this.mode === 'EDIT') {
-        this.questionService.updateQuestionAnswer(questiondata, this.current_editing_id).subscribe({
-          next: (response) => {
-            console.log("update request", response);
-            this.questionService.submitQuestionAnswer(this.current_editing_id).subscribe({
-              next: (response: any) => {
-                alert("Updated Successfully");
-                this.questionService.Question.next({ Mode: 'LIST' });
-              }
-            })
-          },
-          error: (error) => {
-            console.error('API error:', error);
-          }
-        });
-      }
+      // if (this.mode === 'EDIT') {
+      //   this.questionService.updateQuestionAnswer(questiondata, this.current_editing_id).subscribe({
+      //     next: (response) => {
+      //       console.log("update request", response);
+      //       this.questionService.submitQuestionAnswer(this.current_editing_id).subscribe({
+      //         next: (response: any) => {
+      //           alert("Updated Successfully");
+      //           this.questionService.Question.next({ Mode: 'LIST' });
+      //         }
+      //       })
+      //     },
+      //     error: (error) => {
+      //       console.error('API error:', error);
+      //     }
+      //   });
+      // }
     } else {
       // Log invalid fields
       Object.keys(form.controls).forEach(field => {
@@ -1443,9 +1310,4 @@ export class CreateComponent implements OnInit {
     var notes = parsedData[0].notes;
     return notes;
   }
-
-  check(form:any){
-    console.log(form)
-  }
-
 }
