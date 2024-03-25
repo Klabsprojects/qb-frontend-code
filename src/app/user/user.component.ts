@@ -31,7 +31,8 @@ export class UserComponent implements OnInit {
   public englishselected: boolean = true;
   public selectedQuestionIds: any[] = [];
   public choosenquestions: any[] = [];
-
+  public draftquestionpaper:any = {"questionpapername":'',"questionpaperid":'','English':false,'Tamil':false,ids:[]};
+  public draftquestionpaperlist:any = [{"questionpapername":'Model Exam',"questionpaperid":'',ids:[]},{"questionpapername":'Half yearly',"questionpaperid":'',ids:[]}];
   ngOnInit(): void {
     // var payload = { 'type': 'NEET', 'class': '11', 'subject': 'Maths', 'level': 'Easy', 'qtype': 1, 'chapter': 'Integral Calculus', 'topic': 'Introduction' }
     // this.shared.search_questions(payload).subscribe((res: any) => {
@@ -363,5 +364,13 @@ export class UserComponent implements OnInit {
   filterChoices(choices: any[]) {
     return choices.filter(choice => choice.choice_correct_yn !== null)[0];
   }
-
+  addquestion(qid:any){
+    this.draftquestionpaper.ids.push(qid)
+  }
+  savequestionpaper(name:any){
+    this.draftquestionpaper.questionpapername = name.value
+    this.draftquestionpaper.English = this.englishselected
+    this.draftquestionpaper.Tamil = this.tamilselected
+    console.log("this.draftquestionpaper",this.draftquestionpaper)
+  }
 }
