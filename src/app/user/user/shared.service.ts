@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { userLogin } from '../auth.model';
-import { authService } from '../auth.service';
+import { userLogin } from '../../auth.model';
+import { authService } from '../../auth.service';
 import { environment } from 'src/environments/environment';
 
 

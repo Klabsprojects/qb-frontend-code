@@ -16,7 +16,7 @@ import { authService } from './auth.service';
 import { ListComponent } from './question-creation/list/list.component';
 import { AddMasterComponent } from './add-master/add-master.component';
 import { AuthGuard } from './auth.guard';
-import { UserComponent } from './user/user.component';
+// import { UserComponent } from './user/user/user.component';
 // import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 const routes : Routes = [{
@@ -59,7 +59,8 @@ const routes : Routes = [{
 },
 {
   path:'user',
-  component:UserComponent
+  canActivate:[AuthGuard],
+  loadChildren:()=>import('./user/user.module').then(m=>m.AppuserModule)
 },
 {
   path:'',
@@ -77,7 +78,7 @@ const routes : Routes = [{
     LoginComponent,
     ForgotPasswordComponent,
     AddMasterComponent,
-    UserComponent,
+    // UserComponent,
     // SanitizeHtmlPipe
     // FilterByChapterPipe
   ],
