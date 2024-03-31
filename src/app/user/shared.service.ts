@@ -59,5 +59,9 @@ export class shared {
         var getReportUrl = 'https://api-qgen.a2zweb.in/api/question/selected/data';
         return this.http.get(getReportUrl, { params, headers: this.getHeaders() });
     }
+    question_download_count(id:any){
+        var count_url = 'https://api-qgen.a2zweb.in/api/question/paper/downloaded/'+id;
+        return this.http.put(count_url,{},{ headers: this.getHeaders() });
+    }
 
 }

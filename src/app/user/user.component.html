@@ -107,8 +107,8 @@
       </div>
       <div class="col-md-10 d-flex justify-content-center">
         <!-- <textarea name="" id="" cols="70" rows="10"></textarea> -->
-        <div style="border: 1px solid black;width:100%;margin-bottom:  auto;margin-right: auto;min-height: 200px;">
-          <div style="width: 100%;">
+        <div style="border-radius: 5px;background: #e0e0e0;box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;width:100%;margin-bottom:  auto;margin-right: auto;min-height: 200px;">
+          <div style="width: 100%;padding: 20px;">
             <ng-container *ngIf="englishselected">
               <span [innerHtml]="selectedQuestion.text"></span>
               <ng-container *ngIf="selectedQuestion.text">
@@ -145,8 +145,8 @@
         <p>Solution</p>
       </div>
       <div class="col-md-10 d-flex justify-content-center">
-        <div style="border: 1px solid black;width:100%;margin-bottom:  auto;margin-right: auto;min-height: 100px;">
-          <div style="width: 100%;">
+        <div style="border-radius: 0px 0px 5px 5px;background: #e0e0e0;box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;width:100%;margin-bottom:  auto;margin-right: auto;min-height: 100px;">
+          <div style="width: 100%;padding: 20px;">
             <ng-container *ngIf="englishselected">
               <ng-container *ngFor="let choice of selectedQuestion.choices">
                 <ng-container *ngIf="choice.choice_correct_yn!=null">
@@ -257,6 +257,7 @@
               <thead class="table-info">
                 <th>S.no</th>
                 <th>Question</th>
+                <th>No of Times Used</th>
                 <th>Download</th>
               </thead>
               <tbody>
@@ -264,9 +265,10 @@
                   <td>{{i+1}}</td>
                   <td class="text-wrap"><span [innerHTML]="question.name"></span>
                   </td>
+                  <td>{{question.used}}</td>
                   <td>
                     <img src="../../assets/images/edit.png" alt="" width="20" (click)="updatequestion(question)" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                    <img src="../../assets/images/word.png" alt="" width="25" (click)="retrivequestions(question.questions)">
+                    <img src="../../assets/images/word.png" alt="" width="25" (click)="retrivequestions(question)">
                   </td>
                 </tr>
               </tbody>

@@ -35,14 +35,9 @@ export class UserComponent implements OnInit {
   public drafteditquestion: any = { "name": '', "details": '', ids: [] };
   public draftquestionpaperlist: any = [];
   public editable_question: any = { name: "", detail: "", questions: [] }
+  public p:number=2;
   @ViewChild('exampleModal') modal!: ElementRef;
   ngOnInit(): void {
-    // var payload = { 'type': 'NEET', 'class': '11', 'subject': 'Maths', 'level': 'Easy', 'qtype': 1, 'chapter': 'Integral Calculus', 'topic': 'Introduction' }
-    // this.shared.search_questions(payload).subscribe((res: any) => {
-    //   this.totalquestionsnumber = res.data.length
-    //   this.totalquestions = res.data
-    //   console.log('resdata', res.data)
-    // })
     this.get_questionpaper()
   }
   selectClass(event: any) {
@@ -82,7 +77,6 @@ export class UserComponent implements OnInit {
     this.shared.search_questions(form.value).subscribe((res: any) => {
       this.totalquestionsnumber = res.data.length
       this.totalquestions = res.data
-      console.log("this.totalquestions", this.totalquestions)
       alert('Questions Retrived')
     }, error => {
       alert(error.error.message)
@@ -94,7 +88,6 @@ export class UserComponent implements OnInit {
   }
   savePaper() {
     if (this.englishselected && !this.tamilselected) {
-      console.log("entered 1")
       const htmlContent = this.totalquestions.map((question: any, index: any) =>
         `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
             <strong>Choices : </strong> 
@@ -121,7 +114,6 @@ export class UserComponent implements OnInit {
       document.body.removeChild(link);
     }
     if (!this.englishselected && this.tamilselected) {
-      console.log("entered 2")
       const htmlContent = this.totalquestions.map((question: any, index: any) =>
         `<p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
             <strong>தேர்வுகள் : </strong> 
@@ -380,11 +372,10 @@ export class UserComponent implements OnInit {
       }
     })
   }
-  updatequestionpaper(name:any){
+  updatequestionpaper(name: any) {
     const uniqueIds = [...new Set(this.drafteditquestion['ids'])];
     let question_paper = { 'name': name.value, "detail": "", "questions": uniqueIds.join(',') }
-    this.shared.update_question_paper(question_paper,this.editable_question['id']).subscribe((res:any)=>{
-      console.log("res",res)
+    this.shared.update_question_paper(question_paper, this.editable_question['id']).subscribe((res: any) => {
       alert("Question Paper Updated Success")
     })
   }
@@ -393,11 +384,15 @@ export class UserComponent implements OnInit {
       this.draftquestionpaperlist = res.data;
     })
   }
-  retrivequestions(questions: string) {
-    let array = questions.split(",").map(Number);
+  retrivequestions(question: any) {
+    let array = question.questions.split(",").map(Number);
     this.shared.get_questions(array).subscribe((res: any) => {
-      console.log("res.data", res.data)
-      // this.generatequestion_solution(res.data)
+      this.shared.question_download_count(question.id).subscribe((res: any) => {
+        this.get_questionpaper();
+      })
+      this.generatequestion(res.data);
+      this.generatesolution(res.data);
+      this.generatequestion_solution(res.data);
     })
   }
   updatequestion(question: any) {
@@ -408,7 +403,7 @@ export class UserComponent implements OnInit {
       res.data.forEach((obj: any) => {
         obj.editselected = true;
       });
-      if (this.totalquestions.length>0){
+      if (this.totalquestions.length > 0) {
         this.editable_question['questions'] = this.totalquestions.map(obj => {
           let selectedObj = res.data.find((item: any) => item.id === obj.id);
           if (selectedObj) {
@@ -417,20 +412,18 @@ export class UserComponent implements OnInit {
             return obj;
           }
         });
-        for(let i = 0;i<this.editable_question['questions'].length;i++){
-          if(this.editable_question['questions'][i].editselected){
+        for (let i = 0; i < this.editable_question['questions'].length; i++) {
+          if (this.editable_question['questions'][i].editselected) {
             this.drafteditquestion['ids'].push(this.editable_question['questions'][i].id)
           }
         }
       }
-      else{
-        this.editable_question['questions'] =  res.data;
+      else {
+        this.editable_question['questions'] = res.data;
       }
-      // console.log("this.editable_question['questions']",this.editable_question['questions'])
     })
   }
-  editquestion(id:any){
+  editquestion(id: any) {
     this.drafteditquestion['ids'].push(id)
-    console.log("this.drafteditquestion",this.drafteditquestion)
   }
 }
