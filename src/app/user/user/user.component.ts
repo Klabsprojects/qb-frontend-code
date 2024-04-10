@@ -35,7 +35,9 @@ export class UserComponent implements OnInit {
   public drafteditquestion: any = { "name": '', "details": '', ids: [] };
   public draftquestionpaperlist: any = [];
   public editable_question: any = { name: "", detail: "", questions: [] }
-  p:number=1;
+  p: number = 1;
+  qp:number = 1;
+  qc:number = 1;
   @ViewChild('exampleModal') modal!: ElementRef;
   ngOnInit(): void {
     this.get_questionpaper()
@@ -373,6 +375,11 @@ export class UserComponent implements OnInit {
     })
   }
   updatequestionpaper(name: any) {
+    for (let i = 0; i < this.editable_question['questions'].length; i++) {
+      if (this.editable_question['questions'][i].editselected) {
+        this.drafteditquestion['ids'].push(this.editable_question['questions'][i].id)
+      }
+    }
     const uniqueIds = [...new Set(this.drafteditquestion['ids'])];
     let question_paper = { 'name': name.value, "detail": "", "questions": uniqueIds.join(',') }
     this.shared.update_question_paper(question_paper, this.editable_question['id']).subscribe((res: any) => {
@@ -404,19 +411,12 @@ export class UserComponent implements OnInit {
         obj.editselected = true;
       });
       if (this.totalquestions.length > 0) {
-        this.editable_question['questions'] = this.totalquestions.map(obj => {
-          let selectedObj = res.data.find((item: any) => item.id === obj.id);
-          if (selectedObj) {
-            return { ...obj, editselected: true };
-          } else {
-            return obj;
-          }
-        });
-        for (let i = 0; i < this.editable_question['questions'].length; i++) {
-          if (this.editable_question['questions'][i].editselected) {
-            this.drafteditquestion['ids'].push(this.editable_question['questions'][i].id)
+        for (let i = 0; i < this.totalquestions.length; i++) {
+          if (!res.data.some((item: any) => item.id === this.totalquestions[i].id)) {
+            res.data.push(this.totalquestions[i])
           }
         }
+        this.editable_question['questions'] = res.data
       }
       else {
         this.editable_question['questions'] = res.data;
@@ -426,7 +426,7 @@ export class UserComponent implements OnInit {
   editquestion(id: any) {
     this.drafteditquestion['ids'].push(id)
   }
-  check(){
+  check() {
     console.log("hello")
   }
 }

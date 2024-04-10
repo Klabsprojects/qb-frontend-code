@@ -90,7 +90,7 @@
           <th>Select</th>
         </thead>
         <tbody>
-          <tr *ngFor="let question of totalquestions | paginate: { itemsPerPage: 5, currentPage: p };index as i">
+          <tr *ngFor="let question of totalquestions | paginate: { itemsPerPage: 5, currentPage: qp };index as i">
             <td>{{i+1}}</td>
             <td (click)="selectedQuestion=question;check()" style="min-width: 120px;max-width: 120px;" class="text-wrap"><span [innerHTML]="question.text"></span>
             </td>
@@ -100,7 +100,7 @@
       </table>
       <div class="row">
         <div class="col-lg-12 d-flex justify-content-end">
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          <pagination-controls (pageChange)="qp = $event"></pagination-controls>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@
             <th></th>
           </thead>
           <tbody>
-            <tr *ngFor="let choosen of choosenquestions | paginate: { itemsPerPage: 5, currentPage: p };index as i">
+            <tr *ngFor="let choosen of choosenquestions | paginate: { itemsPerPage: 4, currentPage: qc };index as i">
               <td>{{i+1}}</td>
               <td style="min-width: 120px;max-width: 120px;" class="text-wrap"><span [innerHtml]="choosen.text"></span></td>
               <td></td>
@@ -202,7 +202,7 @@
         </table>
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-end">
-            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            <pagination-controls (pageChange)="qc = $event"></pagination-controls>
           </div>
         </div>
       </div>
@@ -249,7 +249,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="savequestionpaper(name)" >Save Question Paper</button>
+        <button type="button" class="btn btn-primary" (click)="savequestionpaper(name)" [disabled]="!name.value">Save Question Paper</button>
       </div>
     </div>
   </div>
@@ -343,7 +343,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updatequestionpaper(editname)">Update Question Paper</button>
+        <button type="button" class="btn btn-primary" (click)="updatequestionpaper(editname)" [disabled]="!editname.value">Update Question Paper</button>
       </div>
     </div>
   </div>
