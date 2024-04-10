@@ -115,15 +115,15 @@
         <div style="border-radius: 5px;background: #e0e0e0;box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;width:100%;margin-bottom:  auto;margin-right: auto;min-height: 200px;">
           <div style="width: 100%;padding: 20px;">
             <ng-container *ngIf="englishselected">
-              <span [innerHtml]="selectedQuestion.text | sanitizeHtml"></span>
+              <span [innerHtml]="selectedQuestion.text"></span>
               <ng-container *ngIf="selectedQuestion.text">
                 <div class="row">
-                  <div class="col-md-6">1. {{selectedQuestion.choices[0].choice_text | sanitizeHtml}}</div>
-                  <div class="col-md-6">2. {{selectedQuestion.choices[1].choice_text | sanitizeHtml}}</div>
+                  <div class="col-md-6">1. {{selectedQuestion.choices[0].choice_text}}</div>
+                  <div class="col-md-6">2. {{selectedQuestion.choices[1].choice_text}}</div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">3. {{selectedQuestion.choices[2].choice_text | sanitizeHtml}}</div>
-                  <div class="col-md-6">4. {{selectedQuestion.choices[3].choice_text | sanitizeHtml}}</div>
+                  <div class="col-md-6">3. {{selectedQuestion.choices[2].choice_text}}</div>
+                  <div class="col-md-6">4. {{selectedQuestion.choices[3].choice_text}}</div>
                 </div>
               </ng-container>
             </ng-container>
@@ -132,12 +132,12 @@
               <span [innerHtml]="selectedQuestion.text_tn"></span>
               <ng-container *ngIf="selectedQuestion.text_tn">
                 <div class="row">
-                  <div class="col-md-6">1. {{selectedQuestion.choices[0].choice_text_tn | sanitizeHtml}}</div>
-                  <div class="col-md-6">2. {{selectedQuestion.choices[1].choice_text_tn | sanitizeHtml}}</div>
+                  <div class="col-md-6">1. {{selectedQuestion.choices[0].choice_text_tn}}</div>
+                  <div class="col-md-6">2. {{selectedQuestion.choices[1].choice_text_tn}}</div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6">3. {{selectedQuestion.choices[2].choice_text_tn | sanitizeHtml}}</div>
-                  <div class="col-md-6">4. {{selectedQuestion.choices[3].choice_text_tn | sanitizeHtml}}</div>
+                  <div class="col-md-6">3. {{selectedQuestion.choices[2].choice_text_tn}}</div>
+                  <div class="col-md-6">4. {{selectedQuestion.choices[3].choice_text_tn}}</div>
                 </div>
               </ng-container>
             </ng-container>
