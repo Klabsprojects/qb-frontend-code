@@ -74,6 +74,8 @@ export class authService {
   logout(): void {
     this.authTokenSubject.next(null);
     localStorage.removeItem('authToken');
+    localStorage.removeItem(this.storageKey);
+    localStorage.removeItem('subject');
   }
 
   getUser():any{

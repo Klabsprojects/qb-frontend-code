@@ -45,7 +45,7 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.subject = this.authService.getUserSubject();
     console.log("type of",this.subject);
-    if(this.subject==='undefined'){
+    if(this.subject==='undefined' || !this.subject){
       this.questionService.getDetails().subscribe({
         next: (response: any) => {
           this.list = response.data;
