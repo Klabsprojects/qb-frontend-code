@@ -32,6 +32,7 @@ export class QuestionCreationService {
   private viewDetailsUrl = environment.baseUrl + `/api/question/`;
   // private DetailsUrl = environment.baseUrl+`/api/detail`;
   private DetailsUrl = environment.baseUrl + `/api/question`;
+  private DetailsUrlFilter = environment.baseUrl + `/api/question/filter`;
   private addDetails = environment.baseUrl + `/api/detail`;
   private typeUrl = environment.baseUrl + `/api/master/`;
   dashboardDataUrl = environment.baseUrl + `/api/user/homedata`;
@@ -163,6 +164,9 @@ export class QuestionCreationService {
 
   getDetails() {
     return this.http.get(this.DetailsUrl, { headers: this.getHeaders() });
+  }
+  getDetails_filter(subject:string){
+    return this.http.get(this.DetailsUrlFilter+`/`+subject, { headers: this.getHeaders() })
   }
 
   getQuestionDetail(qId: any | any[]) {

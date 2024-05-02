@@ -19,7 +19,8 @@ export class ListComponent implements OnInit {
   user: any;
   showButton: boolean = false;
   showAdd: boolean = false;
-  userRole: any;
+  userRole: any | undefined;
+  subject:any;
   list: List[] = [];
   addDetails: addDetails = new addDetails();
   detailId: number = 0;
@@ -42,17 +43,32 @@ export class ListComponent implements OnInit {
   constructor(private auth: authService, private questionService: QuestionCreationService, private authService: authService) { }
 
   ngOnInit(): void {
-    this.questionService.getDetails().subscribe({
-      next: (response: any) => {
-        this.list = response.data;
-        this.dropdownDataclass = this.getUniqueArray(this.list,'class');
-        this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
-        this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
-        this.dropdonwDatatype = this.getUniqueArray(this.list,'type');
-        this.dropdownDatalevel = this.getUniqueArray(this.list,'difficulty');
-        console.log("list", this.list)
-      }
-    });
+    this.subject = this.authService.getUserSubject();
+    console.log("type of",this.subject);
+    if(this.subject==='undefined'){
+      this.questionService.getDetails().subscribe({
+        next: (response: any) => {
+          this.list = response.data;
+          this.dropdownDataclass = this.getUniqueArray(this.list,'class');
+          this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
+          this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
+          this.dropdonwDatatype = this.getUniqueArray(this.list,'type');
+          this.dropdownDatalevel = this.getUniqueArray(this.list,'difficulty');
+        }
+      });
+    }
+    else{
+      this.questionService.getDetails_filter(this.subject).subscribe({
+        next:(response:any)=>{
+          this.list = response.data;
+          this.dropdownDataclass = this.getUniqueArray(this.list,'class');
+          this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
+          this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
+          this.dropdonwDatatype = this.getUniqueArray(this.list,'type');
+          this.dropdownDatalevel = this.getUniqueArray(this.list,'difficulty');
+        }
+      })
+    }
     this.userRole = this.auth.getUserRole();
     console.log(this.userRole)
     const authToken = this.auth.getAuthToken();
@@ -73,6 +89,7 @@ export class ListComponent implements OnInit {
       this.showAdmin = true;
       this.showCreator = false;
     }
+
   }
 
   selectAllCheckbox(event: any): void {

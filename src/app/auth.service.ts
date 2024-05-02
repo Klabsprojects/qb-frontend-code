@@ -33,10 +33,15 @@ export class authService {
     // localStorage.setItem('user', JSON.stringify(this.user));
     return this.http.post<any>(`${this.loginUrl}`, data).pipe(
       tap((response) => {
+        console.log("response in auth user",response)
         const authToken = response?.authToken;
         const userRole = response.data.role;
+        const subject = response.data.name.split(" ")[1];
         this.setAuthToken(authToken);
         this.setUserRole(userRole);
+        if(subject){
+          this.setUserSubject(subject)
+        }
       })
     );  
   }
@@ -44,6 +49,9 @@ export class authService {
   setAuthToken(token: string): void {
     this.authTokenSubject.next(token);
     localStorage.setItem('authToken', token);
+  }
+  setUserSubject(subject:string): void {
+    localStorage.setItem('subject',subject);
   }
 
   getAuthToken(): string | null {
@@ -57,6 +65,10 @@ export class authService {
   getUserRole(): any | null {
     const storedUserRole = localStorage.getItem(this.storageKey);
     return storedUserRole ? JSON.parse(storedUserRole) : null;
+  }
+
+  getUserSubject():any | null{
+    return localStorage.getItem('subject');
   }
   
   logout(): void {
