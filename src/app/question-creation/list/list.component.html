@@ -1,22 +1,24 @@
-<div class="col-md-12 p-0">
-  <div class="row">
-    <div class="col-md-12" style="display: flex;justify-content: center;">
-      <h5>Question Bank</h5>
+<div class="row">
+  <div class="col-md-12 p-0">
+    <div class="row">
+      <div class="col-md-12" style="display: flex;justify-content: center;">
+        <h5>Question Bank</h5>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 align-items-end" style="display: flex;justify-content: left;"><h5><span><a [routerLink]="['/dashboard']">Home</a> <i
-      class="mdi mdi-chevron-right"></i> Question</span></h5></div>
-    <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;">
-      <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button>
+    <div class="row">
+      <div class="col-md-6 align-items-end" style="display: flex;justify-content: left;"><h5><span><a [routerLink]="['/dashboard']">Home</a> <i
+        class="mdi mdi-chevron-right"></i> Question</span></h5></div>
+      <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;">
+        <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button>
+      </div>
     </div>
-  </div>
-  <div class="btn-outer" *ngIf="showButton">
-    <img src="../../../assets/images/word.png" alt="" width="35" (click)="wordDownload()">
-    <img src="../../../assets/images/pdf.png" alt="" width="35" (click)="pdfDownload()">
+    <div class="btn-outer" *ngIf="showButton">
+      <img src="../../../assets/images/word.png" alt="" width="35" (click)="wordDownload()">
+      <img src="../../../assets/images/pdf.png" alt="" width="35" (click)="pdfDownload()">
+    </div>
   </div>
 </div>
-<div class="table-container">
+<!-- <div class="table-container">
   <table class="table table-bordered table-striped table-hover mt-4">
     <thead class="table-info">
       <th style="width:3%;"> # </th>
@@ -100,4 +102,105 @@
   <div class="col-lg-12 d-flex justify-content-end">
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
-</div>
+</div> -->
+<p-table #dt1 [value]="list" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+	[rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
+	[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+	[globalFilterFields]="['type','topic','representative.name','status']" class="col-md-12">
+	<ng-template pTemplate="header">
+		<tr>
+			<th>
+				#
+			</th>
+			<th>
+				<p>Type</p>
+        <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+			</th>
+			<th>
+				<p>Class</p>
+				<p-columnFilter type="text" field="class" display="menu"></p-columnFilter>
+			</th>
+			<th>
+				<p>Medium</p>
+        <p-columnFilter type="text" field="medium" display="menu"></p-columnFilter>
+			</th>
+			<th>
+				<p>Subject</p>
+				<p-columnFilter type="text" field="subject" display="menu"></p-columnFilter>
+			</th>
+			<th>
+				<p>Chapter</p>
+				<p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter>
+			</th>
+			<th>
+				<p>Topic</p>
+				<p-columnFilter type="text" field="topic" display="menu"></p-columnFilter>
+			</th>
+      <th *ngIf="showAdmin">Question Count</th>
+			<th *ngIf="showCreator">
+				<p>Level</p>
+				<p-columnFilter type="text" field="difficulty" display="menu"></p-columnFilter>
+			</th>
+			<th *ngIf="userRole == 'Creator'">Status
+        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+      </th>
+      <th *ngIf="showButton">Status
+        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+      </th>
+			<th>
+				Action
+			</th>
+      <th *ngIf="showButton"><input type="checkbox" (change)="selectAllCheckbox($event)"></th>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+		<tr>
+			<td>
+				{{rowIndex+1}}
+			</td>
+			<td>
+				{{data.type}}
+			</td>
+			<td>
+				{{data.class}}
+			</td>
+			<td>
+				{{data.medium}}
+			</td>
+			<td>
+				{{data.subject}}
+			</td>
+			<td>
+				{{data.chapter}}
+			</td>
+			<td>
+				{{data.topic}}
+			</td>
+      <td *ngIf="showAdmin">{{data.q_count}}</td>
+      <td *ngIf="showCreator">{{data.difficulty}}</td>
+      <td *ngIf="userRole == 'Creator'">
+        <!-- {{latestTimestamp(data)}} -->
+        {{data.status}}
+      </td>
+      <td *ngIf="showButton">
+        {{data.status}}
+        <!-- {{latestTimestampcurator(data)}} -->
+      </td>
+      <td style="display: flex; justify-content: center;">
+        <ng-container *ngIf="latestTimestamp(data)==='Rejected'">
+          <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
+            *ngIf="userRole == 'Creator'"></i>
+        </ng-container>
+        <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>
+        <img src="../../../assets/images/word.png" alt="" width="35" *ngIf="showButton" (click)="singlewordDownload(data.id)">
+        <img src="../../../assets/images/pdf.png" alt="" width="35" *ngIf="showButton" (click)="singlepdfDownload(data.id)">
+      </td>
+      <td *ngIf="showButton"><input type="checkbox" [(ngModel)]="data.selected"></td>
+		</tr>
+	</ng-template>
+	<ng-template pTemplate="emptymessage">
+		<tr>
+			<td colspan="7">No customers found.</td>
+		</tr>
+	</ng-template>
+</p-table>

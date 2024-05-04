@@ -205,6 +205,13 @@ export class CreateComponent implements OnInit {
     '12':['Botany','Zoology','Physics','Chemistry','Maths']
   };
 
+  public neet_subject:{ [key: string]: string[] } = {
+    '9': ['Chemistry','Physics','Biology'],
+    '10': ['Chemistry','Physics','Biology'],
+    '11':['Botany','Zoology','Physics','Chemistry',],
+    '12':['Botany','Zoology','Physics','Chemistry']
+  };
+
   constructor(private auth: authService, private questionService: QuestionCreationService, private cdr: ChangeDetectorRef, private zone: NgZone, private renderer: Renderer2, private ElementRef: ElementRef) {
     for (let i = 0; i < 4; i++) {
       this.showChoices.push({
@@ -244,6 +251,7 @@ export class CreateComponent implements OnInit {
                 this.selectChange(event)
                 this.questionAdd.medium = res.data.medium;
                 event.target.value = res.data.medium
+
                 this.selectMedium(event)
                 this.questionAdd.subject = res.data.subject;
                 event.target.value = res.data.subject
@@ -1052,7 +1060,13 @@ export class CreateComponent implements OnInit {
   }
   selectMedium(event: any): void {
     this.selectedSubject = event.target.value;
-    this.subjectOptions = this.selectsubject[this.selectedClass]
+    console.log("this.type ngon",this.Type)
+    if (this.Type!='NEET'){
+      this.subjectOptions = this.selectsubject[this.selectedClass]
+    }
+    else{
+      this.subjectOptions = this.neet_subject[this.selectedClass]
+    }
   }
 
 
@@ -1252,7 +1266,7 @@ export class CreateComponent implements OnInit {
         questiondata = questionData
       }
 
-      console.log("questionData", questiondata)
+      console.log("questionData", questiondata ,this.mode)
 
       if (this.mode != 'EDIT') {
         this.questionService.createQuestionAnswer(questiondata).subscribe({
@@ -1270,22 +1284,22 @@ export class CreateComponent implements OnInit {
           }
         });
       }
-      // if (this.mode === 'EDIT') {
-      //   this.questionService.updateQuestionAnswer(questiondata, this.current_editing_id).subscribe({
-      //     next: (response) => {
-      //       console.log("update request", response);
-      //       this.questionService.submitQuestionAnswer(this.current_editing_id).subscribe({
-      //         next: (response: any) => {
-      //           alert("Updated Successfully");
-      //           this.questionService.Question.next({ Mode: 'LIST' });
-      //         }
-      //       })
-      //     },
-      //     error: (error) => {
-      //       console.error('API error:', error);
-      //     }
-      //   });
-      // }
+      if (this.mode === 'EDIT') {
+        this.questionService.updateQuestionAnswer(questiondata, this.current_editing_id).subscribe({
+          next: (response) => {
+            console.log("update request", response);
+            this.questionService.submitQuestionAnswer(this.current_editing_id).subscribe({
+              next: (response: any) => {
+                alert("Updated Successfully");
+                this.questionService.Question.next({ Mode: 'LIST' });
+              }
+            })
+          },
+          error: (error) => {
+            console.error('API error:', error);
+          }
+        });
+      }
     } else {
       // Log invalid fields
       Object.keys(form.controls).forEach(field => {

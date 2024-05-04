@@ -17,6 +17,7 @@ export class ListComponent implements OnInit {
   allCheckboxesSelected = false;
   questionList: any[] = [];
   user: any;
+  loading: boolean = false;
   showButton: boolean = false;
   showAdd: boolean = false;
   userRole: any | undefined;
@@ -49,6 +50,7 @@ export class ListComponent implements OnInit {
       this.questionService.getDetails().subscribe({
         next: (response: any) => {
           this.list = response.data;
+          this.addstatus();
           this.dropdownDataclass = this.getUniqueArray(this.list,'class');
           this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
           this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
@@ -61,6 +63,7 @@ export class ListComponent implements OnInit {
       this.questionService.getDetails_filter(this.subject).subscribe({
         next:(response:any)=>{
           this.list = response.data;
+          this.addstatus();
           this.dropdownDataclass = this.getUniqueArray(this.list,'class');
           this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
           this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
@@ -90,6 +93,18 @@ export class ListComponent implements OnInit {
       this.showCreator = false;
     }
 
+  }
+  addstatus(){
+    if(this.userRole === 'Creator'){
+      this.list.forEach((obj:any) => {
+        obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
+    });
+    }
+    else if(this.showButton){
+      this.list.forEach((obj:any) => {
+        obj['status'] = this.latestTimestampcurator(obj); // Add your new key-value pair here
+    });
+    }
   }
 
   selectAllCheckbox(event: any): void {

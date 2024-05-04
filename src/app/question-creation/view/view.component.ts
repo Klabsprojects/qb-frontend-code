@@ -52,6 +52,9 @@ export class ViewComponent implements OnInit {
       this.questionService.getQuestionDetails(index.Index).subscribe({
         next: (response: any) => {
           this.question = response.data;
+          var remark = JSON.parse(this.question.remarks);
+          this.commentTextModel = remark[0]['notes'];
+          console.log("selected question",this.question.remarks);
           console.log("questioncheckingtranslator", this.question.translated)
           // if (this.question.img){
           //   this.quesimg = "data:image/jpg;base64,"+this.question.img
