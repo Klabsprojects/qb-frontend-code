@@ -62,7 +62,7 @@ export class ListtranslatorComponent implements OnInit {
       this.showAdmin = false;
       this.showCreator = true;
     }
-    else if(this.userRole == 'Cre.Tra'){
+    else if(this.userRole == 'Bil.Cre'){
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
