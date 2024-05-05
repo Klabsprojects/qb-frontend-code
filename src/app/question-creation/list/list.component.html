@@ -103,7 +103,7 @@
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
 </div> -->
-<p-table #dt1 [value]="list" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+<p-table #dt [value]="list" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
 	[rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
 	[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
 	[globalFilterFields]="['type','topic','representative.name','status']" class="col-md-12">
@@ -114,38 +114,83 @@
 			</th>
 			<th>
 				<p>Type</p>
-        <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+        <!-- <p-columnFilter type="text" field="type" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="type" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th>
 				<p>Class</p>
-				<p-columnFilter type="text" field="class" display="menu"></p-columnFilter>
+				<!-- <p-columnFilter type="text" field="class" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="class" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th>
 				<p>Medium</p>
-        <p-columnFilter type="text" field="medium" display="menu"></p-columnFilter>
+        <!-- <p-columnFilter type="text" field="medium" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="medium" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueMedium" placeholder="Medium" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th>
 				<p>Subject</p>
-				<p-columnFilter type="text" field="subject" display="menu"></p-columnFilter>
+				<!-- <p-columnFilter type="text" field="subject" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="subject" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th>
 				<p>Chapter</p>
-				<p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter>
+				<!-- <p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="chapter" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th>
 				<p>Topic</p>
-				<p-columnFilter type="text" field="topic" display="menu"></p-columnFilter>
+				<!-- <p-columnFilter type="text" field="topic" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="topic" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
       <th *ngIf="showAdmin">Question Count</th>
 			<th *ngIf="showCreator">
 				<p>Level</p>
-				<p-columnFilter type="text" field="difficulty" display="menu"></p-columnFilter>
+				<!-- <p-columnFilter type="text" field="difficulty" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="difficulty" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueLevel" placeholder="Level" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
 			</th>
 			<th *ngIf="userRole == 'Creator'">Status
-        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+        <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="status" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
       </th>
       <th *ngIf="showButton">Status
-        <p-columnFilter type="text" field="status" display="menu"></p-columnFilter>
+        <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
+        <p-columnFilter field="status" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
       </th>
 			<th>
 				Action
@@ -200,7 +245,7 @@
 	</ng-template>
 	<ng-template pTemplate="emptymessage">
 		<tr>
-			<td colspan="7">No customers found.</td>
+			<td colspan="7">No questions found.</td>
 		</tr>
 	</ng-template>
 </p-table>
