@@ -1355,10 +1355,10 @@ export class CreateTranslatorComponent implements OnInit {
   selectChange(event: any): void {
     this.selectedClass = event.target.value;
     console.log("class",this.selectedClass)
-    this.mediumOptions[0] = "English";
+    this.mediumOptions[0] = "Bilingual";
     var event: any = {}
     event.target = {}
-    event.target.value = "English"
+    event.target.value = "Bilingual"
     this.selectMedium(event)
     // this.selectedClass = event.target.value;
     // const selectedType = this.Type;
@@ -1368,7 +1368,7 @@ export class CreateTranslatorComponent implements OnInit {
     //     this.mediumOptions = response.data.map((item: any) => item.medium);
     //     var event: any = {}
     //     event.target = {}
-    //     event.target.value = "English"
+    //     event.target.value = "Bilingual"
     //     this.selectMedium(event)
     //   },
     //   (error: any) => {
@@ -1570,7 +1570,7 @@ export class CreateTranslatorComponent implements OnInit {
         const questionData: questionAdd = {
           type: combinedFormData.type,
           class: combinedFormData.class,
-          medium: "English",
+          medium: "Bilingual",
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
@@ -1615,7 +1615,7 @@ export class CreateTranslatorComponent implements OnInit {
           type: combinedFormData.type,
           class: combinedFormData.class,
           // medium: combinedFormData.medium,
-          medium: "English",
+          medium: "Bilingual",
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
