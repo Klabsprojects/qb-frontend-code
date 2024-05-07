@@ -3,6 +3,7 @@ import { QuestionCreationService } from '../question-creation-translator.service
 import { List, QuestionApprove } from '../question-translator.model';
 import { authService } from 'src/app/auth.service';
 import { NgForm } from '@angular/forms';
+import * as CustomEditor from '../../../assets/ckeditor.js';
 
 @Component({
   selector: 'app-view-translator',
@@ -38,6 +39,20 @@ export class ViewTranslatorComponent implements OnInit {
   uniqueTypes: string[] = [];
   choice_note_tn: any;
   // quesimg:string=""
+  ClassicEditor: any;
+  public Editor: any = CustomEditor;
+  showQuestionEditor: boolean = true;
+  public config: any = {
+    toolbar: ['heading', 'bold', 'italic',
+      'link',
+      'bulletedList',
+      'numberedList',
+      'blockQuote',
+      'undo',
+      'redo', 'MathType', 'ChemType'],
+    language: 'en'
+  };
+  hello:string = "Helloboss";
 
 
   constructor(private cdr: ChangeDetectorRef, private auth: authService, private questionService: QuestionCreationService, private questionAction: QuestionCreationService) { }
@@ -45,7 +60,7 @@ export class ViewTranslatorComponent implements OnInit {
   ngOnInit(): void {
     this.userRole = this.auth.getUserRole();
     console.log("userrole", this.userRole)
-    if (this.auth.getUserRole() == "Curator") {
+    if (this.auth.getUserRole() == "Curator" || this.auth.getUserRole()== 'Bil.Cur') {
       this.showComments = true;
     }
     this.questionService.Question.subscribe((index) => {

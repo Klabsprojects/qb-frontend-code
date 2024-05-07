@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { List, addDetails, questionList } from '../question-translator.model';
 import { QuestionCreationService } from '../question-creation-translator.service';
 import { authService } from 'src/app/auth.service';
@@ -31,6 +31,18 @@ export class ListtranslatorComponent implements OnInit {
   dropdownDatachapter:any[] = [];
   dropdownDatalevel:any[]=[];
   dropdonwDatatype:any[]=[];
+  /////
+  public uniqueType: any[] = [];
+  public uniqueClass: any[] = [];
+  public uniqueMedium: any[] = [];
+  public uniqueSubject: any[] = [];
+  public uniqueChapter: any[] = [];
+  public uniqueTopic: any[] = [];
+  public uniqueLevel: any[] = [];
+  public uniqueStatus: any[] = [];
+  @ViewChild('dt') dt!: any;
+  loading: boolean = false;
+  /////
   selectedOptionclass: string = '';
   selectedOptionsubject: string = '';
   selectedOptionchapter: string = '';
@@ -44,6 +56,8 @@ export class ListtranslatorComponent implements OnInit {
     this.questionService.getDetails().subscribe({
       next: (response: any) => {
         this.list = response.data;
+        this.addstatus();
+        this.create_dropdown_oninit();
         this.dropdownDataclass = this.getUniqueArray(this.list,'class');
         this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
         this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
@@ -68,7 +82,7 @@ export class ListtranslatorComponent implements OnInit {
       this.showAdmin = false;
       this.showCreator = true;
     }
-    else if (this.userRole == 'Curator') {
+    else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur') {
       this.showAdd = false;
       this.showButton = true;
       this.showAdmin = false;
@@ -78,6 +92,67 @@ export class ListtranslatorComponent implements OnInit {
       this.showAdmin = true;
       this.showCreator = false;
     }
+  }
+  addstatus() {
+    if (this.userRole === 'Creator') {
+      this.list.forEach((obj: any) => {
+        obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
+      });
+    } else if (this.showButton) {
+      this.list.forEach((obj: any) => {
+        obj['status'] = this.latestTimestampcurator(obj); // Add your new key-value pair here
+      });
+    }
+  }
+  create_dropdown_oninit() {
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.type));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueType.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.class));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueClass.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.medium));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueMedium.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.subject));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueSubject.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.chapter));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueChapter.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.topic));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueTopic.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.difficulty));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.status));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
   }
 
   selectAllCheckbox(event: any): void {

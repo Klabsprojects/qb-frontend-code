@@ -16,7 +16,7 @@
 
         <div class="card p-3 mb-4">
             <h6 class="mt-4 mb-2 title">Question & Answer</h6>
-            <ng-container *ngIf="latestTimestamp(question)==='rejected'"><p class="mt-5" *ngIf="question?.remarks && userRole==='Creator'"><b>Remark Comment : </b><span>{{question?.remarks}}</span></p></ng-container>
+            <ng-container *ngIf="latestTimestamp(question)==='rejected'"><p class="mt-5" *ngIf="question?.remarks && userRole==='Creator'"><b>Remark Comment : </b><span class="text" [innerHTML]="question?.remarks | sanitizeHtml"></span></p></ng-container>
             <p class="mt-4">
                 <b>Question Type : </b>
                 <span *ngIf="question?.format == 1">MCQ</span>
@@ -219,11 +219,13 @@
 
     <ng-container *ngIf="!question?.vetted">
         <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">
-            <div class="card p-3" *ngIf="showComments">
+            <div class="card p-3 row" *ngIf="showComments">
                 <div class="col-md-12">
                     <label>Add Comments</label>
-                    <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
-                        [(ngModel)]="commentTextModel" #commentModel="ngModel" required></textarea>
+                    <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="commentTextModel" name="comment" #commentModel="ngModel"
+                        #text="ngModel" [required]="showQuestionEditor"></ckeditor>
+                    <!-- <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
+                        [(ngModel)]="commentTextModel" #commentModel="ngModel" required></textarea> -->
                     <div
                         *ngIf="commentForm.controls['commentText']?.dirty || commentForm.controls['commentText']?.touched">
                         <small class="text-danger">Comments are required.</small>
@@ -231,13 +233,15 @@
                 </div>
             </div>
 
-            <div class="col-md-12 float-left">
-                <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
-                    (click)="back()">Back</button>
-                <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                    (click)="reject(question.id,commentForm)" [disabled]="!commentForm.valid">Reject</button>
-                <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                    (click)="approve(question.id)">Approve</button>
+            <div class="row">
+                <div class="col-md-12 float-left">
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
+                        (click)="back()">Back</button>
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
+                        (click)="reject(question.id,commentForm)" [disabled]="!commentForm.valid">Reject</button>
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
+                        (click)="approve(question.id)" [disabled]="commentForm.valid">Approve</button>
+                </div>
             </div>
         </form>
     </ng-container>

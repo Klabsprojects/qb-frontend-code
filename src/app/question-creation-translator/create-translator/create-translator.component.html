@@ -106,7 +106,7 @@
                 Please select at least one option
             </div>
             <div class="row" *ngIf="editquestion.remarks">
-                <span style="color: red;"><b>Rejected Reason : {{reason(editquestion.remarks)}}</b> </span>
+                <b>Rejected Reason : </b><span style="color: red;" [innerHTML]="reason(editquestion.remarks) | sanitizeHtml"></span>
             </div>
         </div>
 
