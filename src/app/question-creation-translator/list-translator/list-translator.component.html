@@ -180,7 +180,7 @@
           </ng-template>
         </p-columnFilter>
 			</th>
-			<th *ngIf="userRole == 'Creator'">Status
+			<th *ngIf="userRole == 'Bil.Cre'">Status
         <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -227,7 +227,7 @@
 			</td>
       <td *ngIf="showAdmin">{{data.q_count}}</td>
       <td *ngIf="showCreator">{{data.difficulty}}</td>
-      <td *ngIf="userRole == 'Creator'">
+      <td *ngIf="userRole == 'Bil.Cre'">
         <!-- {{latestTimestamp(data)}} -->
         {{data.status}}
       </td>
@@ -238,7 +238,7 @@
       <td style="display: flex; justify-content: center;">
         <ng-container *ngIf="latestTimestamp(data)==='Rejected'">
           <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
-            *ngIf="userRole == 'Creator'"></i>
+            *ngIf="userRole == 'Bil.Cre'"></i>
         </ng-container>
         <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>
         <img src="../../../assets/images/word.png" alt="" width="35" *ngIf="showButton" (click)="singlewordDownload(data.id)">

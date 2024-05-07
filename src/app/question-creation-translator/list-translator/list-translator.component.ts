@@ -94,7 +94,7 @@ export class ListtranslatorComponent implements OnInit {
     }
   }
   addstatus() {
-    if (this.userRole === 'Creator') {
+    if (this.userRole === 'Bil.Cre') {
       this.list.forEach((obj: any) => {
         obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
       });
@@ -197,23 +197,39 @@ export class ListtranslatorComponent implements OnInit {
 
 
   wordDownload(): void {
+    this.checked = true;
     if (this.checked) {
       const selectedQuestionIds = this.list.filter((data) => data.selected).map((data) => data.id);
 
       console.log(selectedQuestionIds);
       this.questionService.getReport(selectedQuestionIds).subscribe({
         next: (res: any) => {
-          const htmlContent = res.data.map((question: any, index: any) => `
-            <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
-            <strong>Choices : </strong> 
-            <div> 
-            ${question.choices.map((choice: any) => `
-              <div>${choice.choice_text}</div>
-            `).join('')}
-          </div>
-          <p><strong>Correct Answer:</strong>${this.getCorrectAnswerText(question.choices)}</p>
-          <br>
-          `).join('');
+          const htmlContent = res.data.map((question: any, index: any) =>
+          `
+          <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
+    <strong>Choices : </strong> 
+    <div>
+      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      <br><br>
+      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+    </div>
+    <br>
+    <p><strong>Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+    <p><strong>Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <br><br>
+    <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
+      <strong>தேர்வுகள் : </strong> 
+      <div>
+      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      <br><br>
+      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      </div>
+      <br>
+      <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>
+          `
+          ).join('');
 
           // Create a new Blob containing the HTML content
           const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
@@ -251,17 +267,30 @@ export class ListtranslatorComponent implements OnInit {
   singlewordDownload(index: any) {
     this.questionService.getReport(index).subscribe({
       next: (res: any) => {
-        const htmlContent = res.data.map((question: any, index: any) => `
-            <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
-            <strong>Choices : </strong> 
-            <div> 
-            ${question.choices.map((choice: any) => `
-              <div>${choice.choice_text}</div>
-            `).join('')}
-          </div>
-          <p><strong>Correct Answer:</strong> ${question.choices.find((choice: any) => choice.choice_correct_yn)?.choice_text}</p>
-            <br>
-          `).join('');
+        const htmlContent = res.data.map((question: any, index: any) =>`
+        <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
+    <strong>Choices : </strong> 
+    <div>
+      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      <br><br>
+      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+    </div>
+    <br>
+    <p><strong>Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+    <p><strong>Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <br><br>
+    <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
+      <strong>தேர்வுகள் : </strong> 
+      <div>
+      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      <br><br>
+      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      </div>
+      <br>
+      <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+        <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+    <br>`
+        ).join('');
 
         // Create a new Blob containing the HTML content
         const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
@@ -280,6 +309,65 @@ export class ListtranslatorComponent implements OnInit {
       },
     });
 
+  }
+  // singlewordDownload(index: any) {
+  //   this.questionService.getReport(index).subscribe({
+  //     next: (res: any) => {
+  //       // Start building the HTML content for the Word document
+  //       let htmlContent = `<html><head><meta charset="UTF-8"><style>
+  //                          body { font-family: Arial, sans-serif; }
+  //                          p { margin: 0; }
+  //                          strong { font-weight: bold; }
+  //                          ul { list-style-type: none; padding: 0; }
+  //                          li { display: inline; }
+  //                          </style></head><body>`;
+  
+  //       // Iterate through each question in the response data
+  //       res.data.forEach((question: any, index: any) => {
+  //         htmlContent += `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
+  //                         <p><strong>Choices:</strong></p>
+  //                         <ul>
+  //                           <li>${question.choices[0].choice_text}</li>
+  //                           <li>${question.choices[1].choice_text}</li>
+  //                           <li>${question.choices[2].choice_text}</li>
+  //                           <li>${question.choices[3].choice_text}</li>
+  //                         </ul>
+  //                         <p><strong>Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
+  //                         <p><strong>Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+  //                         <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
+  //                         <ul>
+  //                           <li>${question.choices[0].choice_text_tn}</li>
+  //                           <li>${question.choices[1].choice_text_tn}</li>
+  //                           <li>${question.choices[2].choice_text_tn}</li>
+  //                           <li>${question.choices[3].choice_text_tn}</li>
+  //                         </ul>
+  //                         <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
+  //                         <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p><br>`;
+  //       });
+  
+  //       // Close the HTML content
+  //       htmlContent += `</body></html>`;
+  
+  //       // Create a new Blob containing the HTML content
+  //       const blob = new Blob([htmlContent], {
+  //         type: 'application/msword',
+  //       });
+  
+  //       // Create a link element to trigger the download
+  //       const link = document.createElement('a');
+  //       link.href = URL.createObjectURL(blob);
+  //       link.download = 'questions.doc';
+  
+  //       // Append the link to the document and trigger the download
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       document.body.removeChild(link);
+  //     },
+  //   });
+  // }
+  
+  filterChoices(choices: any[]) {
+    return choices.filter(choice => choice.choice_correct_yn !== null)[0];
   }
 
   // wordDownload(): void {
@@ -341,12 +429,12 @@ export class ListtranslatorComponent implements OnInit {
 
 
   singlepdfDownload(index: any) {
-    const selectedQuestionId = this.questionList
-      .filter((data) => data.selected)
-      .map((data) => data.ids);
-    this.questionService.getPdfReport(selectedQuestionId).subscribe(
+    const selectedQuestionId = index
+    console.log("selectedQuestionId",selectedQuestionId)
+      // .filter((data) => data.selected)
+      // .map((data) => data.ids);
+    this.questionService.getReport(selectedQuestionId).subscribe(
       (response) => {
-        console.log(response.data);
         this.questionService.generatePdf(response.data);
       },
       (error) => {
