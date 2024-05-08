@@ -121,7 +121,7 @@
         <!-- <p-columnFilter type="text" field="type" display="menu"></p-columnFilter> -->
         <p-columnFilter field="type" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('type')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -130,7 +130,7 @@
 				<!-- <p-columnFilter type="text" field="class" display="menu"></p-columnFilter> -->
         <p-columnFilter field="class" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('class')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -139,7 +139,7 @@
         <!-- <p-columnFilter type="text" field="medium" display="menu"></p-columnFilter> -->
         <p-columnFilter field="medium" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueMedium" placeholder="Medium" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueMedium" placeholder="Medium" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('medium')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -148,7 +148,7 @@
 				<!-- <p-columnFilter type="text" field="subject" display="menu"></p-columnFilter> -->
         <p-columnFilter field="subject" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('subject')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -157,7 +157,7 @@
 				<!-- <p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter> -->
         <p-columnFilter field="chapter" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('chapter')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -166,7 +166,7 @@
 				<!-- <p-columnFilter type="text" field="topic" display="menu"></p-columnFilter> -->
         <p-columnFilter field="topic" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('topic')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -176,7 +176,7 @@
 				<!-- <p-columnFilter type="text" field="difficulty" display="menu"></p-columnFilter> -->
         <p-columnFilter field="difficulty" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueLevel" placeholder="Level" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueLevel" placeholder="Level" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('level')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -192,7 +192,7 @@
         <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('status')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
       </th>

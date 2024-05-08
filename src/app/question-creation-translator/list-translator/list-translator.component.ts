@@ -3,17 +3,27 @@ import { List, addDetails, questionList } from '../question-translator.model';
 import { QuestionCreationService } from '../question-creation-translator.service';
 import { authService } from 'src/app/auth.service';
 import { NgForm } from '@angular/forms';
-
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-list-translator',
   templateUrl: './list-translator.component.html',
-  styleUrls: ['./list-translator.component.css']
+  styleUrls: ['./list-translator.component.css'],
 })
 export class ListtranslatorComponent implements OnInit {
-  displayedColumns: string[] = ['sno', 'type', 'details', 'translation', 'status', 'actions'];
+  displayedColumns: string[] = [
+    'sno',
+    'type',
+    'details',
+    'translation',
+    'status',
+    'actions',
+  ];
   public dataSource: any[] = [];
-  currentSort: { column: string, direction: string } = { column: '', direction: '' };
+  currentSort: { column: string; direction: string } = {
+    column: '',
+    direction: '',
+  };
   allCheckboxesSelected = false;
   questionList: any[] = [];
   user: any;
@@ -26,11 +36,11 @@ export class ListtranslatorComponent implements OnInit {
   showCreator = false;
   showAdmin = false;
   checked = false;
-  dropdownDataclass:any[] = [];
-  dropdownDatasubject:any[] = [];
-  dropdownDatachapter:any[] = [];
-  dropdownDatalevel:any[]=[];
-  dropdonwDatatype:any[]=[];
+  dropdownDataclass: any[] = [];
+  dropdownDatasubject: any[] = [];
+  dropdownDatachapter: any[] = [];
+  dropdownDatalevel: any[] = [];
+  dropdonwDatatype: any[] = [];
   /////
   public uniqueType: any[] = [];
   public uniqueClass: any[] = [];
@@ -40,17 +50,21 @@ export class ListtranslatorComponent implements OnInit {
   public uniqueTopic: any[] = [];
   public uniqueLevel: any[] = [];
   public uniqueStatus: any[] = [];
-  @ViewChild('dt') dt!: any;
+  @ViewChild('dt') dt!: Table;
   loading: boolean = false;
   /////
   selectedOptionclass: string = '';
   selectedOptionsubject: string = '';
   selectedOptionchapter: string = '';
-  selectedOptionlevel:string = '';
-  selectedOptiontype:string = '';
+  selectedOptionlevel: string = '';
+  selectedOptiontype: string = '';
   p: number = 1;
 
-  constructor(private auth: authService, private questionService: QuestionCreationService, private authService: authService) { }
+  constructor(
+    private auth: authService,
+    private questionService: QuestionCreationService,
+    private authService: authService
+  ) {}
 
   ngOnInit(): void {
     this.questionService.getDetails().subscribe({
@@ -58,37 +72,34 @@ export class ListtranslatorComponent implements OnInit {
         this.list = response.data;
         this.addstatus();
         this.create_dropdown_oninit();
-        this.dropdownDataclass = this.getUniqueArray(this.list,'class');
-        this.dropdownDatasubject = this.getUniqueArray(this.list,'subject');
-        this.dropdownDatachapter = this.getUniqueArray(this.list,'chapter');
-        this.dropdonwDatatype = this.getUniqueArray(this.list,'type');
-        this.dropdownDatalevel = this.getUniqueArray(this.list,'difficulty');
-        console.log("list", this.list)
-      }
+        this.dropdownDataclass = this.getUniqueArray(this.list, 'class');
+        this.dropdownDatasubject = this.getUniqueArray(this.list, 'subject');
+        this.dropdownDatachapter = this.getUniqueArray(this.list, 'chapter');
+        this.dropdonwDatatype = this.getUniqueArray(this.list, 'type');
+        this.dropdownDatalevel = this.getUniqueArray(this.list, 'difficulty');
+        console.log('list', this.list);
+      },
     });
     this.userRole = this.auth.getUserRole();
-    console.log(this.userRole)
+    console.log(this.userRole);
     const authToken = this.auth.getAuthToken();
-    console.log("this.userrole",this.userRole)
+    console.log('this.userrole', this.userRole);
     if (this.userRole == 'Creator') {
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    }
-    else if(this.userRole == 'Bil.Cre'){
+    } else if (this.userRole == 'Bil.Cre') {
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    }
-    else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur') {
+    } else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur') {
       this.showAdd = false;
       this.showButton = true;
       this.showAdmin = false;
       this.showCreator = true;
-    }
-    else if (this.userRole == 'Admin') {
+    } else if (this.userRole == 'Admin') {
       this.showAdmin = true;
       this.showCreator = false;
     }
@@ -154,38 +165,439 @@ export class ListtranslatorComponent implements OnInit {
       this.uniqueStatus.push({ label: value, value: value });
     });
   }
+  create_dropdown_onclick(dropdowntype: any) {
+    if (dropdowntype == 'type') {
+      this.uniqueClass = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.class)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueClass.push({ label: value, value: value });
+      });
+      this.uniqueMedium = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.medium)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueMedium.push({ label: value, value: value });
+      });
+      this.uniqueSubject = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.subject)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueSubject.push({ label: value, value: value });
+      });
+      this.uniqueChapter = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.chapter)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueChapter.push({ label: value, value: value });
+      });
+      this.uniqueTopic = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.topic)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueTopic.push({ label: value, value: value });
+      });
+      this.uniqueLevel = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.difficulty)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueLevel.push({ label: value, value: value });
+      });
+      this.uniqueStatus = [];
+      var difficultiesSet = new Set<string>();
+      this.dt.filteredValue.forEach((item: any) =>
+        difficultiesSet.add(item.status)
+      );
+      var uniqueValues = Array.from(difficultiesSet);
+      uniqueValues.forEach((value) => {
+        this.uniqueStatus.push({ label: value, value: value });
+      });
+    }
+    if(dropdowntype=='class'){
+      this.uniqueMedium = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.medium)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueMedium.push({ label: value, value: value });
+    });
+    this.uniqueSubject = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.subject)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueSubject.push({ label: value, value: value });
+    });
+    this.uniqueChapter = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.chapter)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueChapter.push({ label: value, value: value });
+    });
+    this.uniqueTopic = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.topic)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueTopic.push({ label: value, value: value });
+    });
+    this.uniqueLevel = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.difficulty)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+    if(dropdowntype=='medium'){
+      this.uniqueSubject = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.subject)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueSubject.push({ label: value, value: value });
+    });
+    this.uniqueChapter = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.chapter)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueChapter.push({ label: value, value: value });
+    });
+    this.uniqueTopic = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.topic)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueTopic.push({ label: value, value: value });
+    });
+    this.uniqueLevel = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.difficulty)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+    if(dropdowntype=='subject'){
+      this.uniqueChapter = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.chapter)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueChapter.push({ label: value, value: value });
+    });
+    this.uniqueTopic = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.topic)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueTopic.push({ label: value, value: value });
+    });
+    this.uniqueLevel = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.difficulty)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+    if(dropdowntype=='chapter'){
+      this.uniqueTopic = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.topic)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueTopic.push({ label: value, value: value });
+    });
+    this.uniqueLevel = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.difficulty)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+    if(dropdowntype=='topic'){
+      this.uniqueLevel = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.difficulty)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueLevel.push({ label: value, value: value });
+    });
+    this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+    if(dropdowntype=='level'){
+      this.uniqueStatus = [];
+    var difficultiesSet = new Set<string>();
+    this.dt.filteredValue.forEach((item: any) =>
+      difficultiesSet.add(item.status)
+    );
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqueStatus.push({ label: value, value: value });
+    });
+    }
+  }
+
+  // create_dropdown_onclick(dropdowntype:any){
+  //   this.uniqueType = [];
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.type));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueType.push({ label: value, value: value });
+  //   });
+  //   this.uniqueClass = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.class));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueClass.push({ label: value, value: value });
+  //   });
+  //   this.uniqueMedium = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.medium));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueMedium.push({ label: value, value: value });
+  //   });
+  //   this.uniqueSubject = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.subject));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueSubject.push({ label: value, value: value });
+  //   });
+  //   this.uniqueChapter = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.chapter));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueChapter.push({ label: value, value: value });
+  //   });
+  //   this.uniqueTopic = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.topic));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueTopic.push({ label: value, value: value });
+  //   });
+  //   this.uniqueLevel = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.difficulty));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueLevel.push({ label: value, value: value });
+  //   });
+  //   this.uniqueStatus = []
+  //   var difficultiesSet = new Set<string>();
+  //   this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.status));
+  //   var uniqueValues = Array.from(difficultiesSet);
+  //   uniqueValues.forEach((value) => {
+  //     this.uniqueStatus.push({ label: value, value: value });
+  //   });
+  // }
+  // create_dropdown_onclick(dropdowntype:any){
+  //   if(dropdowntype!='type'){
+  //     this.uniqueType = [];
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.type));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueType.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='class'){
+  //     this.uniqueClass = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.class));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueClass.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='medium'){
+  //     this.uniqueMedium = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.medium));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueMedium.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='subject'){
+  //     this.uniqueSubject = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.subject));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueSubject.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='chapter'){
+  //     this.uniqueChapter = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.chapter));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueChapter.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='topic'){
+  //     this.uniqueTopic = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.topic));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueTopic.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='level'){
+  //     this.uniqueLevel = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.difficulty));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueLevel.push({ label: value, value: value });
+  //     });
+  //   }
+  //   if(dropdowntype!='status'){
+  //     this.uniqueStatus = []
+  //     var difficultiesSet = new Set<string>();
+  //     this.dt.filteredValue.forEach((item: any) => difficultiesSet.add(item.status));
+  //     var uniqueValues = Array.from(difficultiesSet);
+  //     uniqueValues.forEach((value) => {
+  //       this.uniqueStatus.push({ label: value, value: value });
+  //     });
+  //   }
+  // }
 
   selectAllCheckbox(event: any): void {
     this.checked = event.target.checked;
-    this.list.forEach(data => data.selected = this.checked);
+    this.list.forEach((data) => (data.selected = this.checked));
     console.log(this.checked);
   }
 
-
   view(index: any) {
-    if (this.auth.getUserRole() == "Admin") {
+    if (this.auth.getUserRole() == 'Admin') {
       this.questionService.getQuestionDetail(index.ids).subscribe({
         next: (response: any) => {
           if (Array.isArray(response.data)) {
             response.data.forEach((question: any, i: any) => {
-              this.questionService.Question.next({ Mode: 'VIEW', Index: index });
+              this.questionService.Question.next({
+                Mode: 'VIEW',
+                Index: index,
+              });
               this.questionService.setIndex(index);
             });
           }
-        }
+        },
       });
-    }
-    else {
-      console.log('index',index);
+    } else {
+      console.log('index', index);
       this.questionService.getQuestionDetails(index.id).subscribe({
         next: (response: any) => {
           this.questionService.Question.next({ Mode: 'VIEW', Index: index.id });
           this.questionService.setIndex(index);
-        }
+        },
       });
     }
   }
-
 
   edit(data: any) {
     this.questionService.Question.next({ Mode: 'EDIT', Index: data.id });
@@ -195,46 +607,69 @@ export class ListtranslatorComponent implements OnInit {
     this.questionService.Question.next({ Mode: 'CREATE' });
   }
 
-
   wordDownload(): void {
     this.checked = true;
     if (this.checked) {
-      const selectedQuestionIds = this.list.filter((data) => data.selected).map((data) => data.id);
+      const selectedQuestionIds = this.list
+        .filter((data) => data.selected)
+        .map((data) => data.id);
 
       console.log(selectedQuestionIds);
       this.questionService.getReport(selectedQuestionIds).subscribe({
         next: (res: any) => {
-          const htmlContent = res.data.map((question: any, index: any) =>
-          `
+          const htmlContent = res.data
+            .map(
+              (question: any, index: any) =>
+                `
           <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
     <strong>Choices : </strong> 
     <div>
-      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      ${question.choices[0].choice_text}       ${
+                  question.choices[1].choice_text
+                } 
       <br><br>
-      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+      ${question.choices[2].choice_text}       ${
+                  question.choices[3].choice_text
+                }
     </div>
     <br>
-    <p><strong>Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
-    <p><strong>Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <p><strong>Answer:</strong> ${
+      this.filterChoices(question.choices).choice_text
+    }</p>
+    <p><strong>Solution:</strong> ${
+      this.filterChoices(question.choices).choice_notes
+    }</p>
     <br><br>
     <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
       <strong>தேர்வுகள் : </strong> 
       <div>
-      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      ${question.choices[0].choice_text_tn}         ${
+                  question.choices[1].choice_text_tn
+                } 
       <br><br>
-      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      ${question.choices[2].choice_text_tn}         ${
+                  question.choices[3].choice_text_tn
+                }
       </div>
       <br>
-      <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
-        <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+      <p><strong>பதில்:</strong> ${
+        this.filterChoices(question.choices).choice_text_tn
+      }</p>
+        <p><strong>தீர்வு:</strong> ${
+          this.filterChoices(question.choices).choice_notes_tn
+        }</p>
     <br>
           `
-          ).join('');
+            )
+            .join('');
 
           // Create a new Blob containing the HTML content
-          const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-            type: 'application/msword',
-          });
+          const blob = new Blob(
+            [`<!DOCTYPE html><html><body>${htmlContent}</body></html>`],
+            {
+              type: 'application/msword',
+            }
+          );
 
           // Create a link element to trigger the download
           const link = document.createElement('a');
@@ -253,7 +688,9 @@ export class ListtranslatorComponent implements OnInit {
   }
 
   getCorrectAnswerText(choices: any) {
-    const correctChoice = choices.find((choice: { choice_correct_yn: any; }) => choice.choice_correct_yn);
+    const correctChoice = choices.find(
+      (choice: { choice_correct_yn: any }) => choice.choice_correct_yn
+    );
 
     if (correctChoice) {
       return correctChoice.choice_text;
@@ -262,40 +699,60 @@ export class ListtranslatorComponent implements OnInit {
     }
   }
 
-
-
   singlewordDownload(index: any) {
     this.questionService.getReport(index).subscribe({
       next: (res: any) => {
-        const htmlContent = res.data.map((question: any, index: any) =>`
+        const htmlContent = res.data
+          .map(
+            (question: any, index: any) => `
         <p><strong>Question ${index + 1}:</strong> ${question.text}</p>
     <strong>Choices : </strong> 
     <div>
-      ${question.choices[0].choice_text}       ${question.choices[1].choice_text} 
+      ${question.choices[0].choice_text}       ${
+              question.choices[1].choice_text
+            } 
       <br><br>
-      ${question.choices[2].choice_text}       ${question.choices[3].choice_text}
+      ${question.choices[2].choice_text}       ${
+              question.choices[3].choice_text
+            }
     </div>
     <br>
-    <p><strong>Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
-    <p><strong>Solution:</strong> ${this.filterChoices(question.choices).choice_notes}</p>
+    <p><strong>Answer:</strong> ${
+      this.filterChoices(question.choices).choice_text
+    }</p>
+    <p><strong>Solution:</strong> ${
+      this.filterChoices(question.choices).choice_notes
+    }</p>
     <br><br>
     <p><strong>கேள்வி ${index + 1}:</strong> ${question.text_tn}</p>
       <strong>தேர்வுகள் : </strong> 
       <div>
-      ${question.choices[0].choice_text_tn}         ${question.choices[1].choice_text_tn} 
+      ${question.choices[0].choice_text_tn}         ${
+              question.choices[1].choice_text_tn
+            } 
       <br><br>
-      ${question.choices[2].choice_text_tn}         ${question.choices[3].choice_text_tn}
+      ${question.choices[2].choice_text_tn}         ${
+              question.choices[3].choice_text_tn
+            }
       </div>
       <br>
-      <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
-        <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p>
+      <p><strong>பதில்:</strong> ${
+        this.filterChoices(question.choices).choice_text_tn
+      }</p>
+        <p><strong>தீர்வு:</strong> ${
+          this.filterChoices(question.choices).choice_notes_tn
+        }</p>
     <br>`
-        ).join('');
+          )
+          .join('');
 
         // Create a new Blob containing the HTML content
-        const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-          type: 'application/msword',
-        });
+        const blob = new Blob(
+          [`<!DOCTYPE html><html><body>${htmlContent}</body></html>`],
+          {
+            type: 'application/msword',
+          }
+        );
 
         // Create a link element to trigger the download
         const link = document.createElement('a');
@@ -308,7 +765,6 @@ export class ListtranslatorComponent implements OnInit {
         document.body.removeChild(link);
       },
     });
-
   }
   // singlewordDownload(index: any) {
   //   this.questionService.getReport(index).subscribe({
@@ -321,7 +777,7 @@ export class ListtranslatorComponent implements OnInit {
   //                          ul { list-style-type: none; padding: 0; }
   //                          li { display: inline; }
   //                          </style></head><body>`;
-  
+
   //       // Iterate through each question in the response data
   //       res.data.forEach((question: any, index: any) => {
   //         htmlContent += `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
@@ -344,20 +800,20 @@ export class ListtranslatorComponent implements OnInit {
   //                         <p><strong>பதில்:</strong> ${this.filterChoices(question.choices).choice_text_tn}</p>
   //                         <p><strong>தீர்வு:</strong> ${this.filterChoices(question.choices).choice_notes_tn}</p><br>`;
   //       });
-  
+
   //       // Close the HTML content
   //       htmlContent += `</body></html>`;
-  
+
   //       // Create a new Blob containing the HTML content
   //       const blob = new Blob([htmlContent], {
   //         type: 'application/msword',
   //       });
-  
+
   //       // Create a link element to trigger the download
   //       const link = document.createElement('a');
   //       link.href = URL.createObjectURL(blob);
   //       link.download = 'questions.doc';
-  
+
   //       // Append the link to the document and trigger the download
   //       document.body.appendChild(link);
   //       link.click();
@@ -365,9 +821,9 @@ export class ListtranslatorComponent implements OnInit {
   //     },
   //   });
   // }
-  
+
   filterChoices(choices: any[]) {
-    return choices.filter(choice => choice.choice_correct_yn !== null)[0];
+    return choices.filter((choice) => choice.choice_correct_yn !== null)[0];
   }
 
   // wordDownload(): void {
@@ -404,10 +860,6 @@ export class ListtranslatorComponent implements OnInit {
   //   }
   // }
 
-
-
-
-
   pdfDownload() {
     const selectedQuestionIds = this.questionList
       .filter((data) => data.selected)
@@ -427,12 +879,11 @@ export class ListtranslatorComponent implements OnInit {
     }
   }
 
-
   singlepdfDownload(index: any) {
-    const selectedQuestionId = index
-    console.log("selectedQuestionId",selectedQuestionId)
-      // .filter((data) => data.selected)
-      // .map((data) => data.ids);
+    const selectedQuestionId = index;
+    console.log('selectedQuestionId', selectedQuestionId);
+    // .filter((data) => data.selected)
+    // .map((data) => data.ids);
     this.questionService.getReport(selectedQuestionId).subscribe(
       (response) => {
         this.questionService.generatePdf(response.data);
@@ -441,67 +892,71 @@ export class ListtranslatorComponent implements OnInit {
         console.error('Error downloading PDF file', error);
       }
     );
-
   }
 
   latestTimestamp(data: any): string {
     var submittedTimestamp = 0;
     var rejectedTimestamp = 0;
     var vettedTimestamp = 0;
-  
+
     if (data) {
       if (data.submitted) {
         submittedTimestamp = new Date(data.submitted)?.getTime() || 0;
       }
-  
+
       if (data.rejected) {
         rejectedTimestamp = new Date(data.rejected)?.getTime() || 0;
       }
-  
+
       if (data.vetted) {
         vettedTimestamp = new Date(data.vetted)?.getTime() || 0;
       }
     }
-  
-    if (submittedTimestamp > rejectedTimestamp && submittedTimestamp > vettedTimestamp || data.submitted=='Just Now') {
-      return "Submitted";
-    } else if (rejectedTimestamp > vettedTimestamp && rejectedTimestamp >submittedTimestamp) {
-      return "Rejected";
-    } else if (vettedTimestamp > rejectedTimestamp && vettedTimestamp > submittedTimestamp){
-      return "Approved"
-    }
-    else if (data.submit==='yes'){
-      return "Submitted"
-    }
-    else{
-      return ""
+
+    if (
+      (submittedTimestamp > rejectedTimestamp &&
+        submittedTimestamp > vettedTimestamp) ||
+      data.submitted == 'Just Now'
+    ) {
+      return 'Submitted';
+    } else if (
+      rejectedTimestamp > vettedTimestamp &&
+      rejectedTimestamp > submittedTimestamp
+    ) {
+      return 'Rejected';
+    } else if (
+      vettedTimestamp > rejectedTimestamp &&
+      vettedTimestamp > submittedTimestamp
+    ) {
+      return 'Approved';
+    } else if (data.submit === 'yes') {
+      return 'Submitted';
+    } else {
+      return '';
     }
   }
 
-  latestTimestampcurator(data: any):string{
-    if(data.vetted){
-      return "Approved"
+  latestTimestampcurator(data: any): string {
+    if (data.vetted) {
+      return 'Approved';
     }
-    if(data.submitted){
-      return "Submitted"
+    if (data.submitted) {
+      return 'Submitted';
     }
-    return ""
+    return '';
   }
-  
 
   returndummy(data: any) {
-    return data
+    return data;
   }
-  getUniqueArray(data: any[],value:any){
-    return Array.from(new Set(data.map(item => item[value])));
+  getUniqueArray(data: any[], value: any) {
+    return Array.from(new Set(data.map((item) => item[value])));
   }
 
   // dropdownDataclass = ['9', '10', '11', '12'];
-  // dropdownDatasubject = ["Maths","Physics","Chemistry","Botony & Zology"] 
-  
+  // dropdownDatasubject = ["Maths","Physics","Chemistry","Botony & Zology"]
+
   // // Selected option
   // selectedOptionclass: string = '';
   // selectedOptionsubject: string = '';
-
 }
-
