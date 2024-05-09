@@ -52,10 +52,10 @@ export class SidebarComponent implements OnInit {
   }
 
   getRoute(){
-    if(this.userRole==='Creator' || this.userRole==='Curator' || this.userRole==='Admin'){
+    if(this.userRole==='Creator' || this.userRole==='Admin'){
       return 'question-creation'
     }
-    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur'){
+    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur' || this.userRole==='Curator'){
       return 'question-creation-translation'
     }
     if(this.userRole==='Translate'){
