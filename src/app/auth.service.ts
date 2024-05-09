@@ -36,12 +36,10 @@ export class authService {
         console.log("response in auth user",response)
         const authToken = response?.authToken;
         const userRole = response.data.role;
-        const subject = response.data.name.split(" ")[1];
+        const subject = response.data.subject;
         this.setAuthToken(authToken);
         this.setUserRole(userRole);
-        if(subject){
-          this.setUserSubject(subject)
-        }
+        this.setUserSubject(subject)
       })
     );  
   }
@@ -76,6 +74,13 @@ export class authService {
     localStorage.removeItem('authToken');
     localStorage.removeItem(this.storageKey);
     localStorage.removeItem('subject');
+    /////
+    localStorage.removeItem('qbtype');
+    localStorage.removeItem('qbclass');
+    localStorage.removeItem('qbsubject');
+    localStorage.removeItem('qbchapter');
+    localStorage.removeItem('qbtopic');
+    localStorage.removeItem('qbstatus');
   }
 
   getUser():any{

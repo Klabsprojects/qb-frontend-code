@@ -218,12 +218,12 @@
     </div>
 
     <ng-container *ngIf="!question?.vetted">
-        <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">
+        <!-- <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)"> -->
             <div class="card p-3 row" *ngIf="showComments">
                 <div class="col-md-12">
                     <div class="col-md-12 float-left p-0 mb-4">
                         <label class="float-left w-100">Select Difficulty Level</label>
-                        <select class="form-control form-control1" style="width: 100%;" name="difficulty" #difficulty>
+                        <select class="form-control form-control1" style="width: 100%;" name="difficulty" [(ngModel)]="difficulty">
                             <option value="" selected>Select</option>
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
@@ -235,10 +235,10 @@
                         #text="ngModel" [required]="showQuestionEditor"></ckeditor>
                     <!-- <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
                         [(ngModel)]="commentTextModel" #commentModel="ngModel" required></textarea> -->
-                    <div
+                    <!-- <div
                         *ngIf="commentForm.controls['commentText']?.dirty || commentForm.controls['commentText']?.touched">
                         <small class="text-danger">Comments are required.</small>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -247,12 +247,12 @@
                     <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
                         (click)="back()">Back</button>
                     <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                        (click)="reject(question.id,commentForm)" [disabled]="!commentForm.valid">Reject</button>
+                        (click)="reject(question.id,commentTextModel)" [disabled]="!commentTextModel||difficulty">Reject</button>
                     <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                        (click)="approve(question.id)" [disabled]="commentForm.valid">Approve</button>
+                        (click)="approve(question.id,difficulty)" [disabled]="!difficulty||commentTextModel">Approve</button>
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
     </ng-container>
     <div class="col-md-12 float-left" *ngIf="question?.vetted">
         <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;" (click)="back()">Back</button>

@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
     if(this.userRole==='Creator' || this.userRole==='Curator' || this.userRole==='Admin'){
       return 'question-creation'
     }
-    if(this.userRole==='Cre.Tra' || this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur'){
+    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur'){
       return 'question-creation-translation'
     }
     if(this.userRole==='Translate'){
@@ -65,5 +65,30 @@ export class SidebarComponent implements OnInit {
       return 'user'
     }
     return ''
+  }
+  get_user_role(){
+    let role = ""
+    if(this.userRole==='Creator'){
+      role = "Creator"
+    }
+    if(this.userRole === 'Bil.Cre'){
+      role = "Bilingual Creator"
+    }
+    if(this.userRole === 'Translate'){
+      role =  "Translator";
+    }
+    if(this.userRole === 'Teacher'){
+      role =  "Teacher";
+    }
+    if(this.userRole==='Admin'){
+      role = "Admin";
+    }
+    if(this.userRole==='Curator'){
+      role = "Vettor";
+    }
+    if(this.userRole==='Bil.Cur'){
+      role = "Bilingual Vettor";
+    }
+    return role;
   }
 }

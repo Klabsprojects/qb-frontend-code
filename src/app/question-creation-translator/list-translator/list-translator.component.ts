@@ -4,6 +4,7 @@ import { QuestionCreationService } from '../question-creation-translator.service
 import { authService } from 'src/app/auth.service';
 import { NgForm } from '@angular/forms';
 import { Table } from 'primeng/table';
+import { observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-translator',
@@ -31,6 +32,7 @@ export class ListtranslatorComponent implements OnInit {
   showAdd: boolean = false;
   userRole: any;
   list: List[] = [];
+  backup_list: List[] = [];
   addDetails: addDetails = new addDetails();
   detailId: number = 0;
   showCreator = false;
@@ -52,6 +54,7 @@ export class ListtranslatorComponent implements OnInit {
   public uniqueStatus: any[] = [];
   @ViewChild('dt') dt!: Table;
   loading: boolean = false;
+  clear: boolean = false;
   /////
   selectedOptionclass: string = '';
   selectedOptionsubject: string = '';
@@ -70,6 +73,7 @@ export class ListtranslatorComponent implements OnInit {
     this.questionService.getDetails().subscribe({
       next: (response: any) => {
         this.list = response.data;
+        this.backup_list = response.data;
         this.addstatus();
         this.create_dropdown_oninit();
         this.dropdownDataclass = this.getUniqueArray(this.list, 'class');
@@ -115,49 +119,95 @@ export class ListtranslatorComponent implements OnInit {
       });
     }
   }
+  clearfilter() {
+    setTimeout(() => {
+      // this.list = this.backup_list;
+      localStorage.removeItem('qbtype');
+      localStorage.removeItem('qbclass');
+      localStorage.removeItem('qbsubject');
+      localStorage.removeItem('qbchapter');
+      localStorage.removeItem('qbtopic');
+      localStorage.removeItem('qbstatus');
+      // this.clear = false;
+      // this.create_dropdown_oninit();
+      window.location.reload();
+    }, 100);
+  }
   create_dropdown_oninit() {
+    console.log('dt', this.dt);
+    if (localStorage.getItem('qbtype')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.type === localStorage.getItem('qbtype')
+      );
+    }
+    if (localStorage.getItem('qbclass')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.class === localStorage.getItem('qbclass')
+      );
+    }
+    if (localStorage.getItem('qbsubject')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.subject === localStorage.getItem('qbsubject')
+      );
+    }
+    if (localStorage.getItem('qbchapter')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.chapter === localStorage.getItem('qbchapter')
+      );
+    }
+    if (localStorage.getItem('qbtopic')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.topic === localStorage.getItem('qbtopic')
+      );
+    }
+    if (localStorage.getItem('qbstatus')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.status === localStorage.getItem('qbstatus')
+      );
+    }
+    //////////////////
+    this.uniqueType = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.type));
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueType.push({ label: value, value: value });
     });
+    this.uniqueClass = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.class));
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueClass.push({ label: value, value: value });
     });
-    var difficultiesSet = new Set<string>();
-    this.list.forEach((item: any) => difficultiesSet.add(item.medium));
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueMedium.push({ label: value, value: value });
-    });
+    this.uniqueSubject = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.subject));
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueSubject.push({ label: value, value: value });
     });
+    this.uniqueChapter = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.chapter));
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueChapter.push({ label: value, value: value });
     });
+    this.uniqueTopic = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.topic));
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueTopic.push({ label: value, value: value });
     });
-    var difficultiesSet = new Set<string>();
-    this.list.forEach((item: any) => difficultiesSet.add(item.difficulty));
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
+    this.uniqueStatus = [];
     var difficultiesSet = new Set<string>();
     this.list.forEach((item: any) => difficultiesSet.add(item.status));
     var uniqueValues = Array.from(difficultiesSet);
@@ -165,272 +215,233 @@ export class ListtranslatorComponent implements OnInit {
       this.uniqueStatus.push({ label: value, value: value });
     });
   }
-  create_dropdown_onclick(dropdowntype: any) {
+  create_dropdown_onclick(dropdowntype: any, dropdownvalue?: any) {
+    this.clear = true;
     if (dropdowntype == 'type') {
-      this.uniqueClass = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.class)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueClass.push({ label: value, value: value });
-      });
-      this.uniqueMedium = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.medium)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueMedium.push({ label: value, value: value });
-      });
-      this.uniqueSubject = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.subject)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueSubject.push({ label: value, value: value });
-      });
-      this.uniqueChapter = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.chapter)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueChapter.push({ label: value, value: value });
-      });
-      this.uniqueTopic = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.topic)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueTopic.push({ label: value, value: value });
-      });
-      this.uniqueLevel = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.difficulty)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueLevel.push({ label: value, value: value });
-      });
-      this.uniqueStatus = [];
-      var difficultiesSet = new Set<string>();
-      this.dt.filteredValue.forEach((item: any) =>
-        difficultiesSet.add(item.status)
-      );
-      var uniqueValues = Array.from(difficultiesSet);
-      uniqueValues.forEach((value) => {
-        this.uniqueStatus.push({ label: value, value: value });
-      });
+      localStorage.setItem('qbtype', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqueClass = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.class)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueClass.push({ label: value, value: value });
+        });
+        this.uniqueMedium = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.medium)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueMedium.push({ label: value, value: value });
+        });
+        this.uniqueSubject = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.subject)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueSubject.push({ label: value, value: value });
+        });
+        this.uniqueChapter = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.chapter)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueChapter.push({ label: value, value: value });
+        });
+        this.uniqueTopic = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.topic)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueTopic.push({ label: value, value: value });
+        });
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
     }
-    if(dropdowntype=='class'){
-      this.uniqueMedium = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.medium)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueMedium.push({ label: value, value: value });
-    });
-    this.uniqueSubject = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.subject)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueSubject.push({ label: value, value: value });
-    });
-    this.uniqueChapter = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.chapter)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueChapter.push({ label: value, value: value });
-    });
-    this.uniqueTopic = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.topic)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueTopic.push({ label: value, value: value });
-    });
-    this.uniqueLevel = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.difficulty)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
-    this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
+    if (dropdowntype == 'class') {
+      localStorage.setItem('qbclass', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqueMedium = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.medium)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueMedium.push({ label: value, value: value });
+        });
+        this.uniqueSubject = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.subject)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueSubject.push({ label: value, value: value });
+        });
+        this.uniqueChapter = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.chapter)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueChapter.push({ label: value, value: value });
+        });
+        this.uniqueTopic = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.topic)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueTopic.push({ label: value, value: value });
+        });
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
     }
-    if(dropdowntype=='medium'){
-      this.uniqueSubject = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.subject)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueSubject.push({ label: value, value: value });
-    });
-    this.uniqueChapter = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.chapter)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueChapter.push({ label: value, value: value });
-    });
-    this.uniqueTopic = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.topic)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueTopic.push({ label: value, value: value });
-    });
-    this.uniqueLevel = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.difficulty)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
-    this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
+    if (dropdowntype == 'subject') {
+      localStorage.setItem('qbsubject', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqueChapter = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.chapter)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueChapter.push({ label: value, value: value });
+        });
+        this.uniqueTopic = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.topic)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueTopic.push({ label: value, value: value });
+        });
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
     }
-    if(dropdowntype=='subject'){
-      this.uniqueChapter = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.chapter)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueChapter.push({ label: value, value: value });
-    });
-    this.uniqueTopic = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.topic)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueTopic.push({ label: value, value: value });
-    });
-    this.uniqueLevel = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.difficulty)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
-    this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
+    if (dropdowntype == 'chapter') {
+      localStorage.setItem('qbchapter', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqueTopic = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.topic)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueTopic.push({ label: value, value: value });
+        });
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
     }
-    if(dropdowntype=='chapter'){
-      this.uniqueTopic = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.topic)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueTopic.push({ label: value, value: value });
-    });
-    this.uniqueLevel = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.difficulty)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
-    this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
+    if (dropdowntype == 'topic') {
+      localStorage.setItem('qbtopic', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
     }
-    if(dropdowntype=='topic'){
-      this.uniqueLevel = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.difficulty)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueLevel.push({ label: value, value: value });
-    });
-    this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
-    }
-    if(dropdowntype=='level'){
-      this.uniqueStatus = [];
-    var difficultiesSet = new Set<string>();
-    this.dt.filteredValue.forEach((item: any) =>
-      difficultiesSet.add(item.status)
-    );
-    var uniqueValues = Array.from(difficultiesSet);
-    uniqueValues.forEach((value) => {
-      this.uniqueStatus.push({ label: value, value: value });
-    });
+    if (dropdowntype == 'status') {
+      localStorage.setItem('qbstatus', dropdownvalue);
     }
   }
 

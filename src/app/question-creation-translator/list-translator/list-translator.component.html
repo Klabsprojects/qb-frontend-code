@@ -8,8 +8,9 @@
     <div class="row">
       <div class="col-md-6 align-items-end" style="display: flex;justify-content: left;"><h5><span><a [routerLink]="['/dashboard']">Home</a> <i
         class="mdi mdi-chevron-right"></i> Question</span></h5></div>
-      <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;">
+      <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;gap: 10px;">
         <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button>
+        <button type="button" class="btn btn-info btn-add mt-4" (click)="clearfilter()" *ngIf="clear">Clear Filter</button>
       </div>
     </div>
     <div class="btn-outer" *ngIf="showButton">
@@ -121,7 +122,7 @@
         <!-- <p-columnFilter type="text" field="type" display="menu"></p-columnFilter> -->
         <p-columnFilter field="type" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('type')"></p-dropdown>
+            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('type',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -130,25 +131,24 @@
 				<!-- <p-columnFilter type="text" field="class" display="menu"></p-columnFilter> -->
         <p-columnFilter field="class" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('class')"></p-dropdown>
+            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('class',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
-			<th>
+			<!-- <th>
 				<p>Medium</p>
-        <!-- <p-columnFilter type="text" field="medium" display="menu"></p-columnFilter> -->
         <p-columnFilter field="medium" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
             <p-dropdown [options]="uniqueMedium" placeholder="Medium" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('medium')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
+			</th> -->
 			<th>
 				<p>Subject</p>
 				<!-- <p-columnFilter type="text" field="subject" display="menu"></p-columnFilter> -->
         <p-columnFilter field="subject" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('subject')"></p-dropdown>
+            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('subject',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -157,7 +157,7 @@
 				<!-- <p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter> -->
         <p-columnFilter field="chapter" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('chapter')"></p-dropdown>
+            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('chapter',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
@@ -166,25 +166,23 @@
 				<!-- <p-columnFilter type="text" field="topic" display="menu"></p-columnFilter> -->
         <p-columnFilter field="topic" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('topic')"></p-dropdown>
+            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('topic',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
 			</th>
       <th *ngIf="showAdmin">Question Count</th>
-			<th *ngIf="showCreator">
+			<!-- <th *ngIf="showCreator">
 				<p>Level</p>
-				<!-- <p-columnFilter type="text" field="difficulty" display="menu"></p-columnFilter> -->
         <p-columnFilter field="difficulty" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
             <p-dropdown [options]="uniqueLevel" placeholder="Level" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('level')"></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
+			</th> -->
 			<th *ngIf="userRole == 'Bil.Cre'">Status
-        <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value)"></p-dropdown>
+            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('status',$event.value)"></p-dropdown>
           </ng-template>
         </p-columnFilter>
       </th>
@@ -213,9 +211,9 @@
 			<td>
 				{{data.class}}
 			</td>
-			<td>
+			<!-- <td>
 				{{data.medium}}
-			</td>
+			</td> -->
 			<td>
 				{{data.subject}}
 			</td>
@@ -226,14 +224,12 @@
 				{{data.topic}}
 			</td>
       <td *ngIf="showAdmin">{{data.q_count}}</td>
-      <td *ngIf="showCreator">{{data.difficulty}}</td>
+      <!-- <td *ngIf="showCreator">{{data.difficulty}}</td> -->
       <td *ngIf="userRole == 'Bil.Cre'">
-        <!-- {{latestTimestamp(data)}} -->
         {{data.status}}
       </td>
       <td *ngIf="showButton">
         {{data.status}}
-        <!-- {{latestTimestampcurator(data)}} -->
       </td>
       <td style="display: flex; justify-content: center;">
         <ng-container *ngIf="latestTimestamp(data)==='Rejected'">

@@ -38,6 +38,7 @@ export class ViewTranslatorComponent implements OnInit {
   userRole = '';
   uniqueTypes: string[] = [];
   choice_note_tn: any;
+  difficulty:string='';
   // quesimg:string=""
   ClassicEditor: any;
   public Editor: any = CustomEditor;
@@ -260,11 +261,11 @@ export class ViewTranslatorComponent implements OnInit {
     return '';
   }
 
-  approve(questionId: any) {
+  approve(questionId: any,difficulty:any) {
     const confirmation = confirm('Are you sure you want to approve?');
 
     if (confirmation) {
-      const approvalData = { vetted: "yes" };
+      const approvalData = { vetted: "yes", difficulty: difficulty};
 
       this.questionAction.getApprove(questionId, approvalData).subscribe({
         next: (res: any) => {
@@ -281,11 +282,11 @@ export class ViewTranslatorComponent implements OnInit {
     }
   }
 
-  reject(questionId: any, commentForm: NgForm) {
+  reject(questionId: any, comment: string) {
     const confirmation = confirm('Are you sure you want to reject?');
 
     if (confirmation) {
-      const approvalData = { "vetting-reject": "yes", "vetting-comment": commentForm.value.comment };
+      const approvalData = { "vetting-reject": "yes", "vetting-comment": comment };
 
       this.questionAction.getApprove(questionId, approvalData).subscribe({
         next: (res: any) => {

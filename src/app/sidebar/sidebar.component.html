@@ -45,7 +45,7 @@
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
           <a class="dropdown-item preview-item">
             <div class="preview-item-content flex-grow">
-              <h6 class="preview-subject ellipsis font-weight-normal">Profile</h6>
+              <h6 class="preview-subject ellipsis font-weight-normal" style="overflow:visible">{{get_user_role()}}</h6>
             </div>
           </a>
           <a class="dropdown-item preview-item" (click)="logout()">
