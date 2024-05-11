@@ -1383,24 +1383,29 @@ export class CreateTranslatorComponent implements OnInit {
     '11': ['Botany', 'Zoology', 'Physics', 'Chemistry', 'Maths'],
     '12': ['Botany', 'Zoology', 'Physics', 'Chemistry', 'Maths']
   };
+
+  public neet_subject:{ [key: string]: string[] } = {
+    '11':['Botany','Zoology','Physics','Chemistry'],
+    '12':['Botany','Zoology','Physics','Chemistry']
+  };
+
+  public jee_subject:{[key: string]: string[]} = {
+    '11':['Physics','Chemistry','Maths'],
+    '12':['Physics','Chemistry','Maths']
+  };
+
   selectMedium(event: any): void {
-    // console.log("event",event,this.selectedClass)
     this.selectedSubject = event.target.value;
     this.subjectOptions = this.selectsubject[this.selectedClass]
-    // console.log("this.subject",this.subjectOptions)
-    // this.selectedSubject = event.target.value;
-    // const selectedType = this.Type;
-    // const selectMediumValue = this.selectedSubject;
-    // const selectedClassValue = this.selectedClass;
-    // this.questionService.getSubjectOptions(selectedType, selectedClassValue, selectMediumValue).subscribe(
-    //   (response: any) => {
-    //     const data = response.data;
-    //     this.subjectOptions = data.map((subject: any) => subject.subject);
-    //   },
-    //   (error: any) => {
-    //     console.error('Error:', error);
-    //   }
-    // );
+    if(this.Type =='NEET'){
+      this.subjectOptions = this.neet_subject[this.selectedClass]
+    }
+    else if(this.Type == 'JEE'){
+      this.subjectOptions = this.jee_subject[this.selectedClass]
+    }
+    else if(this.Type == 'Foundation'){
+      this.subjectOptions = this.selectsubject[this.selectedClass]
+    }
   }
 
 

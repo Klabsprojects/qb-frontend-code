@@ -25,6 +25,17 @@ export class shared {
         '11': ['Botany', 'Zoology', 'Physics', 'Chemistry', 'Maths'],
         '12': ['Botany', 'Zoology', 'Physics', 'Chemistry', 'Maths']
     };
+    
+    public neet_subject:{ [key: string]: string[] } = {
+        '11':['Botany','Zoology','Physics','Chemistry'],
+        '12':['Botany','Zoology','Physics','Chemistry']
+      };
+    
+      public jee_subject:{[key: string]: string[]} = {
+        '11':['Physics','Chemistry','Maths'],
+        '12':['Physics','Chemistry','Maths']
+      };
+    
     private getHeaders(): HttpHeaders {
         const authToken = this.authService.getAuthToken();
         return new HttpHeaders({ 'Authorization': authToken ?? '' });

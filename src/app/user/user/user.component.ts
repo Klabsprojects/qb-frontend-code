@@ -9,6 +9,7 @@ import { shared } from './shared.service';
 export class UserComponent implements OnInit {
 
   constructor(private shared: shared) { }
+  public loading:boolean = false;
   public Exam_types: string[] = ['JEE', 'NEET', 'Foundation'];
   public Classes: string[] = [];
   public Subjects: string[] = [];
@@ -48,7 +49,15 @@ export class UserComponent implements OnInit {
   }
   selectSubject(event: any) {
     this.class = event.target.value
-    this.Subjects = this.shared.selectsubject[event.target.value]
+    if(this.type =='NEET'){
+      this.Subjects = this.shared.neet_subject[event.target.value]
+    }
+    else if(this.type == 'JEE'){
+      this.Subjects = this.shared.jee_subject[event.target.value]
+    }
+    else if(this.type == 'Foundation'){
+      this.Subjects = this.shared.selectsubject[event.target.value]
+    }
   }
   selectChapter(event: any) {
     this.subject = event.target.value
