@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { shared } from './shared.service';
+import { authService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -8,7 +9,7 @@ import { shared } from './shared.service';
 })
 export class UserComponent implements OnInit {
 
-  constructor(private shared: shared) { }
+  constructor(private shared: shared, private auth:authService) { }
   public loading:boolean = false;
   public Exam_types: string[] = ['JEE', 'NEET', 'Foundation'];
   public Classes: string[] = [];
@@ -190,8 +191,11 @@ export class UserComponent implements OnInit {
     this.selectedQuestionIds = this.totalquestions.filter((data) => data.selected).map((data) => data.id);
     this.selectedquestionnumber = this.selectedQuestionIds.length
   }
-  generatequestion(data: any[]) {
+  generatequestion(data: any[], name?:string) {
     var htmlContent: any;
+    const username = this.auth.getUserRole();
+    const currentDate = new Date().toLocaleDateString();
+    const questionPaperName = name;
     if (this.englishselected && !this.tamilselected) {
       htmlContent = data.map((question: any, index: number) =>
         `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
@@ -237,8 +241,54 @@ export class UserComponent implements OnInit {
       ).join('');
     }
     // Create a new Blob containing the HTML content
-    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-      type: 'application/msword',
+    // const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
+    //   type: 'application/msword',
+    // });
+
+    // Create a link element to trigger the download
+    // const link = document.createElement('a');
+    // link.href = URL.createObjectURL(blob);
+    // link.download = 'questions.doc';
+
+    // Append the link to the document and trigger the download
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+    // Create a header containing username, date, and question paper name
+    const header = `<div class="header">
+                        <p><strong>Date:</strong> ${currentDate}</p>
+                        <p><strong>Question Paper:</strong> ${questionPaperName}</p>
+                        <p><strong>Username:</strong> ${username}</p>
+                    </div>`;
+
+    // Create a footer containing page numbers
+    // const footer = `<div class="footer">
+    //                     <p style="text-align: center;">Page <span class="pageNumber"></span></p>
+    //                 </div>`;
+
+    // Combine header, content, and footer
+    const fullHtmlContent = `<div class="document">${header}${htmlContent}</div>`;
+
+    // Create a new Blob containing the HTML content
+    const blob = new Blob([`<!DOCTYPE html><html><head><style>
+        .header, .footer {
+            width: 100%;
+            position: fixed;
+            left: 0;
+        }
+        .header {
+            top: 0;
+            text-align: center;
+        }
+        .footer {
+            bottom: 0;
+        }
+        .document {
+            margin-top: 100px; /* Adjust according to header height */
+            margin-bottom: 30px; /* Adjust according to footer height */
+        }
+    </style></head><body>${fullHtmlContent}</body></html>`], {
+        type: 'application/msword',
     });
 
     // Create a link element to trigger the download
@@ -251,8 +301,11 @@ export class UserComponent implements OnInit {
     link.click();
     document.body.removeChild(link);
   }
-  generatesolution(data: any[]) {
+  generatesolution(data: any[], name?:string) {
     var htmlContent: any
+    const username = this.auth.getUserRole();
+    const currentDate = new Date().toLocaleDateString();
+    const questionPaperName = name;
     if (this.englishselected && !this.tamilselected) {
       htmlContent = data.map((question: any, index: number) =>
         `<p><strong>${index + 1} . Answer:</strong> ${this.filterChoices(question.choices).choice_text}</p>
@@ -279,8 +332,47 @@ export class UserComponent implements OnInit {
       ).join('');
     }
     // Create a new Blob containing the HTML content
-    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-      type: 'application/msword',
+    // const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
+    //   type: 'application/msword',
+    // });
+
+    // Create a link element to trigger the download
+    // const link = document.createElement('a');
+    // link.href = URL.createObjectURL(blob);
+    // link.download = 'solution.doc';
+
+    // // Append the link to the document and trigger the download
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+    const header = `<div class="header">
+                        <p><strong>Date:</strong> ${currentDate}</p>
+                        <p><strong>Question Paper:</strong> ${questionPaperName}</p>
+                        <p><strong>Username:</strong> ${username}</p>
+                    </div>`;
+    // Combine header, content, and footer
+    const fullHtmlContent = `<div class="document">${header}${htmlContent}</div>`;
+
+    // Create a new Blob containing the HTML content
+    const blob = new Blob([`<!DOCTYPE html><html><head><style>
+        .header, .footer {
+            width: 100%;
+            position: fixed;
+            left: 0;
+        }
+        .header {
+            top: 0;
+            text-align: center;
+        }
+        .footer {
+            bottom: 0;
+        }
+        .document {
+            margin-top: 100px; /* Adjust according to header height */
+            margin-bottom: 30px; /* Adjust according to footer height */
+        }
+    </style></head><body>${fullHtmlContent}</body></html>`], {
+        type: 'application/msword',
     });
 
     // Create a link element to trigger the download
@@ -293,8 +385,11 @@ export class UserComponent implements OnInit {
     link.click();
     document.body.removeChild(link);
   }
-  generatequestion_solution(data: any[]) {
+  generatequestion_solution(data: any[],name?:string) {
     var htmlContent: any;
+    const username = this.auth.getUserRole();
+    const currentDate = new Date().toLocaleDateString();
+    const questionPaperName = name;
     if (this.englishselected && !this.tamilselected) {
       htmlContent = data.map((question: any, index: number) =>
         `<p><strong>Question ${index + 1}:</strong> ${question.text}</p>
@@ -352,16 +447,40 @@ export class UserComponent implements OnInit {
     <br>
     `).join('');
     }
+    const header = `<div class="header">
+                        <p><strong>Date:</strong> ${currentDate}</p>
+                        <p><strong>Question Paper:</strong> ${questionPaperName}</p>
+                        <p><strong>Username:</strong> ${username}</p>
+                    </div>`;
+    // Combine header, content, and footer
+    const fullHtmlContent = `<div class="document">${header}${htmlContent}</div>`;
 
     // Create a new Blob containing the HTML content
-    const blob = new Blob([`<!DOCTYPE html><html><body>${htmlContent}</body></html>`], {
-      type: 'application/msword',
+    const blob = new Blob([`<!DOCTYPE html><html><head><style>
+        .header, .footer {
+            width: 100%;
+            position: fixed;
+            left: 0;
+        }
+        .header {
+            top: 0;
+            text-align: center;
+        }
+        .footer {
+            bottom: 0;
+        }
+        .document {
+            margin-top: 100px; /* Adjust according to header height */
+            margin-bottom: 30px; /* Adjust according to footer height */
+        }
+    </style></head><body>${fullHtmlContent}</body></html>`], {
+        type: 'application/msword',
     });
 
     // Create a link element to trigger the download
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'question_solution.doc';
+    link.download = 'questions_solution.doc';
 
     // Append the link to the document and trigger the download
     document.body.appendChild(link);
@@ -406,9 +525,9 @@ export class UserComponent implements OnInit {
       this.shared.question_download_count(question.id).subscribe((res: any) => {
         this.get_questionpaper();
       })
-      this.generatequestion(res.data);
-      this.generatesolution(res.data);
-      this.generatequestion_solution(res.data);
+      this.generatequestion(res.data,question.name);
+      this.generatesolution(res.data,question.name);
+      this.generatequestion_solution(res.data,question.name);
     })
   }
   updatequestion(question: any) {
