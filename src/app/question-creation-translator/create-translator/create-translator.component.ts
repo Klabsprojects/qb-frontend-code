@@ -198,6 +198,7 @@ export class CreateTranslatorComponent implements OnInit {
   showInputsValue: boolean = false;
   showInput = false;
   setRead = true;
+  typeOptions: any[] = [];
   classOptions: any[] = [];
   mediumOptions: any[] = [];
   subjectOptions: any[] = [];
@@ -348,6 +349,30 @@ export class CreateTranslatorComponent implements OnInit {
     this.questionService.Question.subscribe((res: any) => {
       this.detailId = res.detailId;
     })
+    if(this.userRole === 'Bil.Cre'){
+      this.typeOptions = ['JEE','NEET','Foundation'];
+    }
+    else if(this.userRole ==='QApt.Cre'){
+      this.typeOptions = ['Quantitative Aptitude 9-10','Quantitative Aptitude 11-12'];
+    }
+    else if(this.userRole ==='CAff.Cre'){
+      this.typeOptions = ['Current Affairs'];
+    }
+    else if(this.userRole ==='VAty.Cre'){
+      this.typeOptions = ['Verbal Ability'];
+    }
+    else if(this.userRole ==='LVR.Cre'){
+      this.typeOptions = ['Logical/Verbal Reasoning'];
+    }
+    else if(this.userRole ==='DApt.Cre'){
+      this.typeOptions = ['Design Aptitude'];
+    }
+    else if(this.userRole ==='CLAT.Cre'){
+      this.typeOptions = ['Legal reasoning/CLAT'];
+    }
+    else if(this.userRole ==='SCEng.Cre'){
+      this.typeOptions = ['Spoken English / Communicative English'];
+    }
   }
 
   radiochoose(i: any) {
@@ -1336,7 +1361,15 @@ export class CreateTranslatorComponent implements OnInit {
   public class_options: { [key: string]: string[] } = {
     'JEE': ['11', '12'],
     'NEET': ['11', '12'],
-    'Foundation': ['9', '10']
+    'Foundation': ['9', '10'],
+    'Quantitative Aptitude 9-10': ['9','10','11','12'],
+    'Quantitative Aptitude 11-12' : ['9','10','11','12'],
+    'Current Affairs':['9','10','11','12'],
+    'Verbal Ability': ['9','10','11','12'],
+    'Logical/Verbal Reasoning': ['9','10','11','12'],
+    'Design Aptitude': ['9','10','11','12'],
+    'Legal reasoning/CLAT': ['9','10','11','12'],
+    'Spoken English / Communicative English':['9','10','11','12']
   };
   selectType(event: any) {
     this.Type = event.target.value
@@ -1404,6 +1437,9 @@ export class CreateTranslatorComponent implements OnInit {
       this.subjectOptions = this.jee_subject[this.selectedClass]
     }
     else if(this.Type == 'Foundation'){
+      this.subjectOptions = this.selectsubject[this.selectedClass]
+    }
+    else{
       this.subjectOptions = this.selectsubject[this.selectedClass]
     }
   }
