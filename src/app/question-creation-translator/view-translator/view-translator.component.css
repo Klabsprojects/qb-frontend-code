@@ -25,3 +25,11 @@
 h4{
     width:auto;
 }
+
+.editimages{
+    width: 15px;margin-left: 10px;transition: 0.5s ease-in;border-radius: 50%;
+}
+.editimages:hover{
+    cursor: pointer;
+    background-color:#777;
+}

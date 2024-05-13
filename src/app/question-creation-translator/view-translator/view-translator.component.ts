@@ -14,6 +14,7 @@ export class ViewTranslatorComponent implements OnInit {
   currentIndex: number = -1;
   question: any;
   questions: any;
+  EditTopic:boolean = false;
   questionAndAnswer = [];
   List = new List();
   choices: any;
@@ -265,7 +266,7 @@ export class ViewTranslatorComponent implements OnInit {
     const confirmation = confirm('Are you sure you want to approve?');
 
     if (confirmation) {
-      const approvalData = { vetted: "yes", difficulty: difficulty};
+      const approvalData = { vetted: "yes", difficulty: difficulty, topic:this.question.topic};
 
       this.questionAction.getApprove(questionId, approvalData).subscribe({
         next: (res: any) => {
