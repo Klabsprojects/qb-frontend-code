@@ -61,8 +61,7 @@ export class ViewTranslatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.userRole = this.auth.getUserRole();
-    console.log("userrole", this.userRole)
-    if (this.auth.getUserRole() == "Curator" || this.auth.getUserRole()== 'Bil.Cur') {
+    if (this.userRole == "Curator" || this.userRole == 'Bil.Cur' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cur') {
       this.showComments = true;
     }
     this.questionService.Question.subscribe((index) => {

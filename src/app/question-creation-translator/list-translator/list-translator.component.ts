@@ -93,12 +93,12 @@ export class ListtranslatorComponent implements OnInit {
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    } else if (this.userRole == 'Bil.Cre') {
+    } else if (this.userRole == 'Bil.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre' ) {
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    } else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur') {
+    } else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cur') {
       this.showAdd = false;
       this.showButton = true;
       this.showAdmin = false;

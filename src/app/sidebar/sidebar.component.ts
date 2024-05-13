@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
     if(this.userRole==='Creator' || this.userRole==='Admin'){
       return 'question-creation'
     }
-    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur' || this.userRole==='Curator'){
+    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur' || this.userRole==='Curator' || this.userRole === 'CUET.Cre' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cre' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cre' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cre' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cre' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cre' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cre' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cre' || this.userRole ==='SCEng.Cur'){
       return 'question-creation-translation'
     }
     if(this.userRole==='Translate'){
