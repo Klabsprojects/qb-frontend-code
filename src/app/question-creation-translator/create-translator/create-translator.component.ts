@@ -352,6 +352,9 @@ export class CreateTranslatorComponent implements OnInit {
     if(this.userRole === 'Bil.Cre'){
       this.typeOptions = ['JEE','NEET','Foundation'];
     }
+    if(this.userRole === 'CUET.Cre'){
+      this.typeOptions = ['CUET'];
+    }
     else if(this.userRole ==='QApt.Cre'){
       this.typeOptions = ['Quantitative Aptitude 9-10','Quantitative Aptitude 11-12'];
     }
@@ -1362,9 +1365,10 @@ export class CreateTranslatorComponent implements OnInit {
     'JEE': ['11', '12'],
     'NEET': ['11', '12'],
     'Foundation': ['9', '10'],
+    'CUET':['12'],
     'Quantitative Aptitude 9-10': ['9','10','11','12'],
     'Quantitative Aptitude 11-12' : ['9','10','11','12'],
-    'Current Affairs':['9','10','11','12'],
+    'Current Affairs':['11','12'],
     'Verbal Ability': ['9','10','11','12'],
     'Logical/Verbal Reasoning': ['9','10','11','12'],
     'Design Aptitude': ['9','10','11','12'],
@@ -1426,6 +1430,14 @@ export class CreateTranslatorComponent implements OnInit {
     '11':['Physics','Chemistry','Maths'],
     '12':['Physics','Chemistry','Maths']
   };
+  public cuet_subject:{[key: string]: string[]} = {
+    '12':['Accountancy','Economics','Commerce','Business Maths']
+  }
+
+  public current_affairs:{[key: string]: string[]} = {
+    '11':['Current Affairs'],
+    '12':['Current Affairs']
+  }
 
   selectMedium(event: any): void {
     this.selectedSubject = event.target.value;
@@ -1438,6 +1450,12 @@ export class CreateTranslatorComponent implements OnInit {
     }
     else if(this.Type == 'Foundation'){
       this.subjectOptions = this.selectsubject[this.selectedClass]
+    }
+    else if(this.Type == 'CUET'){
+      this.subjectOptions = this.cuet_subject[this.selectedClass]
+    }
+    else if(this.Type == 'Current Affairs'){
+      this.subjectOptions = this.current_affairs[this.selectedClass]
     }
     else{
       this.subjectOptions = this.selectsubject[this.selectedClass]

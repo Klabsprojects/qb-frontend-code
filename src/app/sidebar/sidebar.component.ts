@@ -71,7 +71,7 @@ export class SidebarComponent implements OnInit {
     if(this.userRole==='Creator'){
       role = "Creator"
     }
-    if(this.userRole === 'Bil.Cre'){
+    if(this.userRole === 'Bil.Cre' || this.userRole === 'CUET.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre'){
       role = "Bilingual Creator"
     }
     if(this.userRole === 'Translate'){
@@ -86,7 +86,7 @@ export class SidebarComponent implements OnInit {
     if(this.userRole==='Curator'){
       role = "Vettor";
     }
-    if(this.userRole==='Bil.Cur'){
+    if(this.userRole==='Bil.Cur' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cur'){
       role = "Bilingual Vettor";
     }
     return role;

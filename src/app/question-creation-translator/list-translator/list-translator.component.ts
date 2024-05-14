@@ -93,7 +93,7 @@ export class ListtranslatorComponent implements OnInit {
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    } else if (this.userRole == 'Bil.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre' ) {
+    } else if (this.userRole == 'Bil.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre' || this.userRole ==='CUET.Cre' ) {
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
