@@ -54,8 +54,8 @@ export class ViewTranslatorComponent implements OnInit {
       'redo', 'MathType', 'ChemType'],
     language: 'en'
   };
-  hello:string = "Helloboss";
-
+  approve_yes:boolean = false;
+  reject_yes:boolean = false;
 
   constructor(private cdr: ChangeDetectorRef, private auth: authService, private questionService: QuestionCreationService, private questionAction: QuestionCreationService) { }
 
@@ -248,6 +248,22 @@ export class ViewTranslatorComponent implements OnInit {
     this.questionAction.Question.next({ Mode: 'LIST' });
   }
 
+  approval_box(){
+    const confirmation = confirm("Are you sure You want to Approve this Question?");
+    if(confirmation){
+      this.approve_yes = true;
+      this.reject_yes = false;
+    }
+  }
+
+  reject_box(){
+    const confirmation = confirm("Are you sure you want to reject?");
+    if(confirmation){
+      this.reject_yes = true;
+      this.approve_yes = false;
+    }
+  }
+
   remark(json: any) {
     try {
       const parsedData = JSON.parse(json);
@@ -277,7 +293,6 @@ export class ViewTranslatorComponent implements OnInit {
         }
       });
     } else {
-      // User canceled the confirmation
       console.log('Approval canceled');
     }
   }
@@ -299,7 +314,6 @@ export class ViewTranslatorComponent implements OnInit {
         }
       });
     } else {
-      // User canceled the confirmation
       console.log('Approval canceled');
     }
   }
