@@ -24239,14 +24239,14 @@ div.tagsinput span.tag a {
   -moz-transition: background 0.25s ease;
   -ms-transition: background 0.25s ease;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: #4F53C1;
+  background-color: #8cbed6;
   padding: 10px 0px !important;
   /* border-bottom: 4px solid #844fc1; */
   /* Navbar color variations */
 }
 
 .navbar .navbar-brand-wrapper {
-  background: #4F53C1;
+  background: #8cbed6;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
@@ -24304,7 +24304,7 @@ div.tagsinput span.tag a {
 }
 
 .navbar .navbar-menu-wrapper {
-  background: #4F53C1;
+  background: #8cbed6;
   transition: width 0.25s ease;
   -webkit-transition: width 0.25s ease;
   -moz-transition: width 0.25s ease;
@@ -24520,7 +24520,7 @@ div.tagsinput span.tag a {
 .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right .nav-item .nav-link {
   -webkit-box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.22);
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.22);
-  border: 1px solid #e4e4f4;
+  border: 1.5px solid #e4e4f4;
   padding-left: .875rem;
   padding-right: .875rem;
   border-radius: 0.25rem;

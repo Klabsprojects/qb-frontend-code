@@ -84,8 +84,8 @@
   </div>
 </div>
 
-<div class="row" *ngIf="userRole==='Creator' || userRole==='Translate' || userRole==='Cre.Tra' ||userRole==='Bil.Cre' || userRole === 'CUET.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre'">
-  <div class="col-md-3 grid-margin stretch-card mt-2">
+<div class="row mb-5" *ngIf="userRole==='Creator' || userRole==='Translate' || userRole==='Cre.Tra' ||userRole==='Bil.Cre' || userRole === 'CUET.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre'">
+  <!-- <div class="col-md-3 grid-margin stretch-card mt-2">
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
@@ -136,6 +136,90 @@
         </div>
       </div>
     </div>
+  </div> -->
+  <div class="col-md-3" (click)="setTotal([200,100,100,100])">
+    <div class="box">
+      <div class="d-flex p-3 align-items-center">
+        <img src="../../assets/images/submit2.png" class="img" />
+        <h5 class="heading ms-3">Submitted</h5>
+      </div>
+      <div class="p-3">
+        <h4 class="count">Question - 500</h4>
+      </div>
+      <div class="content p-3">
+        <span class="text-muted"> JEE </span>
+        <span class="text-muted"> NEET</span>
+        <span class="fw-bold"> 200 </span>
+        <span class="fw-bold"> 100 </span>
+        <span class="text-muted"> Foundation </span>
+        <span class="text-muted"> CUET </span>
+        <span class="fw-bold"> 100 </span>
+        <span class="fw-bold"> 100 </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="box">
+      <div class="d-flex p-3 align-items-center">
+        <img src="../../assets/images/approve2.png" class="img" />
+        <h5 class="heading ms-3">Approved</h5>
+      </div>
+      <div class="p-3">
+        <h4 class="count">Questions - 200</h4>
+      </div>
+      <div class="content p-3">
+        <span class="text-muted"> JEE </span>
+        <span class="text-muted"> NEET</span>
+        <span class="fw-bold"> 50 </span>
+        <span class="fw-bold"> 50 </span>
+        <span class="text-muted"> Foundation </span>
+        <span class="text-muted"> CUET </span>
+        <span class="fw-bold"> 50 </span>
+        <span class="fw-bold"> 50 </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="box">
+      <div class="d-flex p-3 align-items-center">
+        <img src="../../assets/images/reject2.png" class="img" />
+        <h5 class="heading ms-3">Rejected</h5>
+      </div>
+      <div class="p-3">
+        <h4 class="count">Questions - 200</h4>
+      </div>
+      <div class="content p-3">
+        <span class="text-muted"> JEE </span>
+        <span class="text-muted"> NEET</span>
+        <span class="fw-bold"> 50 </span>
+        <span class="fw-bold"> 50 </span>
+        <span class="text-muted"> Foundation </span>
+        <span class="text-muted"> CUET </span>
+        <span class="fw-bold"> 50 </span>
+        <span class="fw-bold"> 50 </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="box">
+      <div class="d-flex p-3 align-items-center">
+        <img src="../../assets/images/resubmit2.png" alt="" class="img" />
+        <h5 class="heading ms-3">Re Submitted</h5>
+      </div>
+      <div class="p-3">
+        <h4 class="count">Questions - 100</h4>
+      </div>
+      <div class="content p-3">
+        <span class="text-muted"> JEE </span>
+        <span class="text-muted"> NEET</span>
+        <span class="fw-bold"> 25 </span>
+        <span class="fw-bold"> 25 </span>
+        <span class="text-muted"> Foundation </span>
+        <span class="text-muted"> CUET </span>
+        <span class="fw-bold"> 25 </span>
+        <span class="fw-bold"> 25 </span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -179,6 +263,32 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 charts">
+    <canvas
+      baseChart
+      [data]="barChartData"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [type]="'bar'"
+    >
+    </canvas>
+  </div>
+  <div class="col-md-4 charts">
+    <canvas
+      baseChart
+      [type]="'pie'"
+      [datasets]="pieChartDatasets"
+      [labels]="pieChartLabels"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+    >
+    </canvas>
   </div>
 </div>
 
