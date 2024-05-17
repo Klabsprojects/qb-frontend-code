@@ -2,9 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { authService } from '../auth.service';
 import { QuestionCreationService } from '../question-creation/question-creation.service';
 import { DashboardData } from '../question-creation/question.model';
-import { ChartConfiguration } from 'chart.js';
-import { ChartOptions } from 'chart.js';
 
+interface TypeCounts {
+  JEE: number;
+  NEET: number;
+  Foundation: number;
+  CUET: number;
+  [key: string]: number;
+}
+
+interface StatusSplitUp {
+  submitted: TypeCounts;
+  approved: TypeCounts;
+  rejected: TypeCounts;
+  resubmitted: TypeCounts;
+}
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -12,7 +24,7 @@ import { ChartOptions } from 'chart.js';
 })
 export class DashboardComponent implements OnInit {
   list: any[] = [];
-  list1:any[] = [];
+  list1: any[] = [];
   Jee_count: any;
   Neet_count: any;
   Foundation_count: any;
@@ -21,6 +33,35 @@ export class DashboardComponent implements OnInit {
   showAdmin = false;
   hideCurator = true;
   userRole: String = '';
+  ////////////////
+  subjecttype: any = [
+    { label: 'Select', value: '' },
+    { label: 'Physics', value: 'Physics' },
+    { label: 'Chemistry', value: 'Chemistry' },
+    { label: 'Maths', value: 'Maths' },
+    { label: 'Botany', value: 'Botany' },
+    { label: 'Zoology', value: 'Zoology' },
+    { label: 'Biology', value: 'Biology' },
+  ];
+  classtype: any = [
+    { label: 'Select', value: '' },
+    { label: '9', value: '9' },
+    { label: '10', value: '10' },
+    { label: '11', value: '11' },
+    { label: '12', value: '12' },
+  ];
+  public barChartLegend = true;
+  public barChartPlugins = [];
+  public startdate: any;
+  public enddate: any;
+  public Jeepie: any;
+  public neetpie: any;
+  public foundationpie: any;
+  public cuetpie: any;
+  public datebarChartData: any;
+  public chapterChartData: any;
+  public classChartData: any;
+  public carddata:any = [{'submitted':0,'splitup':[0,0,0,0],'data':[]},{'approved':0,'splitup':[0,0,0,0],'data':[]},{'rejected':0,'splitup':[0,0,0,0],'data':[]},{'resubmitted':0,'splitup':[0,0,0,0],'data':[]}]
   constructor(
     private auth: authService,
     private questionService: QuestionCreationService
@@ -34,37 +75,21 @@ export class DashboardComponent implements OnInit {
         const data: DashboardData[] = res.data;
         if (data && data.length > 0) {
           this.dashboardData = data[0];
-          console.log('this.dashboardData', this.dashboardData);
         }
       },
     });
     this.questionService.getDetails().subscribe({
       next: (response: any) => {
         this.list = response.data;
-
-        this.Jee_count = this.countQuestionsBySubject(this.list, 'JEE');
-        this.JEEChartLabels = Object.keys(this.Jee_count);
-        this.JEEChartDatasets = [{ data: Object.values(this.Jee_count) }];
-
-        this.Neet_count = this.countQuestionsBySubject(this.list, 'NEET');
-        this.NEETChartLabels = Object.keys(this.Neet_count);
-        this.NEETChartDatasets = [{ data: Object.values(this.Neet_count) }];
-
-        this.Foundation_count = this.countQuestionsBySubject(this.list,'Foundation');
-        this.FoundationChartLabels = Object.keys(this.Foundation_count);
-        this.FoundationChartDatasets = [
-          { data: Object.values(this.Foundation_count) },
-        ];
-
-        this.Cuet_count = this.countQuestionsBySubject(this.list, 'CUET');
-        // this.CuetChartLabels =  Object.keys(this.Cuet_count);
-        this.CuetChartLabels = ['Null'];
-        this.CuetChartDatasets = [{ data: [0] }];
-        // 2024-04-17
-        this.filterByDateRangeAndGetChartData(this.list,'2024-02-01','2024-05-01')
-        // this.CuetChartDatasets = [{data:Object.values(this.Cuet_count)}]
-
-        // console.log('Jee_count',this.Jee_count,'Neet_count',this.Neet_count,'Foundation_count',this.Foundation_count,'Cuet_count',this.Cuet_count)
+        this.addstatus()
+        this.update_pie_chart(this.list);
+        this.filterByDateRangeAndGetChartData(
+          this.list,
+          '2024-02-01',
+          '2024-05-01'
+        );
+        this.filterBySubjectAndCountChapters(this.list, 'Physics');
+        this.filterByClassAndCountSubjects(this.list, '9');
       },
     });
     if (this.auth.getUserRole() == 'Admin') {
@@ -73,80 +98,55 @@ export class DashboardComponent implements OnInit {
       this.hideCurator = false;
     }
   }
-  ////////////////
-  subjecttype: any = [
-    { label: 'Select', value: '' },
-    { label: 'Physics', value: 'Physics' },
-    { label: 'Chemistry', value: 'Chemistry' },
-    { label: 'Maths', value: 'Maths' },
-    { label: 'Botony', value: 'Botony' },
-    { label: 'Zology', value: 'Zology' },
-    { label: 'Biology', value: 'Biology'}
-  ];
+  update_pie_chart(list:any){
+    this.Jee_count = this.countQuestionsBySubject(list, 'JEE');
+        this.Jeepie = {
+          labels: Object.keys(this.Jee_count),
+          datasets: [
+            {
+              label: 'Questions',
+              data: Object.values(this.Jee_count),
+            },
+          ],
+        };
 
-  selectedsubject: any;
-  public barChartLegend = true;
-  public barChartPlugins = [];
-  public startdate: any;
-  public enddate: any;
+        this.Neet_count = this.countQuestionsBySubject(list, 'NEET');
+        this.neetpie = {
+          labels: Object.keys(this.Neet_count),
+          datasets: [
+            {
+              label: 'Questions',
+              data: Object.values(this.Neet_count),
+            },
+          ],
+        };
 
-  public datebarChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [],
-    datasets: [],
-  };
+        this.Foundation_count = this.countQuestionsBySubject(
+          list,
+          'Foundation'
+        );
+        this.foundationpie = {
+          labels: Object.keys(this.Foundation_count),
+          datasets: [
+            {
+              label: 'Questions',
+              data: Object.values(this.Foundation_count),
+            },
+          ],
+        };
 
-  public chapterChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [],
-    datasets: [],
-  };
-
-  public classChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: [],
-    datasets: [],
-  };
-
-  public barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: false,
-  };
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: false,
-  };
-  public JEEChartLabels = ['JEE', 'NEET', 'FOUNDATION', 'CUET'];
-  public JEEChartDatasets = [
-    {
-      data: [300, 500, 100, 200],
-    },
-  ];
-
-  public NEETChartLabels = ['JEE', 'NEET', 'FOUNDATION', 'CUET'];
-  public NEETChartDatasets = [
-    {
-      data: [300, 500, 100, 200],
-    },
-  ];
-
-  public FoundationChartLabels = ['JEE', 'NEET', 'FOUNDATION', 'CUET'];
-  public FoundationChartDatasets = [
-    {
-      data: [300, 500, 100, 200],
-    },
-  ];
-
-  public CuetChartLabels = ['JEE', 'NEET', 'FOUNDATION', 'CUET'];
-  public CuetChartDatasets = [
-    {
-      data: [300, 500, 100, 200],
-    },
-  ];
-
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
-  // setTotal(value:any){
-  //   this.pieChartDatasets = [{data:value}]
-  // }
-  selectsubjecttype(event: any) {
-    this.selectedsubject = event;
+        this.Cuet_count = this.countQuestionsBySubject(list, 'CUET');
+        this.cuetpie = {
+          labels: Object.keys(this.Cuet_count),
+          datasets: [
+            {
+              label: 'Questions',
+              data: Object.values(this.Cuet_count),
+            },
+          ],
+        };
   }
+
   countQuestionsBySubject(
     dataArray: any[],
     type?: any
@@ -178,30 +178,36 @@ export class DashboardComponent implements OnInit {
 
     return subjectCount;
   }
-  filterByDateRangeAndGetChartData(dataArray: any[], startDate?: string, endDate?: string) {
+  filterByDateRangeAndGetChartData(
+    dataArray: any[],
+    startDate?: string,
+    endDate?: string
+  ) {
     // Initialize a variable to store the filtered array
     let filteredArray: any[] = [];
-  
+
     if (startDate && endDate) {
       // Convert start and end dates to Date objects
       const start = new Date(startDate);
       const end = new Date(endDate);
-  
+
       // Initialize a Map to store counts by month and subject
       const monthSubjectMap = new Map<string, Map<string, number>>();
-  
+
       // Filter the array by the submitted date and group by month and subject
       filteredArray = dataArray.filter((item: any) => {
         if (item.submitted) {
           const submittedDate = new Date(item.submitted);
           if (submittedDate >= start && submittedDate <= end) {
-            const monthName = submittedDate.toLocaleString('default', { month: 'long' });
+            const monthName = submittedDate.toLocaleString('default', {
+              month: 'long',
+            });
             const subject = item.subject;
-  
+
             if (!monthSubjectMap.has(monthName)) {
               monthSubjectMap.set(monthName, new Map<string, number>());
             }
-  
+
             const subjectMap = monthSubjectMap.get(monthName);
             if (subjectMap) {
               if (!subjectMap.has(subject)) {
@@ -209,124 +215,174 @@ export class DashboardComponent implements OnInit {
               }
               subjectMap.set(subject, (subjectMap.get(subject) ?? 0) + 1);
             }
-  
+
             return true; // Include this item in the filtered array
           }
         }
         return false; // Exclude this item from the filtered array
       });
-  
+
       // Extract unique months and subjects
       const months = Array.from(monthSubjectMap.keys());
       const subjectsSet = new Set<string>();
-      monthSubjectMap.forEach(subjectMap => {
-        Array.from(subjectMap.keys()).forEach(subject => subjectsSet.add(subject));
+      monthSubjectMap.forEach((subjectMap) => {
+        Array.from(subjectMap.keys()).forEach((subject) =>
+          subjectsSet.add(subject)
+        );
       });
       const subjects = Array.from(subjectsSet);
-  
+
       // Create datasets for the chart
-      const datasets = subjects.map(subject => {
+      const datasets = subjects.map((subject) => {
         return {
           label: subject,
-          data: months.map(month => {
+          data: months.map((month) => {
             const subjectMap = monthSubjectMap.get(month);
             return subjectMap?.get(subject) ?? 0;
-          })
+          }),
         };
       });
-  
+
       // Update the chart data
       this.datebarChartData = {
         labels: months,
-        datasets: datasets
+        datasets: datasets,
       };
-      console.log("datebarChartData",this.datebarChartData)
+      console.log('datebarChartData',this.datebarChartData)
     }
-    if(filteredArray){
-      this.list1 = filteredArray
-    }
-
-    this.getQuestionsByChapterFormatted(this.list,'Physics')
-  
-    // Return the filtered array
-    // return filteredArray;
   }
-  getQuestionsByChapterFormatted(dataArray: any[], subject: string){
-    // Initialize arrays to store labels and data
-    const labels: { label: string; data: number[] }[] = [];
-    const data: number[] = [];
-    
-    // Filter the array by the specified subject
-    const filteredData = dataArray.filter(item => item.subject === subject);
-  
+  filterBySubjectAndCountChapters(questions: any, subject: string) {
+    // Filter questions by the specified subject
+    const filteredQuestions = questions.filter(
+      (question: any) => question.subject === subject
+    );
+
     // Count the occurrences of each chapter
-    const chapterMap = new Map<string, number>();
-    filteredData.forEach(item => {
-      const chapter = item.chapter;
-      if (chapterMap.has(chapter)) {
-        chapterMap.set(chapter, chapterMap.get(chapter)! + 1);
+    const chapterCounts: { [key: string]: number } = {};
+    filteredQuestions.forEach((question: any) => {
+      if (chapterCounts[question.chapter]) {
+        chapterCounts[question.chapter]++;
       } else {
-        chapterMap.set(chapter, 1);
+        chapterCounts[question.chapter] = 1;
       }
     });
-  
-    // Convert chapterMap to labels and data arrays
-    chapterMap.forEach((count, chapter) => {
-      labels.push({ label: chapter, data: [count] });
-      data.push(count);
-    });
 
-    var lab:any = labels.map(item => item.label);
+    // Format the result as required
+    const labels = [subject];
+    const datasets = Object.keys(chapterCounts).map((chapter) => ({
+      label: chapter,
+      data: [chapterCounts[chapter]],
+    }));
 
     this.chapterChartData = {
-      labels: lab,
-      datasets: [{ label: lab, data: data }]
+      labels: labels,
+      datasets: datasets,
     };
+  }
+  filterByClassAndCountSubjects(questions: any, className: string) {
+    // Filter questions by the specified class
+    const filteredQuestions = questions.filter(
+      (question: any) => question.class === className
+    );
 
-    var filteredArray = dataArray.filter(item => item.subject === subject);
+    // Count the occurrences of each subject
+    const subjectCounts: { [key: string]: number } = {};
+    filteredQuestions.forEach((question: any) => {
+      if (subjectCounts[question.subject]) {
+        subjectCounts[question.subject]++;
+      } else {
+        subjectCounts[question.subject] = 1;
+      }
+    });
 
-    if(filteredArray){
-      this.list1 = filteredArray
+    // Format the result as required
+    const labels = [className+'th Standard'];
+    const datasets = Object.keys(subjectCounts).map((subject) => ({
+      label: subject,
+      data: [subjectCounts[subject]],
+    }));
+
+    this.classChartData = {
+      labels: labels,
+      datasets: datasets,
+    };
+  }
+  addstatus() {
+      this.list.forEach((obj: any) => {
+        obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
+      });
+      console.log('this.list',this.list)
+      this.get_card_data(this.list);
+  }
+  latestTimestamp(data: any): string {
+    var submittedTimestamp = 0;
+    var rejectedTimestamp = 0;
+    var vettedTimestamp = 0;
+
+    if (data) {
+      if (data.submitted) {
+        submittedTimestamp = new Date(data.submitted)?.getTime() || 0;
+      }
+
+      if (data.rejected) {
+        rejectedTimestamp = new Date(data.rejected)?.getTime() || 0;
+      }
+
+      if (data.vetted) {
+        vettedTimestamp = new Date(data.vetted)?.getTime() || 0;
+      }
     }
 
-    console.log(this.chapterChartData,this.list1);
-    this.getClassChartData(this.list,'9')
-    // return { labels, datasets: ['ALL'] };
-}
-
-getClassChartData(dataArray: any[], classFilter: string) {
-  // Initialize arrays to store labels and data
-  const labels: { label: string; data: number[] }[] = [];
-  const data: number[] = [];
-  
-  // Filter the array by the specified class
-  const filteredData = dataArray.filter(item => item.class === classFilter);
-
-  // Count the occurrences of each chapter
-  const chapterMap = new Map<string, number>();
-  filteredData.forEach(item => {
-    const chapter = item.chapter;
-    if (chapterMap.has(chapter)) {
-      chapterMap.set(chapter, chapterMap.get(chapter)! + 1);
+    if (
+      (submittedTimestamp > rejectedTimestamp &&
+        submittedTimestamp > vettedTimestamp) ||
+      data.submitted == 'Just Now'
+    ) {
+      return 'Submitted';
+    } else if (
+      rejectedTimestamp > vettedTimestamp &&
+      rejectedTimestamp > submittedTimestamp
+    ) {
+      return 'Rejected';
+    } else if (
+      vettedTimestamp > rejectedTimestamp &&
+      vettedTimestamp > submittedTimestamp
+    ) {
+      return 'Approved';
+    } else if (data.submit === 'yes') {
+      return 'Submitted';
     } else {
-      chapterMap.set(chapter, 1);
+      return '';
     }
-  });
-
-  // Convert chapterMap to labels and data arrays
-  chapterMap.forEach((count, chapter) => {
-    labels.push({ label: chapter, data: [count] });
-    data.push(count);
-  });
-
-  var lab:any = labels.map(item => item.label);
-
-  this.classChartData = {
-    labels: lab,
-    datasets: [{ label: lab, data: data }]
-  };
-  console.log("classChartData",this.classChartData)
-}
-
-  
+  }
+  get_card_data(data:any){
+    this.carddata[0].submitted = data.filter((item:any)=> item.status==="Submitted").length;
+    this.carddata[0].data = data.filter((item:any)=> item.status==="Submitted");
+    this.carddata[0].splitup[0] = this.carddata[0].data.filter((item:any)=> item.type==="JEE").length;
+    this.carddata[0].splitup[1] = this.carddata[0].data.filter((item:any)=> item.type==="NEET").length;
+    this.carddata[0].splitup[2] = this.carddata[0].data.filter((item:any)=> item.type==="Foundation").length;
+    this.carddata[0].splitup[3] = this.carddata[0].data.filter((item:any)=> item.type==="CUET").length;
+    /////////////////
+    this.carddata[1].approved = data.filter((item:any)=> item.status==="Approved").length;
+    this.carddata[1].data = data.filter((item:any)=> item.status==="Approved");
+    this.carddata[1].splitup[0] = this.carddata[1].data.filter((item:any)=> item.type==="JEE").length;
+    this.carddata[1].splitup[1] = this.carddata[1].data.filter((item:any)=> item.type==="NEET").length;
+    this.carddata[1].splitup[2] = this.carddata[1].data.filter((item:any)=> item.type==="Foundation").length;
+    this.carddata[1].splitup[3] = this.carddata[1].data.filter((item:any)=> item.type==="CUET").length;
+    /////////////////
+    this.carddata[2].rejected = data.filter((item:any)=> item.status==="Rejected").length;
+    this.carddata[2].data = data.filter((item:any)=> item.status==="Rejected");
+    this.carddata[2].splitup[0] = this.carddata[2].data.filter((item:any)=> item.type==="JEE").length;
+    this.carddata[2].splitup[1] = this.carddata[2].data.filter((item:any)=> item.type==="NEET").length;
+    this.carddata[2].splitup[2] = this.carddata[2].data.filter((item:any)=> item.type==="Foundation").length;
+    this.carddata[2].splitup[3] = this.carddata[2].data.filter((item:any)=> item.type==="CUET").length;
+    ////////////////
+    this.carddata[3].resubmitted = data.filter((item:any)=> item.status==="Resubmitted").length;
+    this.carddata[3].data = data.filter((item:any)=> item.status==="Resubmitted");
+    this.carddata[3].splitup[0] = this.carddata[3].data.filter((item:any)=> item.type==="JEE").length;
+    this.carddata[3].splitup[1] = this.carddata[3].data.filter((item:any)=> item.type==="NEET").length;
+    this.carddata[3].splitup[2] = this.carddata[3].data.filter((item:any)=> item.type==="Foundation").length;
+    this.carddata[3].splitup[3] = this.carddata[3].data.filter((item:any)=> item.type==="CUET").length;
+    console.log("carddata",this.carddata)
+  }
 }

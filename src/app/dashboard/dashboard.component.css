@@ -60,3 +60,17 @@ h5{
     width: 50px;
     margin-left: 1rem;
 }
+.dte{
+    color: #6c757d;
+    height: 38px;
+    background: #ffffff;
+    border: 1px solid #ced4da;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 3px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: normal;
+}
+.text-stl{
+    margin-top: -30px;
+}

@@ -19,6 +19,8 @@ import { AddMasterComponent } from './add-master/add-master.component';
 import { AuthGuard } from './auth.guard';
 import { NgChartsModule } from 'ng2-charts';
 import { DropdownModule } from 'primeng/dropdown';
+import {ChartModule} from 'primeng/chart';
+import { CalendarModule } from 'primeng/calendar';
 // import { UserComponent } from './user/user/user.component';
 // import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
@@ -95,6 +97,8 @@ const routes : Routes = [{
     CKEditorModule,
     NgChartsModule,
     DropdownModule,
+    ChartModule,
+    CalendarModule,
     RouterModule.forChild(routes),
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},authService,ListComponent],
