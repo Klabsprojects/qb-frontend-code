@@ -18,6 +18,7 @@ import { ListComponent } from './question-creation/list/list.component';
 import { AddMasterComponent } from './add-master/add-master.component';
 import { AuthGuard } from './auth.guard';
 import { NgChartsModule } from 'ng2-charts';
+import { DropdownModule } from 'primeng/dropdown';
 // import { UserComponent } from './user/user/user.component';
 // import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
@@ -93,6 +94,7 @@ const routes : Routes = [{
     HttpClientModule,
     CKEditorModule,
     NgChartsModule,
+    DropdownModule,
     RouterModule.forChild(routes),
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},authService,ListComponent],
