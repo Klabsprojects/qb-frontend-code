@@ -265,50 +265,8 @@
     </div>
   </div>
 </div>
-<!-- filters -->
-<div class="row mt-4">
-  <div class="col-md-4">
-      <div style="display: flex;justify-content: space-evenly;align-items: center;">
-        <div>
-          <b><p class="text-stl">Start Date</p></b>
-          <input type="date" [(ngModel)]="startdate" id="sd" (change)="filterByDateRangeAndGetChartData(list,startdate,enddate)" class="dte">
-          <!-- <p-calendar [(ngModel)]="startdate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
-        </div>
-        <div>
-          <!-- <label for="ed">End Date</label><br> -->
-          <b><p class="text-stl">End Date</p></b>
-          <input type="date" [(ngModel)]="enddate" id="ed" (change)="filterByDateRangeAndGetChartData(list,startdate,enddate)" class="dte">
-          <!-- <p-calendar [(ngModel)]="enddate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
-        </div>
-      </div>
-  </div>
-  <div class="col-md-4">
-        <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.subjecttype" value="ProjectData" optionLabel="label" optionValue="value"
-      (onChange)="filterBySubjectAndCountChapters(list,$event.value)" placeholder="Select Subject"
-      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false" [autoDisplayFirst]="true">
-      </p-dropdown>
-  </div>
-  <div class="col-md-4">
-    <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.classtype" value="ProjectData" optionLabel="label" optionValue="value"
-      (onChange)="filterByClassAndCountSubjects(list,$event.value)" placeholder="Select Class"
-      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false">
-      </p-dropdown>
-  </div>
-</div>
-<!-- bardiagram -->
-<div class="row mb-5">
-  <div class="col-md-4">
-    <p-chart type="bar" [data]="datebarChartData"></p-chart>
-  </div>
-  <div class="col-md-4" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="chapterChartData"></p-chart>
-  </div>
-  <div class="col-md-4" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="classChartData"></p-chart>
-  </div>
-</div>
 <!-- piechart -->
-<div class="row">
+<div class="row mb-5">
   <div class="col-md-4">
     <p style="text-align: center;font-size: 1.25rem;">JEE Subject Wise</p>
     <br>
@@ -337,6 +295,57 @@
       <p-chart type="pie" [data]="cuetpie"></p-chart>
     </div>
   </div> -->
+</div>
+<!-- filters -->
+<div class="row mt-4">
+  <div class="col-md-3">
+      <div style="display: flex;justify-content: space-evenly;align-items: center;">
+        <div>
+          <b><p class="text-stl">Start Date</p></b>
+          <input type="date" [(ngModel)]="startdate" id="sd" (change)="filterByDateRangeAndGetChartData(date_list,startdate,enddate)" class="dte">
+          <!-- <p-calendar [(ngModel)]="startdate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
+        </div>
+        <div>
+          <!-- <label for="ed">End Date</label><br> -->
+          <b><p class="text-stl">End Date</p></b>
+          <input type="date" [(ngModel)]="enddate" id="ed" (change)="filterByDateRangeAndGetChartData(date_list,startdate,enddate)" class="dte">
+          <!-- <p-calendar [(ngModel)]="enddate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3">
+    <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.examtype" value="ProjectData" optionLabel="label" optionValue="value"
+      (onChange)="getSubjectCountByType(exam_list,$event.value)" placeholder="Select Exam"
+      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false">
+      </p-dropdown>
+  </div>
+  <div class="col-md-3">
+    <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.classtype" value="ProjectData" optionLabel="label" optionValue="value"
+      (onChange)="filterByClassAndCountSubjects(class_list,$event.value)" placeholder="Select Class"
+      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false">
+      </p-dropdown>
+  </div>
+  <div class="col-md-3">
+        <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.subjecttype" value="ProjectData" optionLabel="label" optionValue="value"
+      (onChange)="filterBySubjectAndCountChapters(subject_list,$event.value)" placeholder="Select Subject"
+      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false" [autoDisplayFirst]="true">
+      </p-dropdown>
+  </div>
+</div>
+<!-- bardiagram -->
+<div class="row mb-5">
+  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
+    <p-chart type="bar" [data]="datebarChartData" [style]="{ 'width': '275px' }"></p-chart>
+  </div>
+  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
+    <p-chart type="bar" [data]="examChartData" [style]="{ 'width': '275px' }"></p-chart>
+  </div>
+  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
+    <p-chart type="bar" [data]="classChartData" [style]="{ 'width': '275px' }"></p-chart>
+  </div>
+  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
+    <p-chart type="bar" [data]="chapterChartData" [style]="{ 'width': '275px' }"></p-chart>
+  </div>
 </div>
 
 <!-- <div class="row" *ngIf="userRole==='Cre.Tra'">
