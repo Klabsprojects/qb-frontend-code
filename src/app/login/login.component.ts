@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { userLogin } from '../auth.model';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,9 +15,15 @@ export class LoginComponent implements OnInit {
   loginForm!:NgForm;
   showPassword = false;
 
-  constructor(private RouterService:Router, private auth:authService) { }
+  constructor(private RouterService:Router, private auth:authService,private renderer: Renderer2) { }
 
   ngOnInit(): void {
+    const imagePath = 'url(\'./assets/images/background.jpg\')'; // Adjust the path to your image
+    this.renderer.setStyle(document.body, 'background-image', imagePath);
+    this.renderer.setStyle(document.body, 'background-size', 'cover');
+    this.renderer.setStyle(document.body, 'background-position', 'center');
+    this.renderer.setStyle(document.body, 'background-repeat', 'no-repeat');
+
   }
 
   loginSubmit(data:NgForm){
