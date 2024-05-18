@@ -1,28 +1,28 @@
-<div class="row" *ngIf="userRole==='Admin'||userRole==='Teacher'">
-
+<div class="row" *ngIf="userRole === 'Admin' || userRole === 'Teacher'">
   <div class="col-md-3 grid-margin stretch-card mt-2">
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Creators</h5>
-            <h6 class="mt-4 mb-0">{{dashboardData.u_creators}}</h6>
+            <h6 class="mt-4 mb-0">{{ dashboardData.u_creators }}</h6>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-
   <div class="col-md-3 grid-margin stretch-card mt-2">
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Curators</h5>
-            <h6 class="mt-4 mb-0">{{dashboardData.u_curator}}</h6>
+            <h6 class="mt-4 mb-0">{{ dashboardData.u_curator }}</h6>
           </div>
         </div>
       </div>
@@ -33,10 +33,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Question</h5>
-            <h6 class="mt-4 mb-0">{{dashboardData.q_all}}</h6>
+            <h6 class="mt-4 mb-0">{{ dashboardData.q_all }}</h6>
           </div>
         </div>
       </div>
@@ -46,10 +47,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_today }}</h6>
           </div>
         </div>
       </div>
@@ -59,10 +61,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_submitted }}</h6>
           </div>
         </div>
       </div>
@@ -73,10 +76,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_approved }}</h6>
           </div>
         </div>
       </div>
@@ -84,7 +88,23 @@
   </div>
 </div>
 
-<div class="row mb-5" *ngIf="userRole==='Creator' || userRole==='Translate' || userRole==='Cre.Tra' ||userRole==='Bil.Cre' || userRole === 'CUET.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre'">
+<div
+  class="row mb-5"
+  *ngIf="
+    userRole === 'Creator' ||
+    userRole === 'Translate' ||
+    userRole === 'Cre.Tra' ||
+    userRole === 'Bil.Cre' ||
+    userRole === 'CUET.Cre' ||
+    this.userRole === 'QApt.Cre' ||
+    this.userRole === 'CAff.Cre' ||
+    this.userRole === 'VAty.Cre' ||
+    this.userRole === 'LVR.Cre' ||
+    this.userRole === 'DApt.Cre' ||
+    this.userRole === 'CLAT.Cre' ||
+    this.userRole === 'SCEng.Cre'
+  "
+>
   <!-- <div class="col-md-3 grid-margin stretch-card mt-2">
     <div class="card">
       <div class="card-body">
@@ -138,100 +158,115 @@
     </div>
   </div> -->
   <div class="col-md-3">
-    <div class="box" (click)="update_pie_chart(carddata[0].data)">
+    <div class="box" (click)="update_pie_chart(carddata[0].data,'Submitted')">
       <div class="d-flex p-3 align-items-center">
         <img src="../../assets/images/submit2.png" class="img" />
         <h5 class="heading ms-3">Submitted</h5>
       </div>
       <div class="p-3">
-        <h4 class="count">Question - {{carddata[0].submitted}}</h4>
+        <h4 class="count">Question - {{ carddata[0].submitted }}</h4>
       </div>
       <div class="content p-3">
         <span class="text-muted"> JEE </span>
         <span class="text-muted"> NEET</span>
-        <span class="fw-bold"> {{carddata[0].splitup[0]}} </span>
-        <span class="fw-bold"> {{carddata[0].splitup[1]}} </span>
+        <span class="fw-bold"> {{ carddata[0].splitup[0] }} </span>
+        <span class="fw-bold"> {{ carddata[0].splitup[1] }} </span>
         <span class="text-muted"> Foundation </span>
         <span class="text-muted"> CUET </span>
-        <span class="fw-bold"> {{carddata[0].splitup[2]}} </span>
-        <span class="fw-bold"> {{carddata[0].splitup[3]}} </span>
+        <span class="fw-bold"> {{ carddata[0].splitup[2] }} </span>
+        <span class="fw-bold"> {{ carddata[0].splitup[3] }} </span>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="box" (click)="update_pie_chart(carddata[1].data)">
+    <div class="box" (click)="update_pie_chart(carddata[1].data,'Approved')">
       <div class="d-flex p-3 align-items-center">
         <img src="../../assets/images/approve2.png" class="img" />
         <h5 class="heading ms-3">Approved</h5>
       </div>
       <div class="p-3">
-        <h4 class="count">Questions - {{carddata[1].approved}}</h4>
+        <h4 class="count">Questions - {{ carddata[1].approved }}</h4>
       </div>
       <div class="content p-3">
         <span class="text-muted"> JEE </span>
         <span class="text-muted"> NEET</span>
-        <span class="fw-bold"> {{carddata[1].splitup[0]}} </span>
-        <span class="fw-bold"> {{carddata[1].splitup[1]}} </span>
+        <span class="fw-bold"> {{ carddata[1].splitup[0] }} </span>
+        <span class="fw-bold"> {{ carddata[1].splitup[1] }} </span>
         <span class="text-muted"> Foundation </span>
         <span class="text-muted"> CUET </span>
-        <span class="fw-bold"> {{carddata[1].splitup[2]}} </span>
-        <span class="fw-bold"> {{carddata[1].splitup[3]}} </span>
+        <span class="fw-bold"> {{ carddata[1].splitup[2] }} </span>
+        <span class="fw-bold"> {{ carddata[1].splitup[3] }} </span>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="box" (click)="update_pie_chart(carddata[2].data)">
+    <div class="box" (click)="update_pie_chart(carddata[2].data,'Rejected')">
       <div class="d-flex p-3 align-items-center">
         <img src="../../assets/images/reject2.png" class="img" />
         <h5 class="heading ms-3">Rejected</h5>
       </div>
       <div class="p-3">
-        <h4 class="count">Questions - {{carddata[2].rejected}}</h4>
+        <h4 class="count">Questions - {{ carddata[2].rejected }}</h4>
       </div>
       <div class="content p-3">
         <span class="text-muted"> JEE </span>
         <span class="text-muted"> NEET</span>
-        <span class="fw-bold"> {{carddata[2].splitup[0]}} </span>
-        <span class="fw-bold"> {{carddata[2].splitup[1]}} </span>
+        <span class="fw-bold"> {{ carddata[2].splitup[0] }} </span>
+        <span class="fw-bold"> {{ carddata[2].splitup[1] }} </span>
         <span class="text-muted"> Foundation </span>
         <span class="text-muted"> CUET </span>
-        <span class="fw-bold"> {{carddata[2].splitup[2]}} </span>
-        <span class="fw-bold"> {{carddata[2].splitup[3]}} </span>
+        <span class="fw-bold"> {{ carddata[2].splitup[2] }} </span>
+        <span class="fw-bold"> {{ carddata[2].splitup[3] }} </span>
       </div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="box" (click)="update_pie_chart(carddata[3].data)">
+    <div class="box" (click)="update_pie_chart(carddata[3].data,'ReSubmitted')">
       <div class="d-flex p-3 align-items-center">
         <img src="../../assets/images/resubmit2.png" alt="" class="img" />
         <h5 class="heading ms-3">Re Submitted</h5>
       </div>
       <div class="p-3">
-        <h4 class="count">Questions - {{carddata[3].resubmitted}}</h4>
+        <h4 class="count">Questions - {{ carddata[3].resubmitted }}</h4>
       </div>
       <div class="content p-3">
         <span class="text-muted"> JEE </span>
         <span class="text-muted"> NEET</span>
-        <span class="fw-bold"> {{carddata[3].splitup[0]}} </span>
-        <span class="fw-bold"> {{carddata[3].splitup[1]}} </span>
+        <span class="fw-bold"> {{ carddata[3].splitup[0] }} </span>
+        <span class="fw-bold"> {{ carddata[3].splitup[1] }} </span>
         <span class="text-muted"> Foundation </span>
         <span class="text-muted"> CUET </span>
-        <span class="fw-bold"> {{carddata[3].splitup[2]}} </span>
-        <span class="fw-bold"> {{carddata[3].splitup[3]}} </span>
+        <span class="fw-bold"> {{ carddata[3].splitup[2] }} </span>
+        <span class="fw-bold"> {{ carddata[3].splitup[3] }} </span>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row" *ngIf="userRole==='Curator'||userRole==='Bil.Cur' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cur'">
+<div
+  class="row"
+  *ngIf="
+    userRole === 'Curator' ||
+    userRole === 'Bil.Cur' ||
+    this.userRole === 'CUET.Cur' ||
+    this.userRole === 'QApt.Cur' ||
+    this.userRole === 'CAff.Cur' ||
+    this.userRole === 'VAty.Cur' ||
+    this.userRole === 'LVR.Cur' ||
+    this.userRole === 'DApt.Cur' ||
+    this.userRole === 'CLAT.Cur' ||
+    this.userRole === 'SCEng.Cur'
+  "
+>
   <div class="col-md-3 grid-margin stretch-card mt-2">
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Today</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_today}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_today }}</h6>
           </div>
         </div>
       </div>
@@ -241,10 +276,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Submitted</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_submitted}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_submitted }}</h6>
           </div>
         </div>
       </div>
@@ -255,10 +291,11 @@
     <div class="card">
       <div class="card-body">
         <div
-          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+          class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4"
+        >
           <div>
             <h5 class="mb-2 text-md-center text-lg-left">Approved</h5>
-            <h6 class="mb-0 mt-4">{{dashboardData.q_approved}}</h6>
+            <h6 class="mb-0 mt-4">{{ dashboardData.q_approved }}</h6>
           </div>
         </div>
       </div>
@@ -268,28 +305,60 @@
 <!-- piechart -->
 <div class="row mb-5">
   <div class="col-md-4">
-    <p style="text-align: center;font-size: 1.25rem;">JEE Subject Wise</p>
+    <p class="heading" style="text-align: center;">JEE {{card}}</p>
     <br>
     <div style="display: flex;justify-content: center;align-items: center;">
-    <p-chart type="pie" [data]="Jeepie"></p-chart>
+    <!-- <p-chart type="pie" [data]="Jeepie"></p-chart> -->
+    <canvas
+      baseChart
+      [type]="'pie'"
+      [datasets]="jeepieChartDatasets"
+      [labels]="jeepieChartLabels"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+    >
+    </canvas>
     </div>
   </div>
   <div class="col-md-4">
-    <p style="text-align: center;font-size: 1.25rem;">NEET Subject Wise</p>
-    <br>
-    <div style="display: flex;justify-content: center;align-items: center;">
-      <p-chart type="pie" [data]="neetpie"></p-chart>
+    <p class="heading" style="text-align: center;">NEET {{card}}</p>
+    <br />
+    <div style="display: flex; justify-content: center; align-items: center">
+      <!-- <p-chart type="pie" [data]="neetpie"></p-chart> -->
+      <canvas
+      baseChart
+      [type]="'pie'"
+      [datasets]="neetpieChartDatasets"
+      [labels]="neetpieChartLabels"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+    >
+    </canvas>
     </div>
   </div>
   <div class="col-md-4">
-    <p style="text-align: center;font-size: 1.25rem;">Foundation Subject Wise</p>
-    <br>
-    <div style="display: flex;justify-content: center;align-items: center;">
-      <p-chart type="pie" [data]="foundationpie"></p-chart>
+    <p class="heading" style="text-align: center;">
+      Foundation {{card}}
+    </p>
+    <br />
+    <div style="display: flex; justify-content: center; align-items: center">
+      <!-- <p-chart type="pie" [data]="foundationpie"></p-chart> -->
+      <canvas
+      baseChart
+      [type]="'pie'"
+      [datasets]="foundationpieChartDatasets"
+      [labels]="foundationpieChartLabels"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend"
+    >
+    </canvas>
     </div>
   </div>
   <!-- <div class="col-md-3">
-    <p style="text-align: center;font-size: 1.25rem;">CUET Subject Wise</p>
+    <p style="text-align: center;font-size: 1.25rem;">CUET Subject</p>
     <br>
     <div style="display: flex;justify-content: center;align-items: center;">
       <p-chart type="pie" [data]="cuetpie"></p-chart>
@@ -299,52 +368,129 @@
 <!-- filters -->
 <div class="row mt-4">
   <div class="col-md-3">
-      <div style="display: flex;justify-content: space-evenly;align-items: center;">
-        <div>
-          <b><p class="text-stl">Start Date</p></b>
-          <input type="date" [(ngModel)]="startdate" id="sd" (change)="filterByDateRangeAndGetChartData(date_list,startdate,enddate)" class="dte">
-          <!-- <p-calendar [(ngModel)]="startdate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
-        </div>
-        <div>
-          <!-- <label for="ed">End Date</label><br> -->
-          <b><p class="text-stl">End Date</p></b>
-          <input type="date" [(ngModel)]="enddate" id="ed" (change)="filterByDateRangeAndGetChartData(date_list,startdate,enddate)" class="dte">
-          <!-- <p-calendar [(ngModel)]="enddate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
-        </div>
+    <div
+      style="display: flex; justify-content: space-evenly; align-items: center"
+    >
+      <div>
+        <b><p class="text-stl">Start Date</p></b>
+        <input
+          type="date"
+          [(ngModel)]="startdate"
+          id="sd"
+          (change)="
+            filterByDateRangeAndGetChartData(date_list, startdate, enddate)
+          "
+          class="dte"
+        />
+        <!-- <p-calendar [(ngModel)]="startdate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
       </div>
+      <div>
+        <!-- <label for="ed">End Date</label><br> -->
+        <b><p class="text-stl">End Date</p></b>
+        <input
+          type="date"
+          [(ngModel)]="enddate"
+          id="ed"
+          (change)="
+            filterByDateRangeAndGetChartData(date_list, startdate, enddate)
+          "
+          class="dte"
+        />
+        <!-- <p-calendar [(ngModel)]="enddate" [showIcon]="true" inputId="icon" (onChange)="filterByDateRangeAndGetChartData(list,startdate,enddate)"></p-calendar> -->
+      </div>
+    </div>
   </div>
   <div class="col-md-3">
-    <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.examtype" value="ProjectData" optionLabel="label" optionValue="value"
-      (onChange)="getSubjectCountByType(exam_list,$event.value)" placeholder="Select Exam"
-      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false">
-      </p-dropdown>
+    <p-dropdown
+      [style]="{ 'min-width': '100%' }"
+      [options]="this.examtype"
+      value="ProjectData"
+      optionLabel="label"
+      optionValue="value"
+      (onChange)="getSubjectCountByType(exam_list, $event.value)"
+      placeholder="Select Exam"
+      [filter]="true"
+      filterBy="label"
+      [showClear]="false"
+      [showClear]="false"
+    >
+    </p-dropdown>
   </div>
   <div class="col-md-3">
-    <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.classtype" value="ProjectData" optionLabel="label" optionValue="value"
-      (onChange)="filterByClassAndCountSubjects(class_list,$event.value)" placeholder="Select Class"
-      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false">
-      </p-dropdown>
+    <p-dropdown
+      [style]="{ 'min-width': '100%' }"
+      [options]="this.classtype"
+      value="ProjectData"
+      optionLabel="label"
+      optionValue="value"
+      (onChange)="filterByClassAndCountSubjects(class_list, $event.value)"
+      placeholder="Select Class"
+      [filter]="true"
+      filterBy="label"
+      [showClear]="false"
+      [showClear]="false"
+    >
+    </p-dropdown>
   </div>
   <div class="col-md-3">
-        <p-dropdown [style]="{ 'min-width': '100%' }" [options]="this.subjecttype" value="ProjectData" optionLabel="label" optionValue="value"
-      (onChange)="filterBySubjectAndCountChapters(subject_list,$event.value)" placeholder="Select Subject"
-      [filter]="true" filterBy="label" [showClear]="false" [showClear]="false" [autoDisplayFirst]="true">
-      </p-dropdown>
+    <p-dropdown
+      [style]="{ 'min-width': '100%' }"
+      [options]="this.subjecttype"
+      value="ProjectData"
+      optionLabel="label"
+      optionValue="value"
+      (onChange)="filterBySubjectAndCountChapters(subject_list, $event.value)"
+      placeholder="Select Subject"
+      [filter]="true"
+      filterBy="label"
+      [showClear]="false"
+      [showClear]="false"
+      [autoDisplayFirst]="true"
+    >
+    </p-dropdown>
   </div>
 </div>
 <!-- bardiagram -->
 <div class="row mb-5">
-  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="datebarChartData" [style]="{ 'width': '275px' }"></p-chart>
+  <div
+    class="col-md-3"
+    style="display: flex; justify-content: center; align-items: end"
+  >
+    <p-chart
+      type="bar"
+      [data]="datebarChartData"
+      [style]="{ width: '275px' }"
+    ></p-chart>
   </div>
-  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="examChartData" [style]="{ 'width': '275px' }"></p-chart>
+  <div
+    class="col-md-3"
+    style="display: flex; justify-content: center; align-items: end"
+  >
+    <p-chart
+      type="bar"
+      [data]="examChartData"
+      [style]="{ width: '275px' }"
+    ></p-chart>
   </div>
-  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="classChartData" [style]="{ 'width': '275px' }"></p-chart>
+  <div
+    class="col-md-3"
+    style="display: flex; justify-content: center; align-items: end"
+  >
+    <p-chart
+      type="bar"
+      [data]="classChartData"
+      [style]="{ width: '275px' }"
+    ></p-chart>
   </div>
-  <div class="col-md-3" style="display: flex;justify-content: center;align-items: end;">
-    <p-chart type="bar" [data]="chapterChartData" [style]="{ 'width': '275px' }"></p-chart>
+  <div
+    class="col-md-3"
+    style="display: flex; justify-content: center; align-items: end"
+  >
+    <p-chart
+      type="bar"
+      [data]="chapterChartData"
+      [style]="{ width: '275px' }"
+    ></p-chart>
   </div>
 </div>
 

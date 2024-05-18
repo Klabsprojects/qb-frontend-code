@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { authService } from '../auth.service';
 import { QuestionCreationService } from '../question-creation/question-creation.service';
 import { DashboardData } from '../question-creation/question.model';
-
+import { ChartOptions } from 'chart.js';
 interface TypeCounts {
   JEE: number;
   NEET: number;
@@ -23,6 +23,9 @@ interface StatusSplitUp {
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: false,
+  };
   list: any[] = [];
   date_list: any[] = [];
   exam_list: any[] = [];
@@ -60,12 +63,21 @@ export class DashboardComponent implements OnInit {
   public examChartData: any;
   public chapterChartData: any;
   public classChartData: any;
+  public jeepieChartLabels :any;
+  public jeepieChartDatasets: any;
+  public neetpieChartLabels :any;
+  public neetpieChartDatasets: any;
+  public foundationpieChartLabels :any;
+  public foundationpieChartDatasets: any;
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
   public carddata: any = [
     { submitted: 0, splitup: [0, 0, 0, 0], data: [] },
     { approved: 0, splitup: [0, 0, 0, 0], data: [] },
     { rejected: 0, splitup: [0, 0, 0, 0], data: [] },
     { resubmitted: 0, splitup: [0, 0, 0, 0], data: [] },
   ];
+  public card:any = "Total";
   constructor(
     private auth: authService,
     private questionService: QuestionCreationService
@@ -103,7 +115,13 @@ export class DashboardComponent implements OnInit {
       this.hideCurator = false;
     }
   }
-  update_pie_chart(list: any) {
+  update_pie_chart(list: any,card?:string) {
+    if(!card){
+      this.card = "Total"
+    }
+    else{
+      this.card = card;
+    }
     this.Jee_count = this.countQuestionsBySubject(list, 'JEE');
     this.Jeepie = {
       labels: Object.keys(this.Jee_count),
@@ -114,6 +132,10 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+    this.jeepieChartDatasets = [{
+      data: this.Jeepie.datasets[0].data
+    }]
+    this.jeepieChartLabels = this.Jeepie.labels
 
     this.Neet_count = this.countQuestionsBySubject(list, 'NEET');
     this.neetpie = {
@@ -125,6 +147,10 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+    this.neetpieChartDatasets = [{
+      data: this.neetpie.datasets[0].data
+    }]
+    this.neetpieChartLabels = this.neetpie.labels
 
     this.Foundation_count = this.countQuestionsBySubject(list, 'Foundation');
     this.foundationpie = {
@@ -136,6 +162,10 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+    this.foundationpieChartDatasets = [{
+      data: this.foundationpie.datasets[0].data
+    }]
+    this.foundationpieChartLabels = this.foundationpie.labels
 
     this.Cuet_count = this.countQuestionsBySubject(list, 'CUET');
     this.cuetpie = {
