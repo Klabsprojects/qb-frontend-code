@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { QuestionCreationService } from '../question-creation-translator.service';
 import { List, QuestionApprove } from '../question-translator.model';
 import { authService } from 'src/app/auth.service';
@@ -8,7 +8,8 @@ import * as CustomEditor from '../../../assets/ckeditor.js';
 @Component({
   selector: 'app-view-translator',
   templateUrl: './view-translator.component.html',
-  styleUrls: ['./view-translator.component.css']
+  styleUrls: ['./view-translator.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewTranslatorComponent implements OnInit {
   currentIndex: number = -1;
