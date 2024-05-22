@@ -56,6 +56,7 @@ export class ViewTranslatorComponent implements OnInit {
   };
   approve_yes:boolean = false;
   reject_yes:boolean = false;
+  public choice_number:any;
 
   constructor(private cdr: ChangeDetectorRef, private auth: authService, private questionService: QuestionCreationService, private questionAction: QuestionCreationService) { }
 
@@ -86,6 +87,7 @@ export class ViewTranslatorComponent implements OnInit {
             if (this.answer.length > 0) {
               const correctChoiceIndex = this.answer[0];
               if (correctChoiceIndex === 0 && choices.length > 0) {
+                this.choice_number = 1;
                 this.correct = choices[0].choice_text;
                 this.correct_tn = choices[0].choice_text_tn
                 this.choice_note = choices[0].choice_notes;
@@ -95,6 +97,7 @@ export class ViewTranslatorComponent implements OnInit {
                 this.correctsolutionimg_tn = choices[0].choice_notes_img_tn
                 this.correctimg_tn = choices[0].choice_img_tn;
               } else if (correctChoiceIndex === 1 && choices.length > 0) {
+                this.choice_number = 2;
                 this.correct = choices[1].choice_text;
                 this.correct_tn = choices[1].choice_text_tn
                 this.choice_note = choices[1].choice_notes;
@@ -104,6 +107,7 @@ export class ViewTranslatorComponent implements OnInit {
                 this.correctsolutionimg_tn = choices[1].choice_notes_img_tn
                 this.correctimg_tn = choices[1].choice_img_tn;
               } else if (correctChoiceIndex === 2 && choices.length > 0) {
+                this.choice_number = 3;
                 this.correct = choices[2].choice_text;
                 this.correct_tn = choices[2].choice_text_tn
                 this.choice_note = choices[2].choice_notes;
@@ -113,6 +117,7 @@ export class ViewTranslatorComponent implements OnInit {
                 this.correctsolutionimg_tn = choices[2].choice_notes_img_tn
                 this.correctimg_tn = choices[2].choice_img_tn;
               } else if (correctChoiceIndex === 3 && choices.length > 0) {
+                this.choice_number = 4;
                 this.correct = choices[3].choice_text;
                 this.correct_tn = choices[3].choice_text_tn
                 this.choice_note = choices[3].choice_notes;

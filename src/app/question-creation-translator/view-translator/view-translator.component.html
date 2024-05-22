@@ -49,7 +49,7 @@
             </div>
 
             <div class="col-md-12 p-0" *ngIf="question?.format == 1">
-                <b>Answer : </b>
+                <b>Answer : Option {{choice_number}}</b>
                 <span [innerHTML]="this.correct | sanitizeHtml"></span>
                 <span *ngIf="correctimg"><img src={{correctimg}} width="60px"></span>
             </div>
@@ -105,7 +105,7 @@
                 </div>
     
                 <div class="col-md-12 p-0" *ngIf="question?.format == 1">
-                    <b>சரியானது : </b>
+                    <b>சரியானது : தேர்வு {{choice_number}}</b>
                     <span [innerHTML]="correct_tn | sanitizeHtml"></span>
                     <span *ngIf="correctimg_tn"><img src={{correctimg_tn}} width="60px"></span>
                 </div>
@@ -203,7 +203,7 @@
                     </div> -->
 
                     <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn !=null">
-                        <b>Answer : </b>
+                        <b>Answer : {{choice?.choice_id}}</b>
                         <span [innerHTML]="choice.choice_text"></span>
                         <!-- <span *ngFor="let choiceItem of choices" [innerHTML]="choice.choice_text"></span> -->
                         <img src={{choice?.choice_img}} alt="" *ngIf="choice?.choice_img" width="60px">

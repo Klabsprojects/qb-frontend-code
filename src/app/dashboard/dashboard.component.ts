@@ -40,6 +40,11 @@ export class DashboardComponent implements OnInit {
   hideCurator = true;
   userRole: String = '';
   ////////////////
+  admin: boolean = false;
+  teacher: boolean = false;
+  creator: boolean = false;
+  curator: boolean = false;
+  ////////////////
   examtype: any = [];
   subjecttype: any = [
     { label: 'Select', value: '' },
@@ -63,11 +68,11 @@ export class DashboardComponent implements OnInit {
   public examChartData: any;
   public chapterChartData: any;
   public classChartData: any;
-  public jeepieChartLabels :any;
+  public jeepieChartLabels: any;
   public jeepieChartDatasets: any;
-  public neetpieChartLabels :any;
+  public neetpieChartLabels: any;
   public neetpieChartDatasets: any;
-  public foundationpieChartLabels :any;
+  public foundationpieChartLabels: any;
   public foundationpieChartDatasets: any;
   public pieChartLegend = true;
   public pieChartPlugins = [];
@@ -77,7 +82,7 @@ export class DashboardComponent implements OnInit {
     { rejected: 0, splitup: [0, 0, 0, 0], data: [] },
     { resubmitted: 0, splitup: [0, 0, 0, 0], data: [] },
   ];
-  public card:any = "Total";
+  public card: any = 'Total';
   constructor(
     private auth: authService,
     private questionService: QuestionCreationService
@@ -109,17 +114,49 @@ export class DashboardComponent implements OnInit {
         // this.filterByClassAndCountSubjects(this.list, '9');
       },
     });
+    if (this.userRole === 'Admin') {
+      this.admin = true;
+    } else if (this.userRole === 'Teacher') {
+      this.teacher = true;
+    } else if (
+      this.userRole === 'Creator' ||
+      this.userRole === 'Translate' ||
+      this.userRole === 'Cre.Tra' ||
+      this.userRole === 'Bil.Cre' ||
+      this.userRole === 'CUET.Cre' ||
+      this.userRole === 'QApt.Cre' ||
+      this.userRole === 'CAff.Cre' ||
+      this.userRole === 'VAty.Cre' ||
+      this.userRole === 'LVR.Cre' ||
+      this.userRole === 'DApt.Cre' ||
+      this.userRole === 'CLAT.Cre' ||
+      this.userRole === 'SCEng.Cre'
+    ) {
+      this.creator = true;
+    } else if (
+      this.userRole === 'Curator' ||
+      this.userRole === 'Bil.Cur' ||
+      this.userRole === 'CUET.Cur' ||
+      this.userRole === 'QApt.Cur' ||
+      this.userRole === 'CAff.Cur' ||
+      this.userRole === 'VAty.Cur' ||
+      this.userRole === 'LVR.Cur' ||
+      this.userRole === 'DApt.Cur' ||
+      this.userRole === 'CLAT.Cur' ||
+      this.userRole === 'SCEng.Cur'
+    ) {
+      this.curator = true;
+    }
     if (this.auth.getUserRole() == 'Admin') {
       this.showAdmin = true;
     } else if (this.auth.getUserRole() == 'Curator') {
       this.hideCurator = false;
     }
   }
-  update_pie_chart(list: any,card?:string) {
-    if(!card){
-      this.card = "Total"
-    }
-    else{
+  update_pie_chart(list: any, card?: string) {
+    if (!card) {
+      this.card = 'Total';
+    } else {
       this.card = card;
     }
     this.Jee_count = this.countQuestionsBySubject(list, 'JEE');
@@ -132,10 +169,12 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
-    this.jeepieChartDatasets = [{
-      data: this.Jeepie.datasets[0].data
-    }]
-    this.jeepieChartLabels = this.Jeepie.labels
+    this.jeepieChartDatasets = [
+      {
+        data: this.Jeepie.datasets[0].data,
+      },
+    ];
+    this.jeepieChartLabels = this.Jeepie.labels;
 
     this.Neet_count = this.countQuestionsBySubject(list, 'NEET');
     this.neetpie = {
@@ -147,10 +186,12 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
-    this.neetpieChartDatasets = [{
-      data: this.neetpie.datasets[0].data
-    }]
-    this.neetpieChartLabels = this.neetpie.labels
+    this.neetpieChartDatasets = [
+      {
+        data: this.neetpie.datasets[0].data,
+      },
+    ];
+    this.neetpieChartLabels = this.neetpie.labels;
 
     this.Foundation_count = this.countQuestionsBySubject(list, 'Foundation');
     this.foundationpie = {
@@ -162,10 +203,12 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
-    this.foundationpieChartDatasets = [{
-      data: this.foundationpie.datasets[0].data
-    }]
-    this.foundationpieChartLabels = this.foundationpie.labels
+    this.foundationpieChartDatasets = [
+      {
+        data: this.foundationpie.datasets[0].data,
+      },
+    ];
+    this.foundationpieChartLabels = this.foundationpie.labels;
 
     this.Cuet_count = this.countQuestionsBySubject(list, 'CUET');
     this.cuetpie = {
