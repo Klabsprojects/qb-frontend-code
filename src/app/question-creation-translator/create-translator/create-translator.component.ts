@@ -349,7 +349,7 @@ export class CreateTranslatorComponent implements OnInit {
     this.questionService.Question.subscribe((res: any) => {
       this.detailId = res.detailId;
     })
-    if(this.userRole === 'Bil.Cre'){
+    if(this.userRole === 'Bil.Cre' || this.userRole === 'Creator'){
       this.typeOptions = ['JEE','NEET','Foundation'];
     }
     if(this.userRole === 'CUET.Cre'){

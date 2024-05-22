@@ -109,7 +109,7 @@ export class ListtranslatorComponent implements OnInit {
     }
   }
   addstatus() {
-    if (this.userRole === 'Bil.Cre') {
+    if (this.userRole === 'Bil.Cre' || this.userRole === 'Creator') {
       this.list.forEach((obj: any) => {
         obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
       });

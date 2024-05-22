@@ -179,7 +179,7 @@
           </ng-template>
         </p-columnFilter>
 			</th> -->
-			<th *ngIf= "userRole == 'Bil.Cre' || userRole == 'CUET.Cre' || userRole == 'QApt.Cre' || userRole == 'CUET.Cre' || userRole == 'CAff.Cre' || userRole == 'VAty.Cre' || userRole == 'LVR.Cre' || userRole == 'DApt.Cre' || userRole == 'CLAT.Cre' || userRole == 'SCEng.Cre'">Status
+			<th *ngIf= "!showButton">Status
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
             <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('status',$event.value)"></p-dropdown>
@@ -225,16 +225,16 @@
 			</td>
       <td *ngIf="showAdmin">{{data.q_count}}</td>
       <!-- <td *ngIf="showCreator">{{data.difficulty}}</td> -->
-      <td *ngIf= "userRole == 'Bil.Cre' || userRole == 'CUET.Cre' || userRole == 'QApt.Cre' || userRole == 'CUET.Cre' || userRole == 'CAff.Cre' || userRole == 'VAty.Cre' || userRole == 'LVR.Cre' || userRole == 'DApt.Cre' || userRole == 'CLAT.Cre' || userRole == 'SCEng.Cre'">
+      <td *ngIf= "!showButton">
         {{data.status}}
       </td>
       <td *ngIf="showButton">
         {{data.status}}
       </td>
-      <td style="display: flex; justify-content: center;">
+      <td style="display: flex; justify-content: center;align-items: center;">
         <ng-container *ngIf="latestTimestamp(data)==='Rejected'">
           <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
-          *ngIf= "userRole == 'Bil.Cre' || userRole == 'CUET.Cre' || userRole == 'QApt.Cre' || userRole == 'CUET.Cre' || userRole == 'CAff.Cre' || userRole == 'VAty.Cre' || userRole == 'LVR.Cre' || userRole == 'DApt.Cre' || userRole == 'CLAT.Cre' || userRole == 'SCEng.Cre'"></i>
+          *ngIf= "!showButton"></i>
         </ng-container>
         <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>
         <img src="../../../assets/images/word.png" alt="" width="35" *ngIf="showButton" (click)="singlewordDownload(data.id)">
