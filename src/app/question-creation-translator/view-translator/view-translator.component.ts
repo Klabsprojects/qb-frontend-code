@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { QuestionCreationService } from '../question-creation-translator.service';
 import { List, QuestionApprove } from '../question-translator.model';
 import { authService } from 'src/app/auth.service';
 import { NgForm } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as CustomEditor from '../../../assets/ckeditor.js';
 
 @Component({
@@ -11,7 +12,7 @@ import * as CustomEditor from '../../../assets/ckeditor.js';
   styleUrls: ['./view-translator.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ViewTranslatorComponent implements OnInit {
+export class ViewTranslatorComponent implements OnInit,AfterViewInit {
   currentIndex: number = -1;
   question: any;
   questions: any;
@@ -60,6 +61,14 @@ export class ViewTranslatorComponent implements OnInit {
   public choice_number:any;
 
   constructor(private cdr: ChangeDetectorRef, private auth: authService, private questionService: QuestionCreationService, private questionAction: QuestionCreationService) { }
+  ngAfterViewInit() {
+    this.loadMathJax();
+  }
+  private loadMathJax() {
+    if ((window as any).MathJax) {
+      (window as any).MathJax.Hub.Queue(["Typeset", (window as any).MathJax.Hub]);
+    }
+  }
 
   ngOnInit(): void {
     this.userRole = this.auth.getUserRole();
