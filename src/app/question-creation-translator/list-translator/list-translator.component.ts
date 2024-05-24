@@ -922,6 +922,9 @@ export class ListtranslatorComponent implements OnInit {
       if (data.vetted) {
         vettedTimestamp = new Date(data.vetted)?.getTime() || 0;
       }
+      if (!data.submitted&&!data.rejected&&!data.vetted){
+        return "Draft"
+      }
     }
 
     if (

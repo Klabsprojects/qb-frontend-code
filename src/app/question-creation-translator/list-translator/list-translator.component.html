@@ -117,6 +117,9 @@
 			<th>
 				#
 			</th>
+      <th>
+        <p style="text-align: center;">Question <br> Id</p>
+      </th>
 			<th>
 				<p>Type</p>
         <!-- <p-columnFilter type="text" field="type" display="menu"></p-columnFilter> -->
@@ -205,6 +208,9 @@
 			<td>
 				{{rowIndex+1}}
 			</td>
+      <td>
+        {{data.id}}
+      </td>
 			<td>
 				{{data.type}}
 			</td>
@@ -232,7 +238,7 @@
         {{data.status}}
       </td>
       <td style="display: flex; justify-content: center;align-items: center;">
-        <ng-container *ngIf="latestTimestamp(data)==='Rejected'">
+        <ng-container *ngIf="latestTimestamp(data)==='Rejected' || latestTimestamp(data)==='Draft'">
           <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
           *ngIf= "!showButton"></i>
         </ng-container>
