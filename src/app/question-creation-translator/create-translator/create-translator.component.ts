@@ -368,10 +368,10 @@ export class CreateTranslatorComponent implements OnInit {
       this.typeOptions = ['Logical/Verbal Reasoning'];
     }
     else if(this.userRole ==='DApt.Cre'){
-      this.typeOptions = ['Design Aptitude'];
+      this.typeOptions = ['Design'];
     }
     else if(this.userRole ==='CLAT.Cre'){
-      this.typeOptions = ['Legal reasoning/CLAT'];
+      this.typeOptions = ['CLAT'];
     }
     else if(this.userRole ==='SCEng.Cre'){
       this.typeOptions = ['Spoken English / Communicative English'];
@@ -1368,11 +1368,14 @@ export class CreateTranslatorComponent implements OnInit {
     'CUET':['12'],
     'Quantitative Aptitude 9-10': ['9','10','11','12'],
     'Quantitative Aptitude 11-12' : ['9','10','11','12'],
-    'Current Affairs':['11','12'],
+    // 'Current Affairs':['11','12'],
     'Verbal Ability': ['9','10','11','12'],
     'Logical/Verbal Reasoning': ['9','10','11','12'],
-    'Design Aptitude': ['9','10','11','12'],
-    'Legal reasoning/CLAT': ['9','10','11','12'],
+    'Design': ['XI and XII'],
+    // 'Design': ['11','12'],
+    // 'CLAT': ['11','12'],
+    'CLAT': ['XI and XII'],
+    'Current Affairs':['XI and XII'],
     'Spoken English / Communicative English':['9','10','11','12']
   };
   selectType(event: any) {
@@ -1435,8 +1438,21 @@ export class CreateTranslatorComponent implements OnInit {
   }
 
   public current_affairs:{[key: string]: string[]} = {
-    '11':['Current Affairs'],
-    '12':['Current Affairs']
+    // '11':['Current Affairs'],
+    // '12':['Current Affairs']
+    'XI and XII':['Current Affairs']
+  }
+
+  public design:{[key: string]: string[]} ={
+    // '11':['Sketching','Aptitude'],
+    // '12':['Sketching','Aptitude'],
+    'XI and XII':['Sketching','Aptitude']
+  }
+
+  public clat:{[key: string]: string[]} = {
+    // '11':['LEGAL STUDIES'],
+    // '12':['LEGAL STUDIES']
+    'XI and XII':['LEGAL STUDIES']
   }
 
   selectMedium(event: any): void {
@@ -1456,6 +1472,12 @@ export class CreateTranslatorComponent implements OnInit {
     }
     else if(this.Type == 'Current Affairs'){
       this.subjectOptions = this.current_affairs[this.selectedClass]
+    }
+    else if(this.Type === 'Design'){
+      this.subjectOptions = this.design[this.selectedClass]
+    }
+    else if(this.Type === 'CLAT'){
+      this.subjectOptions = this.clat[this.selectedClass]
     }
     else{
       this.subjectOptions = this.selectsubject[this.selectedClass]
