@@ -356,7 +356,7 @@ export class CreateTranslatorComponent implements OnInit {
       this.typeOptions = ['CUET'];
     }
     else if(this.userRole ==='QApt.Cre'){
-      this.typeOptions = ['Quantitative Aptitude 9-10','Quantitative Aptitude 11-12'];
+      this.typeOptions = ['Quantitative Aptitude'];
     }
     else if(this.userRole ==='CAff.Cre'){
       this.typeOptions = ['Current Affairs'];
@@ -1366,8 +1366,7 @@ export class CreateTranslatorComponent implements OnInit {
     'NEET': ['11', '12'],
     'Foundation': ['9', '10'],
     'CUET':['12'],
-    'Quantitative Aptitude 9-10': ['9','10','11','12'],
-    'Quantitative Aptitude 11-12' : ['9','10','11','12'],
+    'Quantitative Aptitude':['IX and X','XI and XII'],
     // 'Current Affairs':['11','12'],
     'Verbal Ability': ['9','10','11','12'],
     'Logical/Verbal Reasoning': ['9','10','11','12'],
@@ -1375,7 +1374,7 @@ export class CreateTranslatorComponent implements OnInit {
     // 'Design': ['11','12'],
     // 'CLAT': ['11','12'],
     'CLAT': ['XI and XII'],
-    'Current Affairs':['XI and XII'],
+    'Current Affairs':['IX and X','XI and XII'],
     'Spoken English / Communicative English':['9','10','11','12']
   };
   selectType(event: any) {
@@ -1440,7 +1439,13 @@ export class CreateTranslatorComponent implements OnInit {
   public current_affairs:{[key: string]: string[]} = {
     // '11':['Current Affairs'],
     // '12':['Current Affairs']
-    'XI and XII':['Current Affairs']
+    'XI and XII':['Current Affairs'],
+    'IX and X':['News of the week']
+  }
+
+  public qapt:{[key:string]:string[]}={
+    'XI and XII':['Quantatitive Apptitude'],
+    'IX and X':['Quantatitive Apptitude']
   }
 
   public design:{[key: string]: string[]} ={
@@ -1478,6 +1483,9 @@ export class CreateTranslatorComponent implements OnInit {
     }
     else if(this.Type === 'CLAT'){
       this.subjectOptions = this.clat[this.selectedClass]
+    }
+    else if(this.Type === 'Quantitative Aptitude'){
+      this.subjectOptions = this.qapt[this.selectedClass]
     }
     else{
       this.subjectOptions = this.selectsubject[this.selectedClass]
