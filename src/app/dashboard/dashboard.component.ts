@@ -457,6 +457,7 @@ export class DashboardComponent implements OnInit {
     var submittedTimestamp = 0;
     var rejectedTimestamp = 0;
     var vettedTimestamp = 0;
+    var updatedTimestamp = 0;
 
     if (data) {
       if (data.submitted) {
@@ -470,28 +471,24 @@ export class DashboardComponent implements OnInit {
       if (data.vetted) {
         vettedTimestamp = new Date(data.vetted)?.getTime() || 0;
       }
+      // if (!data.submitted&&!data.rejected&&!data.vetted){
+      //   return "Draft"
+      // }
     }
-
-    if (
-      (submittedTimestamp > rejectedTimestamp &&
-        submittedTimestamp > vettedTimestamp) ||
-      data.submitted == 'Just Now'
-    ) {
-      return 'Submitted';
-    } else if (
-      rejectedTimestamp > vettedTimestamp &&
-      rejectedTimestamp > submittedTimestamp
-    ) {
-      return 'Rejected';
-    } else if (
-      vettedTimestamp > rejectedTimestamp &&
-      vettedTimestamp > submittedTimestamp
-    ) {
-      return 'Approved';
-    } else if (data.submit === 'yes') {
-      return 'Submitted';
-    } else {
-      return '';
+    if(data.submitted){
+      return 'Submitted'
+    }
+    else if(submittedTimestamp > rejectedTimestamp && submittedTimestamp > vettedTimestamp){
+      return 'Submitted'
+    }
+    else if(rejectedTimestamp > vettedTimestamp && rejectedTimestamp > submittedTimestamp){
+      return 'Rejected'
+    }
+    else if( vettedTimestamp > rejectedTimestamp && vettedTimestamp > submittedTimestamp){
+      return 'Approved'
+    }
+    else{
+      return ''
     }
   }
   get_card_data(data: any) {
