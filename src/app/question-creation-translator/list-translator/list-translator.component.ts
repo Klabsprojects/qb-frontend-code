@@ -960,6 +960,9 @@ export class ListtranslatorComponent implements OnInit {
   getUniqueArray(data: any[], value: any) {
     return Array.from(new Set(data.map((item) => item[value])));
   }
+  applyFilterGlobal($event:any, stringVal:any) {
+    this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
 
   // dropdownDataclass = ['9', '10', '11', '12'];
   // dropdownDatasubject = ["Maths","Physics","Chemistry","Botony & Zology"]

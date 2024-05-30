@@ -1,24 +1,60 @@
 <div class="row">
   <div class="col-md-12 p-0">
     <div class="row">
-      <div class="col-md-12" style="display: flex;justify-content: center;">
+      <div class="col-md-12" style="display: flex; justify-content: center">
         <h5>Question Bank</h5>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 align-items-end" style="display: flex;justify-content: left;"><h5><span><a [routerLink]="['/dashboard']">Home</a> <i
-        class="mdi mdi-chevron-right"></i> Question</span></h5></div>
-      <div class="col-md-6 align-items-end" style="display: flex;justify-content: right;gap: 10px;">
-        <button type="button" class="btn btn-info btn-add mt-4" (click)="addNew()" *ngIf="showAdd">Add New</button>
-        <button type="button" class="btn btn-info btn-add mt-4" (click)="clearfilter()" *ngIf="clear">Clear Filter</button>
+      <div
+        class="col-md-6 align-items-end"
+        style="display: flex; justify-content: left"
+      >
+        <h5>
+          <span
+            ><a [routerLink]="['/dashboard']">Home</a>
+            <i class="mdi mdi-chevron-right"></i> Question</span
+          >
+        </h5>
+      </div>
+      <div
+        class="col-md-6 align-items-end"
+        style="display: flex; justify-content: right; gap: 10px"
+      >
+        <button
+          type="button"
+          class="btn btn-info btn-add mt-4"
+          (click)="addNew()"
+          *ngIf="showAdd"
+        >
+          Add New
+        </button>
+        <button
+          type="button"
+          class="btn btn-info btn-add mt-4"
+          (click)="clearfilter()"
+          *ngIf="clear"
+        >
+          Clear Filter
+        </button>
       </div>
     </div>
     <div class="btn-outer" *ngIf="showButton">
       <!-- <button type="button" class="btn btn-info btn-action mt-4" style="background-color: orange;"
         (click)="wordDownload()">Word</button>
       <button type="button" class="btn btn-info btn-action mt-4" (click)="pdfDownload()">PDF</button> -->
-      <img src="../../../assets/images/word.png" alt="" width="35" (click)="wordDownload()">
-      <img src="../../../assets/images/pdf.png" alt="" width="35" (click)="pdfDownload()">
+      <img
+        src="../../../assets/images/word.png"
+        alt=""
+        width="35"
+        (click)="wordDownload()"
+      />
+      <img
+        src="../../../assets/images/pdf.png"
+        alt=""
+        width="35"
+        (click)="pdfDownload()"
+      />
     </div>
   </div>
 </div>
@@ -108,37 +144,82 @@
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
 </div> -->
-<p-table #dt [value]="list" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
-	[rowsPerPageOptions]="[10,25,50]" [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines"
-	[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-	[globalFilterFields]="['type','topic','representative.name','status']" class="col-md-12">
-	<ng-template pTemplate="header">
-		<tr>
-			<th>
-				#
-			</th>
+<p-table
+  #dt
+  [value]="list"
+  dataKey="id"
+  styleClass="p-datatable-customers"
+  [rowHover]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading"
+  [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [filterDelay]="0"
+  [globalFilterFields]="['id', 'type', 'class']"
+  class="col-md-12"
+>
+  <ng-template pTemplate="caption">
+    <div class="table-header" style="display: flex;justify-content: end;align-content: center;">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="applyFilterGlobal($event, 'contains')"
+          placeholder="Global Search"
+        />
+        <!-- <input pInputText type="text" placeholder="Global Search" /> -->
+      </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>#</th>
       <th>
-        <p style="text-align: center;">Question <br> Id</p>
+        <p style="text-align: center">
+          Question <br />
+          Id
+        </p>
       </th>
-			<th>
-				<p>Type</p>
+      <th>
+        <p>Type</p>
         <!-- <p-columnFilter type="text" field="type" display="menu"></p-columnFilter> -->
         <p-columnFilter field="type" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueType" placeholder="Type" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('type',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueType"
+              placeholder="Type"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('type', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
-			<th>
-				<p>Class</p>
-				<!-- <p-columnFilter type="text" field="class" display="menu"></p-columnFilter> -->
+      </th>
+      <th>
+        <p>Class</p>
+        <!-- <p-columnFilter type="text" field="class" display="menu"></p-columnFilter> -->
         <p-columnFilter field="class" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueClass" placeholder="Class" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('class',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueClass"
+              placeholder="Class"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('class', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
-			<!-- <th>
+      </th>
+      <!-- <th>
 				<p>Medium</p>
         <p-columnFilter field="medium" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -146,35 +227,62 @@
           </ng-template>
         </p-columnFilter>
 			</th> -->
-			<th>
-				<p>Subject</p>
-				<!-- <p-columnFilter type="text" field="subject" display="menu"></p-columnFilter> -->
+      <th>
+        <p>Subject</p>
+        <!-- <p-columnFilter type="text" field="subject" display="menu"></p-columnFilter> -->
         <p-columnFilter field="subject" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueSubject" placeholder="Subject" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('subject',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueSubject"
+              placeholder="Subject"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('subject', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
-			<th>
-				<p>Chapter</p>
-				<!-- <p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter> -->
+      </th>
+      <th>
+        <p>Chapter</p>
+        <!-- <p-columnFilter type="text" field="chapter" display="menu"></p-columnFilter> -->
         <p-columnFilter field="chapter" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueChapter" placeholder="Chapter" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('chapter',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueChapter"
+              placeholder="Chapter"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('chapter', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
-			<th>
-				<p>Topic</p>
-				<!-- <p-columnFilter type="text" field="topic" display="menu"></p-columnFilter> -->
+      </th>
+      <th>
+        <p>Topic</p>
+        <!-- <p-columnFilter type="text" field="topic" display="menu"></p-columnFilter> -->
         <p-columnFilter field="topic" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueTopic" placeholder="Topic" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('topic',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueTopic"
+              placeholder="Topic"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('topic', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
-			</th>
+      </th>
       <th *ngIf="showAdmin">Question Count</th>
-			<!-- <th *ngIf="showCreator">
+      <!-- <th *ngIf="showCreator">
 				<p>Level</p>
         <p-columnFilter field="difficulty" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -182,76 +290,118 @@
           </ng-template>
         </p-columnFilter>
 			</th> -->
-			<th *ngIf= "!showButton">Status
+      <th *ngIf="!showButton">
+        Status
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('status',$event.value)"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueStatus"
+              placeholder="Status"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('status', $event.value)
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
       </th>
-      <th *ngIf="showButton">Status
+      <th *ngIf="showButton">
+        Status
         <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <p-dropdown [options]="uniqueStatus" placeholder="Status" [filter]="true" filterBy="label" (onChange)="filter($event.value);create_dropdown_onclick('status')"></p-dropdown>
+            <p-dropdown
+              [options]="uniqueStatus"
+              placeholder="Status"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value); create_dropdown_onclick('status')
+              "
+            ></p-dropdown>
           </ng-template>
         </p-columnFilter>
       </th>
-			<th>
-				Action
-			</th>
-      <th *ngIf="showButton"><input type="checkbox" (change)="selectAllCheckbox($event)"></th>
-		</tr>
-	</ng-template>
-	<ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
-		<tr>
-			<td>
-				{{rowIndex+1}}
-			</td>
+      <th>Action</th>
+      <th *ngIf="showButton">
+        <input type="checkbox" (change)="selectAllCheckbox($event)" />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+    <tr>
       <td>
-        {{data.id}}
+        {{ rowIndex + 1 }}
       </td>
-			<td>
-				{{data.type}}
-			</td>
-			<td>
-				{{data.class}}
-			</td>
-			<!-- <td>
+      <td>
+        {{ data.id }}
+      </td>
+      <td>
+        {{ data.type }}
+      </td>
+      <td>
+        {{ data.class }}
+      </td>
+      <!-- <td>
 				{{data.medium}}
 			</td> -->
-			<td>
-				{{data.subject}}
-			</td>
-			<td>
-				{{data.chapter}}
-			</td>
-			<td>
-				{{data.topic}}
-			</td>
-      <td *ngIf="showAdmin">{{data.q_count}}</td>
+      <td>
+        {{ data.subject }}
+      </td>
+      <td>
+        {{ data.chapter }}
+      </td>
+      <td>
+        {{ data.topic }}
+      </td>
+      <td *ngIf="showAdmin">{{ data.q_count }}</td>
       <!-- <td *ngIf="showCreator">{{data.difficulty}}</td> -->
-      <td *ngIf= "!showButton">
-        {{data.status}}
+      <td *ngIf="!showButton">
+        {{ data.status }}
       </td>
       <td *ngIf="showButton">
-        {{data.status}}
+        {{ data.status }}
       </td>
-      <td style="display: flex; justify-content: center;align-items: center;">
-        <ng-container *ngIf="latestTimestamp(data)==='Rejected' || latestTimestamp(data)==='Draft'">
-          <i class="typcn typcn-edit btn-icon-append" title="Edit" (click)="edit(data)"
-          *ngIf= "!showButton"></i>
+      <td style="display: flex; justify-content: center; align-items: center">
+        <ng-container
+          *ngIf="
+            latestTimestamp(data) === 'Rejected' ||
+            latestTimestamp(data) === 'Draft'
+          "
+        >
+          <i
+            class="typcn typcn-edit btn-icon-append"
+            title="Edit"
+            (click)="edit(data)"
+            *ngIf="!showButton"
+          ></i>
         </ng-container>
         <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>
-        <img src="../../../assets/images/word.png" alt="" width="35" *ngIf="showButton" (click)="singlewordDownload(data.id)">
-        <img src="../../../assets/images/pdf.png" alt="" width="35" *ngIf="showButton" (click)="singlepdfDownload(data.id)">
+        <img
+          src="../../../assets/images/word.png"
+          alt=""
+          width="35"
+          *ngIf="showButton"
+          (click)="singlewordDownload(data.id)"
+        />
+        <img
+          src="../../../assets/images/pdf.png"
+          alt=""
+          width="35"
+          *ngIf="showButton"
+          (click)="singlepdfDownload(data.id)"
+        />
       </td>
-      <td *ngIf="showButton"><input type="checkbox" [(ngModel)]="data.selected"></td>
-		</tr>
-	</ng-template>
-	<ng-template pTemplate="emptymessage">
-		<tr>
-			<td colspan="7">No questions found.</td>
-		</tr>
-	</ng-template>
+      <td *ngIf="showButton">
+        <input type="checkbox" [(ngModel)]="data.selected" />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">No questions found.</td>
+    </tr>
+  </ng-template>
 </p-table>
