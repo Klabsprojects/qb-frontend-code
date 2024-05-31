@@ -1,6 +1,6 @@
 <h5>New User <span> <a [routerLink]="['/creator/list']">List</a> <i class="mdi mdi-chevron-right"></i> User Creation</span></h5>
 
-<form [formGroup]="userForm" (ngSubmit)="submit()" class="mt-4">
+<!-- <form [formGroup]="userForm" (ngSubmit)="submit()" class="mt-4">
     <div class="col-md-4 float-left p-0 mb-4">
    <label class="float-left w-100">Name</label>
    <input type="text" class="form-control h-auto w-75 p-2 mr-2 float-left" style="border: 1px solid #ccc;" formControlName="name">
@@ -51,7 +51,7 @@
    <label class="float-left w-100">Subject</label>
    <select class="form-control form-control1" formControlName="subjects">
     <option value="" selected>Select</option>
-    <option *ngFor="let subject of subjects" [value]="subject">{{ subject }}</option>
+    <option *ngFor="let subject of subjectslist" [value]="subject">{{ subject }}</option>
   </select>
   <div *ngIf="userForm.get('subjects')?.errors?.['required'] && userForm.get('subjects')?.touched" class="in-valid">
     Subject is required.
@@ -62,4 +62,53 @@
  <button type="reset" class="btn btn-info">Reset</button>
  <button type="submit" class="btn btn-info ml-2">Submit</button>
 </div>
+ </form> -->
+
+ <form #f="ngForm" (ngSubmit)="submit(f)" autocomplete="false" class="mt-4">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <label for="name" class="float-left w-100">Name</label>
+      <input type="text" class="form-control form-control1" ngModel name="name" #name="ngModel" required>
+      <span class="error" *ngIf="name.invalid&&name.touched">Name is required.</span>
+    </div>
+    <div class="col-md-4 mb-4">
+      <label for="username" class="float-left w-100">User Name</label>
+      <input type="text" class="form-control form-control1" ngModel name="username" #username="ngModel" required>
+      <span class="error" *ngIf="username.invalid&&username.touched">Username is required.</span>
+    </div>
+    <div class="col-md-4 mb-4 position-relative">
+      <label for="pass" class="float-left w-100">Password</label>
+      <input type="{{showPassword ? 'text':'password'}}" class="form-control form-control1" ngModel name="pass" #pass="ngModel" autocomplete="new-password" required>
+      <i class="mdi eye" [ngClass]="{'mdi-eye': !showPassword, 'mdi-eye-off': showPassword}" (click)="togglePasswordVisibility()"></i>
+      <span class="error" *ngIf="pass.invalid&&pass.touched">Password is required.</span>
+    </div>
+  </div>
+  <!-- ///////////////// -->
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <label for="mobile" class="float-left w-100">Mobile</label>
+      <input type="text" class="form-control form-control1" ngModel name="mobile" #mobile="ngModel" required>
+      <span class="error" *ngIf="mobile.invalid&&mobile.touched">Mobile Number is required.</span>
+    </div>
+    <div class="col-md-4 mb-4">
+      <label for="role" class="float-left w-100">Role</label>
+      <select class="form-control form-control1" ngModel name="role" #role="ngModel" required>
+        <option value="" selected>Select</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      <span class="error" *ngIf="role.invalid&&role.touched">Role is required.</span>
+    </div>
+    <div class="col-md-4 mb-4">
+      <label for="subjects" class="float-left w-100">Subject</label>      
+      <select class="form-control form-control1" ngModel name="subjects" #subjects="ngModel" required>
+        <option value="" selected>Select</option>
+        <option *ngFor="let subject of subjectslist" [value]="subject">{{ subject }}</option>
+      </select>
+      <span class="error" *ngIf="subjects.invalid&&subjects.touched">Password is required.</span>
+    </div>
+  </div>
+  <div class="col-md-12 p-0 my-2 float-left">
+    <button type="reset" class="btn btn-info">Reset</button>
+    <button type="submit" class="btn btn-info ml-2" [disabled]="f.invalid">Submit</button>
+   </div>
  </form>

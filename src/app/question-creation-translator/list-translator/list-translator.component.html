@@ -177,7 +177,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>#</th>
-      <th>
+      <th *ngIf="!showAdmin">
         <p style="text-align: center">
           Question <br />
           Id
@@ -290,7 +290,7 @@
           </ng-template>
         </p-columnFilter>
 			</th> -->
-      <th *ngIf="!showButton">
+      <th *ngIf="!showButton&&!showAdmin">
         Status
         <p-columnFilter field="status" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -307,7 +307,7 @@
           </ng-template>
         </p-columnFilter>
       </th>
-      <th *ngIf="showButton">
+      <th *ngIf="showButton&&!showAdmin">
         Status
         <!-- <p-columnFilter type="text" field="status" display="menu"></p-columnFilter> -->
         <p-columnFilter field="status" matchMode="equals" display="menu">
@@ -335,7 +335,7 @@
       <td>
         {{ rowIndex + 1 }}
       </td>
-      <td>
+      <td *ngIf="!showAdmin">
         {{ data.id }}
       </td>
       <td>
@@ -358,10 +358,10 @@
       </td>
       <td *ngIf="showAdmin">{{ data.q_count }}</td>
       <!-- <td *ngIf="showCreator">{{data.difficulty}}</td> -->
-      <td *ngIf="!showButton">
+      <td *ngIf="!showButton&&!showAdmin">
         {{ data.status }}
       </td>
-      <td *ngIf="showButton">
+      <td *ngIf="showButton&&!showAdmin">
         {{ data.status }}
       </td>
       <td style="display: flex; justify-content: center; align-items: center">
@@ -375,7 +375,7 @@
             class="typcn typcn-edit btn-icon-append"
             title="Edit"
             (click)="edit(data)"
-            *ngIf="!showButton"
+            *ngIf="!showButton&&!showAdmin"
           ></i>
         </ng-container>
         <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>

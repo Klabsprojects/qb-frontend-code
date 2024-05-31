@@ -21,3 +21,15 @@ span{
     font-size: 20px;
     position: absolute;
 }
+.error{
+    float: left;
+    font-size: 11px;
+    color: red;
+    margin-top: 5px;
+}
+/* .eye{
+    position: absolute;
+    top: 33px;
+    left: 72%;
+    font-size: 20px;
+} */
