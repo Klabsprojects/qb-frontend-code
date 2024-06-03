@@ -93,12 +93,33 @@ export class ListtranslatorComponent implements OnInit {
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    } else if (this.userRole == 'Bil.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre' || this.userRole ==='CUET.Cre' ) {
+    } else if (
+      this.userRole == 'Bil.Cre' ||
+      this.userRole === 'QApt.Cre' ||
+      this.userRole === 'CAff.Cre' ||
+      this.userRole === 'VAty.Cre' ||
+      this.userRole === 'LVR.Cre' ||
+      this.userRole === 'DApt.Cre' ||
+      this.userRole === 'CLAT.Cre' ||
+      this.userRole === 'SCEng.Cre' ||
+      this.userRole === 'CUET.Cre'
+    ) {
       this.showAdd = true;
       this.showButton = false;
       this.showAdmin = false;
       this.showCreator = true;
-    } else if (this.userRole == 'Curator' || this.userRole == 'Bil.Cur' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cur') {
+    } else if (
+      this.userRole == 'Curator' ||
+      this.userRole == 'Bil.Cur' ||
+      this.userRole === 'CUET.Cur' ||
+      this.userRole === 'QApt.Cur' ||
+      this.userRole === 'CAff.Cur' ||
+      this.userRole === 'VAty.Cur' ||
+      this.userRole === 'LVR.Cur' ||
+      this.userRole === 'DApt.Cur' ||
+      this.userRole === 'CLAT.Cur' ||
+      this.userRole === 'SCEng.Cur'
+    ) {
       this.showAdd = false;
       this.showButton = true;
       this.showAdmin = false;
@@ -906,41 +927,28 @@ export class ListtranslatorComponent implements OnInit {
   }
 
   latestTimestamp(data: any): string {
-    var submittedTimestamp = 0;
-    var rejectedTimestamp = 0;
-    var vettedTimestamp = 0;
-    var updatedTimestamp = 0;
-
-    if (data) {
-      if (data.submitted) {
-        submittedTimestamp = new Date(data.submitted)?.getTime() || 0;
-      }
-
-      if (data.rejected) {
-        rejectedTimestamp = new Date(data.rejected)?.getTime() || 0;
-      }
-
-      if (data.vetted) {
-        vettedTimestamp = new Date(data.vetted)?.getTime() || 0;
-      }
-      if (!data.submitted&&!data.rejected&&!data.vetted){
-        return "Draft"
-      }
-    }
-    if(data.submitted){
-      return 'Submitted'
-    }
-    else if(submittedTimestamp > rejectedTimestamp && submittedTimestamp > vettedTimestamp){
-      return 'Submitted'
-    }
-    else if(rejectedTimestamp > vettedTimestamp && rejectedTimestamp > submittedTimestamp){
-      return 'Rejected'
-    }
-    else if( vettedTimestamp > rejectedTimestamp && vettedTimestamp > submittedTimestamp){
-      return 'Approved'
-    }
-    else{
-      return ''
+    if (
+      data.submitted !== null &&
+      data.rejected !== null &&
+      data.vetted === null
+    ) {
+      return 'Resubmitted';
+    } else if (
+      data.submitted !== null &&
+      data.rejected === null &&
+      data.vetted === null
+    ) {
+      return 'Submitted';
+    } else if (
+      data.rejected !== null &&
+      data.submitted === null &&
+      data.vetted === null
+    ) {
+      return 'Rejected';
+    } else if (data.vetted !== null) {
+      return 'Approved';
+    } else {
+      return 'Draft'; // Or handle any other cases
     }
   }
 
@@ -960,7 +968,7 @@ export class ListtranslatorComponent implements OnInit {
   getUniqueArray(data: any[], value: any) {
     return Array.from(new Set(data.map((item) => item[value])));
   }
-  applyFilterGlobal($event:any, stringVal:any) {
+  applyFilterGlobal($event: any, stringVal: any) {
     this.dt.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
   }
 
