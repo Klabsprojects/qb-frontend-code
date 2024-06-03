@@ -3,7 +3,7 @@
   <button type="button" class="btn btn-info btn-add mb-4 float-right" (click)="addNew()">Add New</button>
 </h5>
 
-<table class="table table-bordered mt-4">
+<!-- <table class="table table-bordered mt-4">
   <thead>
     <th style="width: 3%">#</th>
     <th>Name</th>
@@ -14,4 +14,81 @@
     <th>Subject</th>
   </thead>
   <tbody></tbody>
-</table>
+</table> -->
+<p-table
+  #dt
+  [value]="listofusers"
+  dataKey="id"
+  styleClass="p-datatable-customers"
+  [rowHover]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading"
+  [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [filterDelay]="0"
+  [globalFilterFields]="['id', 'name', 'role', 'subject', 'mobile']"
+  class="table table-bordered mt-4"
+>
+<ng-template pTemplate="caption">
+  <div class="table-header" style="display: flex;justify-content: end;align-content: center;">
+    <span class="p-input-icon-left">
+      <!-- <i class="pi pi-search"></i> -->
+      <input
+        pInputText
+        type="text"
+        (input)="applyFilterGlobal($event, 'contains')"
+        placeholder="Global Search"
+      />
+    </span>
+  </div>
+</ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="center">#</th>
+      <th class="center">
+        <p>Name</p>
+      </th>
+      <th class="center">
+        <p>Username</p>
+      </th>
+      <th class="center">
+        <p>Mobile</p>
+      </th>
+      <th class="center">
+        <p>Role</p>
+      </th>
+      <th class="center">
+        <p>Subject</p>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+    <tr>
+      <td class="center">
+        {{ data.id }}
+      </td>
+      <td class="center">
+        {{ data.name }}
+      </td>
+      <td class="center">
+        {{ data.username }}
+      </td>
+      <td class="center">
+        {{ data.mobile }}
+      </td>
+      <td class="center">
+        {{ data.role }}
+      </td>
+      <td class="center">
+        {{ data.subjects }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">No questions found.</td>
+    </tr>
+  </ng-template>
+</p-table>

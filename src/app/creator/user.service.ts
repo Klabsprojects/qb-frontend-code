@@ -12,6 +12,7 @@ export class UserService {
 
   userCreationUrl = environment.baseUrl+`/api/user/create`;
   masterCreationUrl = environment.baseUrl+`/api/master`;
+  listofusersurl = environment.baseUrl + `/api/user/list`;
 
   constructor(public http:HttpClient, private authService:authService) { }
 
@@ -26,6 +27,10 @@ export class UserService {
 
   createMaster(data:any){
     return this.http.post(this.masterCreationUrl,data,{headers:this.getHeaders()})
+  }
+
+  getlistofusers(){
+    return this.http.get<any[]>(this.listofusersurl,{ headers: this.getHeaders() })
   }
 
 }

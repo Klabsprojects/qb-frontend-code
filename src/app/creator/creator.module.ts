@@ -5,7 +5,7 @@ import {  RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
-
+import { TableModule } from 'primeng/table';
 
 const routes : Routes = [
   {
@@ -31,6 +31,7 @@ const routes : Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TableModule,
     RouterModule.forChild(routes)
   ]
 })
