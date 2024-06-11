@@ -79,11 +79,6 @@
                 <b>Solution : </b>
                 <span>{{choicenotejoin(question) | sanitizeHtml}}</span>
             </div>
-            <div class="col-md-12 p-0" *ngIf="question?.format === '4' && !showComments">
-                <b>Answer : </b>
-                <span [innerHTML]="choice_note | sanitizeHtml"></span>
-            </div>
-
             <!-- English end -->
             <!-- tamil start -->
             <ng-container *ngIf="question?.text_tn">
@@ -140,20 +135,8 @@
                     <b>தீர்வு : </b>
                     <span>{{choicenotejoin_tn(question) | sanitizeHtml}}</span>
                 </div>
-                <div class="col-md-12 p-0" *ngIf="question?.format === '4' && !showComments">
-                    <b>பதில் : </b>
-                    <span [innerHTML]="choice_note_tn | sanitizeHtml"></span>
-                </div>
             </ng-container>
             <!-- tamil end -->
-            <div class="col-md-12 p-0" *ngIf="question?.format === '4' && showComments">
-                <b><label>Add Solution</label></b>
-                <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="solution_des" name="solution_eng" #solution_eng="ngModel"
-                [required]="showQuestionEditor"></ckeditor>
-                <b><label>பதிலை உள்ளிடவும் </label></b>
-                <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="solution_des_tn" name="solution_tn" #solution_tn="ngModel"
-                [required]="showQuestionEditor"></ckeditor>
-            </div>
 
         </div>
     </div>
@@ -270,14 +253,8 @@
                         (click)="back()">Back</button>
                     <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
                         (click)="reject_box()">Reject</button>
-                    <ng-container *ngIf="question?.format!=4">
-                        <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
+                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
                         (click)="approval_box()">Approve</button>
-                    </ng-container>
-                    <ng-container *ngIf="question?.format==4">
-                        <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                        [disabled]="!solution_des||!solution_des_tn" (click)="approval_box()">Approve</button>
-                    </ng-container>
                 </div>
             </div>
             <div class="row" *ngIf="approve_yes || reject_yes">

@@ -71,8 +71,7 @@ export class ViewTranslatorComponent implements OnInit, AfterViewInit {
   approve_yes: boolean = false;
   reject_yes: boolean = false;
   public choice_number: any;
-  public solution_des: any;
-  public solution_des_tn: any;
+
   constructor(
     private cdr: ChangeDetectorRef,
     private auth: authService,
@@ -344,19 +343,11 @@ export class ViewTranslatorComponent implements OnInit, AfterViewInit {
     const confirmation = confirm('Are you sure you want to approve?');
 
     if (confirmation) {
-      var approvalData: any;
-      approvalData = {
+      const approvalData = {
         vetted: 'yes',
         difficulty: difficulty,
         topic: this.question.topic,
       };
-
-      if (this.question?.format == 4) {
-        approvalData['notes'] = this.solution_des;
-        approvalData['notes_tn'] = this.solution_des_tn;
-      }
-
-      // console.log("approvalData",approvalData)
 
       this.questionAction.getApprove(questionId, approvalData).subscribe({
         next: (res: any) => {
