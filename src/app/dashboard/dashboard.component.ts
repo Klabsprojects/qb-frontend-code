@@ -159,6 +159,7 @@ export class DashboardComponent implements OnInit {
     } else {
       this.card = card;
     }
+    this.date_list = list;
     this.Jee_count = this.countQuestionsBySubject(list, 'JEE');
     this.Jeepie = {
       labels: Object.keys(this.Jee_count),
@@ -259,6 +260,8 @@ export class DashboardComponent implements OnInit {
     startDate?: string,
     endDate?: string
   ) {
+
+    console.log("dataArray length", dataArray.length);
     const filteredArray: any = [];
 
     if (startDate && endDate) {
@@ -266,11 +269,26 @@ export class DashboardComponent implements OnInit {
       const end = new Date(endDate);
 
       const monthTypeMap = new Map<string, Map<string, number>>();
-
+      let i=0;
       dataArray.forEach((item: any) => {
-        if (item.submitted) {
-          const submittedDate = new Date(item.submitted);
-          if (submittedDate >= start && submittedDate <= end) {
+        // if (item.submitted) {
+          let submittedDate:any;
+          if(this.card=='Submitted'){
+            submittedDate = new Date(item.submitted);
+          }
+          else if(this.card=='Approved'){
+            submittedDate = new Date(item.vetted);
+          }
+          else if(this.card=='Rejected'){
+            submittedDate = new Date(item.rejected);
+          }
+          else if(this.card=='ReSubmitted'){
+            submittedDate = new Date(item.submitted);
+          }
+          // if (submittedDate >= start && submittedDate <= end) {
+          if (start <= submittedDate && submittedDate <= end) {
+
+            i = i+1;
             const monthName = submittedDate.toLocaleString('default', {
               month: 'long',
             });
@@ -290,9 +308,12 @@ export class DashboardComponent implements OnInit {
 
             filteredArray.push(item);
           }
-        }
+          else{
+            console.log('start',start.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'}),'submittedDate',submittedDate.getDate(),'end',end.getDate());
+          }
+        // }
       });
-
+      console.log("i",i)
       const months = Array.from(monthTypeMap.keys());
       const examTypesSet = new Set<string>();
       monthTypeMap.forEach((typeMap) => {

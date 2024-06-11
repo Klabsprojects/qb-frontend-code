@@ -37,7 +37,7 @@ export class CreateTranslatorComponent implements OnInit {
 
 
   public inputs: any[] = [];
-  radiooptions = ['MCQ', 'MSQ', 'Fill In the Blanks'];
+  radiooptions = ['MCQ', 'MSQ', 'Fill In the Blanks', 'Discriptive'];
   radioSelected: number = 1;
   public checkoptions = ['Text', 'Image'];
   public checkSelected: { [key: string]: boolean } = {
@@ -1745,8 +1745,8 @@ export class CreateTranslatorComponent implements OnInit {
       // submitquest['clue_img_tn'] = this.clueImageSrc_tn
       submitquest['clue_text_tn'] = this.clue_text_tn
       submitquest['notes_tn'] = ""
-      console.log("submitquest", typeof submitquest, submitquest)
       // console.log("submitquest", typeof submitquest, submitquest)
+      // console.log("submitquest", submitquest)
 
       if (this.mode != 'EDIT') {
         this.questionService.createQuestionAnswer(submitquest).subscribe({
