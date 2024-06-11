@@ -1433,7 +1433,7 @@ export class CreateTranslatorComponent implements OnInit {
     '12':['Physics','Chemistry','Maths']
   };
   public cuet_subject:{[key: string]: string[]} = {
-    '12':['Accountancy','Economics','Commerce','Business Maths']
+    '12':['Accountancy','Economics','Business Studies','Business Maths']
   }
 
   public current_affairs:{[key: string]: string[]} = {
