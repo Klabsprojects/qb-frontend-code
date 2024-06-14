@@ -281,6 +281,23 @@
           </ng-template>
         </p-columnFilter>
       </th>
+      <th *ngIf="!showButton&&!showAdmin">
+        <p>Format</p>
+        <p-columnFilter field="formattype" matchMode="equals" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown
+              [options]="uniqformat"
+              placeholder="format"
+              [filter]="true"
+              filterBy="label"
+              (onChange)="
+                filter($event.value);
+                create_dropdown_onclick('formattype', $event.value)
+              "
+            ></p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
       <th *ngIf="showAdmin">Question Count</th>
       <!-- <th *ngIf="showCreator">
 				<p>Level</p>
@@ -355,6 +372,9 @@
       </td>
       <td>
         {{ data.topic }}
+      </td>
+      <td>
+        {{data.formattype}}
       </td>
       <td *ngIf="showAdmin">{{ data.q_count }}</td>
       <!-- <td *ngIf="showCreator">{{data.difficulty}}</td> -->

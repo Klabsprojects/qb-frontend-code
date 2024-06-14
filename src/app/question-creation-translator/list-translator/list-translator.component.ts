@@ -50,6 +50,7 @@ export class ListtranslatorComponent implements OnInit {
   public uniqueSubject: any[] = [];
   public uniqueChapter: any[] = [];
   public uniqueTopic: any[] = [];
+  public uniqformat:any[] = [];
   public uniqueLevel: any[] = [];
   public uniqueStatus: any[] = [];
   @ViewChild('dt') dt!: Table;
@@ -139,6 +140,9 @@ export class ListtranslatorComponent implements OnInit {
         obj['status'] = this.latestTimestampcurator(obj); // Add your new key-value pair here
       });
     }
+    this.list.forEach((obj:any)=>{
+      obj['formattype'] = this.formattype(obj);
+    })
   }
   clearfilter() {
     setTimeout(() => {
@@ -148,6 +152,7 @@ export class ListtranslatorComponent implements OnInit {
       localStorage.removeItem('qbsubject');
       localStorage.removeItem('qbchapter');
       localStorage.removeItem('qbtopic');
+      localStorage.removeItem('qbformattype');
       localStorage.removeItem('qbstatus');
       // this.clear = false;
       // this.create_dropdown_oninit();
@@ -184,6 +189,12 @@ export class ListtranslatorComponent implements OnInit {
       this.clear = true;
       this.list = this.list.filter(
         (item: any) => item.topic === localStorage.getItem('qbtopic')
+      );
+    }
+    if (localStorage.getItem('qbformattype')) {
+      this.clear = true;
+      this.list = this.list.filter(
+        (item: any) => item.formattype === localStorage.getItem('qbformattype')
       );
     }
     if (localStorage.getItem('qbstatus')) {
@@ -227,6 +238,13 @@ export class ListtranslatorComponent implements OnInit {
     var uniqueValues = Array.from(difficultiesSet);
     uniqueValues.forEach((value) => {
       this.uniqueTopic.push({ label: value, value: value });
+    });
+    this.uniqformat = [];
+    var difficultiesSet = new Set<string>();
+    this.list.forEach((item: any) => difficultiesSet.add(item.formattype));
+    var uniqueValues = Array.from(difficultiesSet);
+    uniqueValues.forEach((value) => {
+      this.uniqformat.push({ label: value, value: value });
     });
     this.uniqueStatus = [];
     var difficultiesSet = new Set<string>();
@@ -285,6 +303,15 @@ export class ListtranslatorComponent implements OnInit {
         var uniqueValues = Array.from(difficultiesSet);
         uniqueValues.forEach((value) => {
           this.uniqueTopic.push({ label: value, value: value });
+        });
+        this.uniqformat = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.formatt)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqformat.push({ label: value, value: value });
         });
         this.uniqueLevel = [];
         var difficultiesSet = new Set<string>();
@@ -345,6 +372,17 @@ export class ListtranslatorComponent implements OnInit {
         uniqueValues.forEach((value) => {
           this.uniqueTopic.push({ label: value, value: value });
         });
+
+        this.uniqformat = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.formattype)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqformat.push({ label: value, value: value });
+        });
+        
         this.uniqueLevel = [];
         var difficultiesSet = new Set<string>();
         this.dt.filteredValue.forEach((item: any) =>
@@ -386,6 +424,15 @@ export class ListtranslatorComponent implements OnInit {
         uniqueValues.forEach((value) => {
           this.uniqueTopic.push({ label: value, value: value });
         });
+        this.uniqformat = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.formattype)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqformat.push({ label: value, value: value });
+        });
         this.uniqueLevel = [];
         var difficultiesSet = new Set<string>();
         this.dt.filteredValue.forEach((item: any) =>
@@ -418,6 +465,15 @@ export class ListtranslatorComponent implements OnInit {
         uniqueValues.forEach((value) => {
           this.uniqueTopic.push({ label: value, value: value });
         });
+        this.uniqformat = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.formattype)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqformat.push({ label: value, value: value });
+        });
         this.uniqueLevel = [];
         var difficultiesSet = new Set<string>();
         this.dt.filteredValue.forEach((item: any) =>
@@ -440,6 +496,38 @@ export class ListtranslatorComponent implements OnInit {
     }
     if (dropdowntype == 'topic') {
       localStorage.setItem('qbtopic', dropdownvalue);
+      if (this.dt.filteredValue) {
+        this.uniqformat = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.formattype)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqformat.push({ label: value, value: value });
+        });
+        this.uniqueLevel = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.difficulty)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueLevel.push({ label: value, value: value });
+        });
+        this.uniqueStatus = [];
+        var difficultiesSet = new Set<string>();
+        this.dt.filteredValue.forEach((item: any) =>
+          difficultiesSet.add(item.status)
+        );
+        var uniqueValues = Array.from(difficultiesSet);
+        uniqueValues.forEach((value) => {
+          this.uniqueStatus.push({ label: value, value: value });
+        });
+      }
+    }
+    if (dropdowntype == 'formattype'){
+      localStorage.setItem('qbformattype', dropdownvalue);
       if (this.dt.filteredValue) {
         this.uniqueLevel = [];
         var difficultiesSet = new Set<string>();
@@ -926,6 +1014,23 @@ export class ListtranslatorComponent implements OnInit {
     );
   }
 
+  formattype(data:any):string{
+    var type:any;
+    if(data.format=='1'){
+      type = 'MCQ'
+    }
+    if(data.format=='2'){
+      type = 'MSQ'
+    }
+    if(data.format=='3'){
+      type = 'FIB'
+    }
+    if(data.format=='4'){
+      type = 'DESCRIPTIVE'
+    }
+    return type
+  }
+
   latestTimestamp(data: any): string {
     if (
       data.submitted !== null &&
@@ -950,6 +1055,7 @@ export class ListtranslatorComponent implements OnInit {
     } else {
       return 'Draft'; // Or handle any other cases
     }
+
   }
 
   latestTimestampcurator(data: any): string {
