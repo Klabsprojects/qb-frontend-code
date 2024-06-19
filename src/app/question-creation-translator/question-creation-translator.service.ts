@@ -158,7 +158,7 @@ export class QuestionCreationService {
 
 
 
-  getQuestionDetails(id:number){
+  getQuestionDetails(id:any){
     const viewUrl = `${this.viewDetailsUrl}/${id}`;
     return this.http.get(viewUrl,{headers:this.getHeaders()});
   }

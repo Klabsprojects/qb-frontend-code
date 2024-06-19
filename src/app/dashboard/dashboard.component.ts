@@ -114,6 +114,9 @@ export class DashboardComponent implements OnInit {
         // this.filterByClassAndCountSubjects(this.list, '9');
       },
     });
+    this.questionService.summary().subscribe((res:any)=>{
+      console.log("res_summary",res)
+    })
     if (this.userRole === 'Admin') {
       this.admin = true;
     } else if (this.userRole === 'Teacher') {

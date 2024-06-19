@@ -38,6 +38,7 @@ export class QuestionCreationService {
   dashboardDataUrl = environment.baseUrl + `/api/user/homedata`;
   approveQuestionUrl = environment.baseUrl + `/api/question`;
   uploadimageurl = environment.baseUrl + `/api/upload`
+  private summaryurl = environment.baseUrl + `/api/question/qb/smry`
 
 
   constructor(public http: HttpClient, private authService: authService) { }
@@ -201,6 +202,10 @@ export class QuestionCreationService {
 
   getDashboardDetails() {
     return this.http.get<any[]>(this.dashboardDataUrl, { headers: this.getHeaders() });
+  }
+
+  summary(){
+    return this.http.get(this.summaryurl, {headers: this.getHeaders()});
   }
 
 

@@ -281,7 +281,7 @@
           </ng-template>
         </p-columnFilter>
       </th>
-      <th *ngIf="!showButton&&!showAdmin">
+      <th *ngIf="!showAdmin">
         <p>Format</p>
         <p-columnFilter field="formattype" matchMode="equals" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -388,14 +388,14 @@
         <ng-container
           *ngIf="
             latestTimestamp(data) === 'Rejected' ||
-            latestTimestamp(data) === 'Draft'
+            latestTimestamp(data) === 'Draft' || showButton
           "
         >
           <i
             class="typcn typcn-edit btn-icon-append"
             title="Edit"
             (click)="edit(data)"
-            *ngIf="!showButton&&!showAdmin"
+            *ngIf="!showAdmin"
           ></i>
         </ng-container>
         <i class="mdi mdi-eye" (click)="view(data)" title="View"></i>

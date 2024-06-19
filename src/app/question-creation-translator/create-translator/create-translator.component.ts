@@ -349,6 +349,9 @@ export class CreateTranslatorComponent implements OnInit {
     this.questionService.Question.subscribe((res: any) => {
       this.detailId = res.detailId;
     })
+    if(this.userRole === 'Bil.Cur' || this.userRole === 'Curator'){
+      this.typeOptions = ['JEE','NEET','Foundation','CUET','Quantitative Aptitude','Current Affairs','Verbal Ability','Logical/Verbal Reasoning','Design','CLAT','Spoken English / Communicative English'];
+    }
     if(this.userRole === 'Bil.Cre' || this.userRole === 'Creator'){
       this.typeOptions = ['JEE','NEET','Foundation'];
     }
@@ -1771,7 +1774,16 @@ export class CreateTranslatorComponent implements OnInit {
             this.questionService.submitQuestionAnswer(this.current_editing_id).subscribe({
               next: (response: any) => {
                 alert("Updated Successfully");
-                this.questionService.Question.next({ Mode: 'LIST' });
+                if(this.userRole === 'Bil.Cur' || this.userRole === 'Curator'){
+                  this.questionService.getQuestionDetails(this.current_editing_id).subscribe({
+                    next: (response: any) => {
+                      this.questionService.Question.next({ Mode: 'VIEW', Index: this.current_editing_id });
+                    },
+                  });
+                }
+                else{
+                  this.questionService.Question.next({ Mode: 'LIST' });
+                }
               }
             })
           },
