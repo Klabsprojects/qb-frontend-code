@@ -83,6 +83,9 @@ export class DashboardComponent implements OnInit {
     { resubmitted: 0, splitup: [0, 0, 0, 0], data: [] },
   ];
   public card: any = 'Total';
+  public groupedData:any[] = [];
+  public groupsubject:any;
+  public groupclass:any;
   constructor(
     private auth: authService,
     private questionService: QuestionCreationService
@@ -116,6 +119,8 @@ export class DashboardComponent implements OnInit {
     });
     this.questionService.summary().subscribe((res:any)=>{
       console.log("res_summary",res)
+      this.groupedData = this.drillDownGroupBy(res.data)
+      console.log("groupedData",this.groupedData)
     })
     if (this.userRole === 'Admin') {
       this.admin = true;
@@ -582,5 +587,79 @@ export class DashboardComponent implements OnInit {
       (item: any) => item.type === 'CUET'
     ).length;
     console.log('carddata', this.carddata);
+  }
+  drillDownGroupBy(data: any[]): any[] {
+    return data.reduce((acc, item) => {
+      // Find or create type level
+      let typeIndex = acc.findIndex((entry:any) => entry.type === item.type);
+      if (typeIndex === -1) {
+        typeIndex = acc.length;
+        acc.push({ type: item.type, subjects: [] });
+      }
+  
+      // Find or create subject level
+      let subjectIndex = acc[typeIndex].subjects.findIndex((entry:any) => entry.subject === item.subject);
+      if (subjectIndex === -1) {
+        subjectIndex = acc[typeIndex].subjects.length;
+        acc[typeIndex].subjects.push({ subject: item.subject, classes: [] });
+      }
+  
+      // Find or create class level
+      let classIndex = acc[typeIndex].subjects[subjectIndex].classes.findIndex((entry:any) => entry.class === item.class);
+      if (classIndex === -1) {
+        classIndex = acc[typeIndex].subjects[subjectIndex].classes.length;
+        acc[typeIndex].subjects[subjectIndex].classes.push({ class: item.class, chapters: [] });
+      }
+  
+      // Find or create chapter level
+      let chapterIndex = acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters.findIndex((entry:any) => entry.chapter === item.chapter);
+      if (chapterIndex === -1) {
+        chapterIndex = acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters.length;
+        acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters.push({
+          chapter: item.chapter,
+          topics: []
+        });
+      }
+  
+      // Find or create topic level
+      let topicIndex = acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics.findIndex((entry:any) => entry.topic === item.topic);
+      if (topicIndex === -1) {
+        topicIndex = acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics.length;
+        acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics.push({
+          topic: item.topic,
+          drafted: item.drafted,
+          submitted: parseInt(item.submitted),
+          approved: parseInt(item.approved)
+        });
+      } else {
+        // Accumulate counts
+        acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics[topicIndex].drafted += item.drafted;
+        acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics[topicIndex].submitted += parseInt(item.submitted);
+        acc[typeIndex].subjects[subjectIndex].classes[classIndex].chapters[chapterIndex].topics[topicIndex].approved += parseInt(item.approved);
+      }
+  
+      return acc;
+    }, []);
+  }
+  public groupchapter:any;
+  public grouptopic:any;
+  public groupother:any;
+  toggle(type:any,data:any): void {
+    if(type==='subject'){
+      this.groupsubject = data.subjects;
+    }
+    if(type==='class'){
+      this.groupclass = data.classes;
+    }
+    if(type==='chapter'){
+      this.groupchapter = data.chapters;
+    }
+    if(type==='topic'){
+      this.grouptopic = data.topics;
+    }
+    if(type==='other'){
+      this.groupother = data;
+      console.log("other",data);
+    }
   }
 }
