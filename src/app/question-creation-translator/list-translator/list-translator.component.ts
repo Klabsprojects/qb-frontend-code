@@ -1032,7 +1032,10 @@ export class ListtranslatorComponent implements OnInit {
   }
 
   latestTimestamp(data: any): string {
-    if (
+    if(data.approved!== null){
+      return 'Approved'
+    }
+    else if (
       data.submitted !== null &&
       data.rejected !== null &&
       data.vetted === null

@@ -478,7 +478,10 @@ export class DashboardComponent implements OnInit {
     this.get_card_data(this.list);
   }
   latestTimestamp(data: any): string {
-    if (
+    if(data.approved!== null){
+      return 'Approved'
+    }
+    else if (
       data.submitted !== null &&
       data.rejected !== null &&
       data.vetted === null
