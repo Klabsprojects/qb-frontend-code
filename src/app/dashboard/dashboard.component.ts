@@ -647,15 +647,25 @@ export class DashboardComponent implements OnInit {
   toggle(type:any,data:any): void {
     if(type==='subject'){
       this.groupsubject = data.subjects;
+      this.groupclass = []
+      this.groupchapter = []
+      this.grouptopic = [];
+      this.groupother = {};
     }
     if(type==='class'){
       this.groupclass = data.classes;
+      this.groupchapter = []
+      this.grouptopic = [];
+      this.groupother = {};
     }
     if(type==='chapter'){
       this.groupchapter = data.chapters;
+      this.grouptopic = [];
+      this.groupother = {};
     }
     if(type==='topic'){
       this.grouptopic = data.topics;
+      this.groupother = {};
     }
     if(type==='other'){
       this.groupother = data;

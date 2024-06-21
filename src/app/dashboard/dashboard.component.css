@@ -110,3 +110,17 @@ ul {
   padding: 5px;
   margin: 0;
 }
+
+th{
+  background-color: lightblue;
+  text-align: center;
+}
+tr:nth-child(odd){
+  background-color:snow;
+}
+tr:nth-child(even){
+  background-color:lightcyan;
+}
+td:hover{
+  background-color: gray;
+}
