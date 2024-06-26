@@ -78,6 +78,13 @@
             </select>
             <div *ngIf="detailsForm.submitted && topic.invalid" class="in-valid col-md-12 p-0">Please Select Topic</div>
         </div>
+        <div class="col-md-4 float-left p-0 mb-4">
+            <label class="float-left w-100">Teams</label>
+            <select class="form-control form-control1" [(ngModel)]="questionAdd.tags" #tags="ngModel" name="tags">
+                <option value="">Select</option>
+                <option *ngFor="let tags of tagsoptions" [value]="tags">{{tags}}</option>
+            </select>
+        </div>
         <div *ngIf="showInput">
         </div>
 

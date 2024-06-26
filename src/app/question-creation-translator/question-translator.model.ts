@@ -93,6 +93,7 @@ export class questionAdd {
     subject: string | null = null;
     chapter: string | null = null;
     topic: string | null = null;
+    tags: string | null = null;
     sub_topic?: string | null = null;
     difficulty: string | null = null;
     format: number = 0;

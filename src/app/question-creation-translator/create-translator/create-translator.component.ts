@@ -206,6 +206,7 @@ export class CreateTranslatorComponent implements OnInit {
   chapterOptions: any[] = [];
   topicOptions: any[] = [];
   subtopicOptions: any[] = [];
+  tagsoptions:any[]=['SME','MS trs','SCERT trs','NEET'];
   conceptOptions: any[] = [];
   learningOptions: any[] = [];
   Type: string = '';
@@ -1617,6 +1618,7 @@ export class CreateTranslatorComponent implements OnInit {
 
   nextStep(form: NgForm) {
     this.detailsForm = form;
+    console.log("this.detailsForm",this.detailsForm);
     if (form.valid) {
       this.formData = form.value;
       this.currentStep = 2;
@@ -1666,6 +1668,7 @@ export class CreateTranslatorComponent implements OnInit {
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
+          tags : combinedFormData.tags,
           sub_topic: combinedFormData.sub_topic || null,
           difficulty: combinedFormData.difficulty,
           format: combinedFormData.format,
@@ -1711,6 +1714,7 @@ export class CreateTranslatorComponent implements OnInit {
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
+          tags : combinedFormData.tags,
           sub_topic: combinedFormData.sub_topic,
           difficulty: combinedFormData.difficulty,
           format: combinedFormData.format,
@@ -1749,7 +1753,7 @@ export class CreateTranslatorComponent implements OnInit {
       submitquest['clue_text_tn'] = this.clue_text_tn
       submitquest['notes_tn'] = ""
       // console.log("submitquest", typeof submitquest, submitquest)
-      // console.log("submitquest", submitquest)
+      console.log("submitquest", submitquest)
 
       if (this.mode != 'EDIT') {
         this.questionService.createQuestionAnswer(submitquest).subscribe({
