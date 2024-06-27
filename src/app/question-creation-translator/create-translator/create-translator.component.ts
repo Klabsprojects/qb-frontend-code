@@ -206,7 +206,7 @@ export class CreateTranslatorComponent implements OnInit {
   chapterOptions: any[] = [];
   topicOptions: any[] = [];
   subtopicOptions: any[] = [];
-  tagsoptions:any[]=['SME','MS trs','SCERT trs','NEET'];
+  tagsoptions:any[]=['SME','MS trs','SCERT trs','NEET','Books','JEE PYQ'];
   conceptOptions: any[] = [];
   learningOptions: any[] = [];
   Type: string = '';
@@ -1668,7 +1668,7 @@ export class CreateTranslatorComponent implements OnInit {
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
-          tags : combinedFormData.tags,
+          source : combinedFormData.tags,
           sub_topic: combinedFormData.sub_topic || null,
           difficulty: combinedFormData.difficulty,
           format: combinedFormData.format,
@@ -1714,7 +1714,7 @@ export class CreateTranslatorComponent implements OnInit {
           subject: combinedFormData.subject,
           chapter: combinedFormData.chapter,
           topic: combinedFormData.topic,
-          tags : combinedFormData.tags,
+          source : combinedFormData.tags,
           sub_topic: combinedFormData.sub_topic,
           difficulty: combinedFormData.difficulty,
           format: combinedFormData.format,
