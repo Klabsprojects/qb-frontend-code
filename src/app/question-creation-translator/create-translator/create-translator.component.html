@@ -8,19 +8,6 @@
                 required name="type" #type="ngModel">
                 <option value="" selected>Select</option>
                 <option *ngFor="let typeOption of typeOptions" [value]="typeOption">{{ typeOption }}</option>
-                <!-- <option value="NEET">NEET</option>
-                <option value="JEE">JEE</option>
-                <option value="Foundation">Foundation</option>
-                <option value="CUET">CUET</option>
-                <option value="Quantitative_Aptitud_9-10">Quantitative Aptitude 9-10</option>
-                <option value="Quantitative_Aptitud_11-12">Quantitative Aptitude 11-12</option>
-                <option value="Current_Affairs">Current Affairs</option>
-                <option value="Verbal_Ability">Verbal Ability</option>
-                <option value="Logical/Verbal Reasoning">Logical/Verbal Reasoning</option>
-                <option value="Design_Aptitude">Design Aptitude</option>
-                <option value="Legal_reasoning/CLAT">Legal reasoning/CLAT</option>
-                <option value="Spoken English">Spoken English / Communicative English</option> -->
-                <!-- <option value="Foundation">Cut</option> -->
             </select>
             <div *ngIf="detailsForm.submitted && type.invalid" class="in-valid col-md-12 p-0">Please Select Type</div>
         </div>
@@ -34,16 +21,6 @@
             </select>
             <div *ngIf="detailsForm.submitted && class.invalid" class="in-valid col-md-12 p-0">Please Select Class</div>
         </div>
-
-        <!-- <div class="col-md-4 float-left p-0 mb-4">
-        <label class="float-left w-100">Medium</label>
-        <select class="form-control form-control1" (change)="selectMedium($event)" [(ngModel)]="questionAdd.medium"
-          #medium="ngModel" name="medium" required>
-          <option value="">Select</option>
-          <option *ngFor="let medium of mediumOptions" [value]="medium">{{medium }}</option>
-        </select>
-        <div *ngIf="detailsForm.submitted && medium.invalid" class="in-valid col-md-12 p-0">Please Select Medium</div>
-      </div> -->
 
         <div class="col-md-4 float-left p-0 mb-4">
             <label class="float-left w-100">Subject</label>
@@ -71,14 +48,14 @@
 
         <div class="col-md-4 float-left p-0 mb-4">
             <label class="float-left w-100">Topic</label>
-            <select class="form-control form-control1" (change)="selectTopic($event)" [(ngModel)]="questionAdd.topic"
+            <select class="form-control form-control1" [(ngModel)]="questionAdd.topic"
                 #topic="ngModel" name="topic" required>
                 <option value="">Select</option>
                 <option *ngFor="let topicOption of topicOptions" [value]="topicOption">{{topicOption}}</option>
             </select>
             <div *ngIf="detailsForm.submitted && topic.invalid" class="in-valid col-md-12 p-0">Please Select Topic</div>
         </div>
-        <div class="col-md-4 float-left p-0 mb-4">
+        <div class="col-md-4 float-left p-0 mb-4" *ngIf="userRole !== 'SCERT'">
             <label class="float-left w-100">Teams</label>
             <select class="form-control form-control1" [(ngModel)]="questionAdd.source" #tags="ngModel" name="tags">
                 <option value="">Select</option>

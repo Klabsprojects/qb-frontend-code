@@ -56,7 +56,7 @@ export class SidebarComponent implements OnInit {
       // return 'question-creation'
       return 'question-creation-translation'
     }
-    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur' || this.userRole==='Curator' || this.userRole === 'CUET.Cre' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cre' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cre' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cre' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cre' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cre' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cre' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cre' || this.userRole ==='SCEng.Cur' || this.userRole==='Creator'){
+    if(this.userRole==='Bil.Cre' || this.userRole==='Bil.Cur' || this.userRole==='Curator' || this.userRole === 'CUET.Cre' || this.userRole ==='CUET.Cur' || this.userRole ==='QApt.Cre' || this.userRole ==='QApt.Cur' || this.userRole ==='CAff.Cre' || this.userRole ==='CAff.Cur' || this.userRole ==='VAty.Cre' || this.userRole ==='VAty.Cur' || this.userRole ==='LVR.Cre' || this.userRole ==='LVR.Cur' || this.userRole ==='DApt.Cre' || this.userRole ==='DApt.Cur' || this.userRole ==='CLAT.Cre' || this.userRole ==='CLAT.Cur' || this.userRole ==='SCEng.Cre' || this.userRole ==='SCEng.Cur' || this.userRole==='Creator' || this.userRole === 'SCERT'){
       return 'question-creation-translation'
     }
     if(this.userRole==='Translate'){
@@ -74,6 +74,9 @@ export class SidebarComponent implements OnInit {
     }
     if(this.userRole === 'Bil.Cre' || this.userRole === 'CUET.Cre' || this.userRole ==='QApt.Cre' || this.userRole ==='CAff.Cre' || this.userRole ==='VAty.Cre' || this.userRole ==='LVR.Cre' || this.userRole ==='DApt.Cre' || this.userRole ==='CLAT.Cre' || this.userRole ==='SCEng.Cre'){
       role = "Bilingual Creator"
+    }
+    if(this.userRole === 'SCERT'){
+      role = "SCERT Creator"
     }
     if(this.userRole === 'Translate'){
       role =  "Translator";

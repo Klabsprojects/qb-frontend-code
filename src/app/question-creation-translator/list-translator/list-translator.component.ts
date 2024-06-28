@@ -103,7 +103,8 @@ export class ListtranslatorComponent implements OnInit {
       this.userRole === 'DApt.Cre' ||
       this.userRole === 'CLAT.Cre' ||
       this.userRole === 'SCEng.Cre' ||
-      this.userRole === 'CUET.Cre'
+      this.userRole === 'CUET.Cre' ||
+      this.userRole === 'SCERT'
     ) {
       this.showAdd = true;
       this.showButton = false;
@@ -131,7 +132,7 @@ export class ListtranslatorComponent implements OnInit {
     }
   }
   addstatus() {
-    if (this.userRole === 'Bil.Cre' || this.userRole === 'Creator') {
+    if (this.userRole === 'Bil.Cre' || this.userRole === 'Creator' || this.userRole === 'SCERT') {
       this.list.forEach((obj: any) => {
         obj['status'] = this.latestTimestamp(obj); // Add your new key-value pair here
       });

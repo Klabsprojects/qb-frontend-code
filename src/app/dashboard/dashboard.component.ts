@@ -138,7 +138,8 @@ export class DashboardComponent implements OnInit {
       this.userRole === 'LVR.Cre' ||
       this.userRole === 'DApt.Cre' ||
       this.userRole === 'CLAT.Cre' ||
-      this.userRole === 'SCEng.Cre'
+      this.userRole === 'SCEng.Cre' ||
+      this.userRole === 'SCERT'
     ) {
       this.creator = true;
     } else if (

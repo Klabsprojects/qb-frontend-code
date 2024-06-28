@@ -254,7 +254,6 @@ export class CreateTranslatorComponent implements OnInit {
           this.questionService.Question.subscribe((index) => {
             this.questionService.getQuestionDetails(index.Index).subscribe({
               next: (res: any) => {
-                console.log("data", res.data);
                 var event: any = {}
                 event.target = {}
                 // this.radioChange(res.data.format)
@@ -278,8 +277,6 @@ export class CreateTranslatorComponent implements OnInit {
                 event.target.value = res.data.topic
                 this.selectTopic(event)
                 this.editquestion = res.data
-                // console.log("editquestion", this.editquestion)
-                // this.questionAdd.sub_topic = res.data.sub_topic
                 this.radioChange(+res.data.format)
                 this.questionAdd.text = res.data.text
                 this.questionAdd.img = res.data.img
@@ -355,6 +352,9 @@ export class CreateTranslatorComponent implements OnInit {
     }
     if(this.userRole === 'Bil.Cre' || this.userRole === 'Creator'){
       this.typeOptions = ['JEE','NEET','Foundation'];
+    }
+    if(this.userRole === 'SCERT'){
+      this.typeOptions = ['JEE','NEET'];
     }
     if(this.userRole === 'CUET.Cre'){
       this.typeOptions = ['CUET'];
@@ -464,7 +464,6 @@ export class CreateTranslatorComponent implements OnInit {
       this.showQuestionImage = true;
       this.showQuestionImage_tn = true;
     }
-    console.log("showQuestionEditor",this.showQuestionEditor)
   }
 
   choiceImageURL(event: any, index: number): void {
@@ -1467,7 +1466,10 @@ export class CreateTranslatorComponent implements OnInit {
   selectMedium(event: any): void {
     this.selectedSubject = event.target.value;
     this.subjectOptions = this.selectsubject[this.selectedClass]
-    if(this.Type =='NEET'){
+    if(this.userRole === 'SCERT'){
+      this.subjectOptions = [this.auth.getUserSubject()];
+    }
+    else if(this.Type =='NEET'){
       this.subjectOptions = this.neet_subject[this.selectedClass]
     }
     else if(this.Type == 'JEE'){
@@ -1660,6 +1662,9 @@ export class CreateTranslatorComponent implements OnInit {
     }
     if (form.valid) {
       let questiondata = {}
+      if(this.userRole==='SCERT'){
+        combinedFormData.tags = 'SCERT trs';
+      }
       if (this.mode === 'EDIT') {
         const questionData: questionAdd = {
           type: combinedFormData.type,
@@ -1749,10 +1754,8 @@ export class CreateTranslatorComponent implements OnInit {
       let submitquest: any = questiondata
       submitquest['text_tn'] = this.text_tn
       submitquest['img_tn'] = this.questionImageSrc_tn
-      // submitquest['clue_img_tn'] = this.clueImageSrc_tn
       submitquest['clue_text_tn'] = this.clue_text_tn
       submitquest['notes_tn'] = ""
-      // console.log("submitquest", typeof submitquest, submitquest)
       console.log("submitquest", submitquest)
 
       if (this.mode != 'EDIT') {
@@ -1760,9 +1763,14 @@ export class CreateTranslatorComponent implements OnInit {
           next: (response: any) => {
             console.log(response);
             this.questionService.submitQuestionAnswer(response.q_id).subscribe({
-              next: (response: any) => {
+              next: (response2: any) => {
                 alert("Added Successfully");
-                this.questionService.Question.next({ Mode: 'LIST' });
+                if(this.userRole==='SCERT'){
+                  this.questionService.Question.next({ Mode: 'VIEW', Index: response.q_id });
+                }
+                else{
+                  this.questionService.Question.next({ Mode: 'LIST' });
+                }
               }
             })
           },

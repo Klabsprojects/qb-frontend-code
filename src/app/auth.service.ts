@@ -36,7 +36,7 @@ export class authService {
         console.log("response in auth user",response)
         const authToken = response?.authToken;
         const userRole = response.data.role;
-        const subject = response.data.subject;
+        const subject = response.data.subjects;
         this.setAuthToken(authToken);
         this.setUserRole(userRole);
         this.setUserSubject(subject)
