@@ -70,4 +70,7 @@ figure.table td {
       display: none;
     }
   }
-  
+  .bdy{
+    margin-top: 5mm; margin-bottom: 10mm; margin-left: 10mm; margin-right: 10mm;
+    @bottom-left {content: "";}
+  }

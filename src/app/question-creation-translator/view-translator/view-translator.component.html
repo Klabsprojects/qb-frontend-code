@@ -1,7 +1,6 @@
 <div class="page-out">
-
-    <div *ngIf="userRole != 'Admin'">
-        <!-- <div class="card p-3 mb-3">
+  <div *ngIf="userRole != 'Admin'">
+    <!-- <div class="card p-3 mb-3">
             <div class="col-md-12 float-left text-center">
                 <h4 class="title">{{question?.type}} - {{question?.class}} - {{question?.medium}} -
                     {{question?.subject}} <img src="../../../assets/images/printing.png" alt="" width="20" (click)="printQuestionPaper()"></h4>
@@ -134,136 +133,235 @@
                 </div>
             </ng-container>
         </div> -->
-        <div class="row">
-            <div class="col-md-12" style="display: flex;justify-content: space-between;">
-                <p>Jul-Ass</p>
-                <p>Daily Test {{currentDateString}}</p>
+    <div class="bdy">
+      <div class="row">
+        <div
+          class="col-md-12"
+          style="display: flex; justify-content: space-between"
+        >
+          <p>Jul-Ass</p>
+          <p>Daily Test {{ currentDateString }}</p>
+        </div>
+      </div>
+      <hr class="brhr" />
+      <div
+        class="row"
+        style="display: flex; justify-content: center; margin: 10px 0"
+      >
+        <h6>Test Code : XX XXX XXX</h6>
+      </div>
+      <div class="row">
+        <div class="col-md-12" style="border: 2px solid black">
+          <h5>Instructions</h5>
+          <div>
+            <ol>
+              <li>This Paper Has 10 Questions.</li>
+              <li>
+                Each Question has Four options, Out of which onlt one is
+                Correct.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-12"
+          style="
+            background-color: gray;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-evenly;
+              width: 20%;
+              align-items: center;
+              color: black;
+            "
+          >
+            <span
+              ><p style="margin: 0">{{ question?.type }}</p></span
+            ><span
+              ><p style="margin: 0">{{ question?.class }}</p></span
+            ><span
+              ><p style="margin: 0">{{ question?.subject }}</p></span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            justify-content: left;
+            padding-left: 0;
+            padding-right: 0;
+            margin: 15px 0;
+          "
+        >
+          <span>1 .</span
+          ><span [innerHTML]="question?.text | sanitizeHtml" style="word-break: break-all;page-break-inside: avoid;"> </span>
+          <span *ngIf="question?.img">
+            <img src="{{ question?.img }}" width="60px" />
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-10 choice p-0"
+          *ngIf="question?.format == 1 || question?.format == 2"
+        >
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <ol style="list-style-type: lower-alpha">
+                <li *ngFor="let choiceText of choiceTextArray; let i = index">
+                  <p [innerHTML]="choiceText | sanitizeHtml" style="word-break: break-all;page-break-inside: avoid;"></p>
+                  <span *ngIf="question?.choices[i].choice_img"
+                    ><img
+                      src="{{ question?.choices[i].choice_img }}"
+                      width="60px"
+                  /></span>
+                </li>
+              </ol>
             </div>
+            <div class="col-md-1"></div>
+          </div>
         </div>
-        <hr class="brhr">
-        <div class="row" style="display: flex;justify-content: center;margin: 10px 0;">
-            <h6>Test Code : XX XXX XXX</h6>
+      </div>
+      <!-- ///////////// -->
+      <div class="row">
+        <div
+          class="col-md-12"
+          style="
+            display: flex;
+            justify-content: left;
+            padding-left: 0;
+            padding-right: 0;
+            margin: 15px 0;
+          "
+        >
+          <span>1 .</span
+          ><span class="text" [innerHTML]="question?.text_tn | sanitizeHtml" style="word-break: break-all;page-break-inside: avoid;">
+          </span>
+          <span *ngIf="question?.img_tn">
+            <img src="{{ question?.img_tn }}" width="60px" />
+          </span>
         </div>
-        <div class="row">
-            <div class="col-md-12" style="border: 2px solid black;">
-                <h5>Instructions</h5>
-                <div>
-                    <ol>
-                        <li>This Paper Has 10 Questions.</li>
-                        <li>Each Question has Four options, Out of which onlt one is Correct.</li>
-                    </ol>
-                </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-10 choice p-0"
+          *ngIf="question?.format == 1 || question?.format == 2"
+        >
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <ol style="list-style-type: lower-alpha">
+                <li
+                  *ngFor="let choiceText of choiceTextArray_tn; let i = index"
+                >
+                  <p [innerHTML]="choiceText | sanitizeHtml" style="word-break: break-all;page-break-inside: avoid;"></p>
+                  <span *ngIf="question?.choices[i].choice_img_tn"
+                    ><img
+                      src="{{ question?.choices[i].choice_img_tn }}"
+                      width="60px"
+                  /></span>
+                </li>
+              </ol>
             </div>
+            <div class="col-md-1"></div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-md-12" style="background-color: gray;border-top: 2px solid black;border-bottom: 2px solid black;display: flex;justify-content: center;margin: 10px 0;">
-                <div style="display: flex;justify-content: space-evenly;width: 20%;align-items: center;color: black;">
-                    <span><p style="margin: 0;">{{question?.type}} </p></span><span><p style="margin: 0;">{{question?.class}}</p></span><span><p style="margin: 0;">{{question?.subject}}</p></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
-                <span>1 .</span><span [innerHTML]="question?.text | sanitizeHtml"> </span>
-                <span *ngIf="question?.img">
-                    <img src={{question?.img}} width="60px">
-                </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <ol style="list-style-type: lower-alpha;">
-                            <li *ngFor="let choiceText of choiceTextArray;let i = index">
-                                <p [innerHTML]="choiceText | sanitizeHtml"></p>
-                                <span *ngIf="question?.choices[i].choice_img"><img src={{question?.choices[i].choice_img}} width="60px"></span>
-                            </li>
-                        </ol>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </div>
-        </div>
-        <!-- ///////////// -->
-        <div class="row">
-            <div class="col-md-12" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
-                <span>1 .</span><span class="text" [innerHTML]="question?.text_tn | sanitizeHtml"> </span>
-                <span *ngIf="question?.img_tn">
-                    <img src={{question?.img_tn}} width="60px">
-                </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <ol style="list-style-type: lower-alpha;">
-                            <li *ngFor="let choiceText of choiceTextArray_tn;let i = index">
-                                <p [innerHTML]="choiceText | sanitizeHtml"></p>
-                                <span *ngIf="question?.choices[i].choice_img_tn"><img src={{question?.choices[i].choice_img_tn}} width="60px"></span>
-                            </li>
-                        </ol>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </div>
-        </div>
-        <hr class="brhr">
-        <div class="row" style="display: flex;justify-content: center;">
-            <p>TNGMS - Question Bank</p>
-        </div>
+      </div>
+      <hr class="brhr" />
+      <div class="row" style="display: flex; justify-content: center">
+        <p>TNGMS - Question Bank</p>
+      </div>
     </div>
+  </div>
 
-    <div *ngIf="userRole == 'Admin'">
-        <div class="card p-3 mb-3">
-            <div class="col-md-12 float-left text-center">
-                <h4 class="title">{{question[0]?.type}} - {{question[0]?.class}} - {{question[0]?.medium}} -
-                    {{question[0]?.subject}} </h4>
-            </div>
+  <div *ngIf="userRole == 'Admin'">
+    <div class="card p-3 mb-3">
+      <div class="col-md-12 float-left text-center">
+        <h4 class="title">
+          {{ question[0]?.type }} - {{ question[0]?.class }} -
+          {{ question[0]?.medium }} - {{ question[0]?.subject }}
+        </h4>
+      </div>
 
-            <div class="col-md-12 float-left text-center">
-                <p class="pt-2"> <span>{{question[0]?.chapter}}</span> </p>
-                <p class="pt-2"><span>{{question[0]?.topic}}</span></p>
-            </div>
+      <div class="col-md-12 float-left text-center">
+        <p class="pt-2">
+          <span>{{ question[0]?.chapter }}</span>
+        </p>
+        <p class="pt-2">
+          <span>{{ question[0]?.topic }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="card p-3 mb-4">
+      <!-- <h6 class="mt-4 mb-2 title">Question & Answer</h6> -->
+      <ng-container *ngFor="let quest of question; let i = index">
+        <h6 class="mt-4 mb-2 title">Question & Answer</h6>
+        <p class="mt-4">
+          <b>Question Type : </b>
+          <span *ngIf="quest?.format == 1">MCQ</span>
+          <span *ngIf="quest?.format == 2">MSQ</span>
+          <span *ngIf="quest?.format == 3">Fill in the blank</span>
+          <span *ngIf="quest?.format == 4">Match the following</span>
+        </p>
+
+        <p class="mt-3">
+          <b>Question : </b>
+          <span class="text" [innerHTML]="quest?.text" *ngIf="!quest?.img">
+          </span>
+          <!-- <span *ngIf="quest?.img"> -->
+          <img src="{{ quest?.img }}" width="60px" *ngIf="quest?.img" />
+          <!-- </span> -->
+        </p>
+
+        <p>
+          <b>Clue : </b>
+          <span *ngIf="!quest?.clu_img">{{ quest?.clue_text }}</span
+          ><img
+            src="{{ quest?.clue_img }}"
+            alt=""
+            *ngIf="quest?.clue_img"
+            width="60px"
+          />
+        </p>
+
+        <div
+          class="col-md-12 choice p-0"
+          *ngIf="quest?.format == 1 || quest?.format == 2"
+        >
+          <b>Choices</b>
+          <ol>
+            <li *ngFor="let choice of quest.choices">
+              <p
+                [innerHTML]="choice.choice_text"
+                *ngIf="!choice.choice_img"
+              ></p>
+              <img
+                src="{{ choice.choice_img }}"
+                alt=""
+                *ngIf="choice.choice_img"
+                width="60px"
+              />
+            </li>
+          </ol>
         </div>
-        <div class="clearfix"></div>
-
-        <div class="card p-3 mb-4">
-            <!-- <h6 class="mt-4 mb-2 title">Question & Answer</h6> -->
-            <ng-container *ngFor="let quest of question;let i=index;">
-                <h6 class="mt-4 mb-2 title">Question & Answer</h6>
-                <p class="mt-4">
-                    <b>Question Type : </b>
-                    <span *ngIf="quest?.format == 1">MCQ</span>
-                    <span *ngIf="quest?.format == 2">MSQ</span>
-                    <span *ngIf="quest?.format == 3">Fill in the blank</span>
-                    <span *ngIf="quest?.format == 4">Match the following</span>
-                </p>
-
-                <p class="mt-3"><b>Question : </b>
-                    <span class="text" [innerHTML]="quest?.text" *ngIf="!quest?.img"> </span>
-                    <!-- <span *ngIf="quest?.img"> -->
-                        <img src={{quest?.img}} width="60px" *ngIf="quest?.img">
-                    <!-- </span> -->
-                </p>
-
-                <p> <b>Clue : </b> <span *ngIf="!quest?.clu_img">{{quest?.clue_text}}</span><img src={{quest?.clue_img}} alt="" *ngIf="quest?.clue_img" width="60px"></p>
-
-
-                <div class="col-md-12 choice p-0" *ngIf="quest?.format == 1 || quest?.format == 2">
-                    <b>Choices</b>
-                    <ol>
-                        <li *ngFor="let choice of quest.choices">
-                            <p [innerHTML]="choice.choice_text" *ngIf="!choice.choice_img"></p>
-                            <img src={{choice.choice_img}} alt="" *ngIf="choice.choice_img" width="60px">
-                        </li>
-                    </ol>
-                </div>
-                <ng-container *ngFor="let choice of quest.choices">
-                    <!-- <div class="col-md-12 p-0" *ngIf="quest?.format == 1">
+        <ng-container *ngFor="let choice of quest.choices">
+          <!-- <div class="col-md-12 p-0" *ngIf="quest?.format == 1">
                         <b>Answer : </b>
                         <span [innerHTML]="this.correct"></span>
                     </div>
@@ -278,147 +376,269 @@
                         <span>{{ correctChoice.join(', ') }}</span>
                     </div> -->
 
-                    <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn !=null">
-                        <b>Answer : {{choice?.choice_id}}</b>
-                        <span [innerHTML]="choice.choice_text"></span>
-                        <!-- <span *ngFor="let choiceItem of choices" [innerHTML]="choice.choice_text"></span> -->
-                        <img src={{choice?.choice_img}} alt="" *ngIf="choice?.choice_img" width="60px">
-                    </div>
-                    <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn !=null">
-                        <b>Solution : </b>
-                        <span [innerHTML]="choice.choice_notes"></span>
-                    </div>
-                </ng-container>
-                <hr>
-            </ng-container>
-        </div>
+          <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn != null">
+            <b>Answer : {{ choice?.choice_id }}</b>
+            <span [innerHTML]="choice.choice_text"></span>
+            <!-- <span *ngFor="let choiceItem of choices" [innerHTML]="choice.choice_text"></span> -->
+            <img
+              src="{{ choice?.choice_img }}"
+              alt=""
+              *ngIf="choice?.choice_img"
+              width="60px"
+            />
+          </div>
+          <div class="col-md-12 p-0" *ngIf="choice?.choice_correct_yn != null">
+            <b>Solution : </b>
+            <span [innerHTML]="choice.choice_notes"></span>
+          </div>
+        </ng-container>
+        <hr />
+      </ng-container>
     </div>
+  </div>
 
-    <ng-container *ngIf="!question?.vetted">
-        <!-- <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)"> -->
-            <div class="card p-3 row" *ngIf="showComments&&(approve_yes || reject_yes) || userRole==='SCERT'">
-                <div class="col-md-12">
-                    <ng-container *ngIf="approve_yes || userRole==='SCERT'">
-                        <div class="col-md-12 float-left p-0 mb-4">
-                            <label class="float-left w-100">Select Difficulty Level</label>
-                            <select class="form-control form-control1" style="width: 100%;" name="difficulty" [(ngModel)]="difficulty">
-                                <option value="" selected>Select</option>
-                                <option value="Easy">Easy</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Hard">Hard</option>
-                            </select>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="reject_yes">
-                        <label>Add Comments</label>
-                        <ckeditor [editor]="Editor" [config]="config" [(ngModel)]="commentTextModel" name="comment" #commentModel="ngModel"
-                        #text="ngModel" [required]="showQuestionEditor"></ckeditor>
-                    </ng-container>
-                    <!-- <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
+  <ng-container *ngIf="!question?.vetted">
+    <!-- <form #commentForm="ngForm" (ngSubmit)="comment(commentForm)"> -->
+    <div
+      class="card p-3 row"
+      *ngIf="
+        (showComments && (approve_yes || reject_yes)) || userRole === 'SCERT'
+      "
+    >
+      <div class="col-md-12">
+        <ng-container *ngIf="approve_yes || userRole === 'SCERT'">
+          <div class="col-md-12 float-left p-0 mb-4">
+            <label class="float-left w-100">Select Difficulty Level</label>
+            <select
+              class="form-control form-control1"
+              style="width: 100%"
+              name="difficulty"
+              [(ngModel)]="difficulty"
+            >
+              <option value="" selected>Select</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="reject_yes">
+          <label>Add Comments</label>
+          <ckeditor
+            [editor]="Editor"
+            [config]="config"
+            [(ngModel)]="commentTextModel"
+            name="comment"
+            #commentModel="ngModel"
+            #text="ngModel"
+            [required]="showQuestionEditor"
+          ></ckeditor>
+        </ng-container>
+        <!-- <textarea id="commentTextarea" name="comment" class="form-control mb-2" rows="5"
                         [(ngModel)]="commentTextModel" #commentModel="ngModel" required></textarea> -->
-                    <!-- <div
+        <!-- <div
                         *ngIf="commentForm.controls['commentText']?.dirty || commentForm.controls['commentText']?.touched">
                         <small class="text-danger">Comments are required.</small>
                     </div> -->
-                </div>
-            </div>
-
-            <div class="row" *ngIf="!approve_yes && !reject_yes">
-                <div class="col-md-12 float-left">
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
-                        (click)="back()" *ngIf="userRole!=='SCERT'">Back</button>
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                        (click)="reject_box()">Reject</button>
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments"
-                        (click)="approval_box()">Approve</button>
-                </div>
-            </div>
-            <div class="row" *ngIf="approve_yes || reject_yes || userRole ==='SCERT'">
-                <div class="col-md-12 float-left">
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
-                        (click)="approve_yes=false;reject_yes=false" *ngIf="userRole!=='SCERT'">Back</button>
-                        <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;"
-                        (click)="back()" *ngIf="userRole==='SCERT'">Back</button>
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments && approve_yes || userRole ==='SCERT'"
-                        [disabled]="!difficulty" (click)="approve(question.id,difficulty)">Approve</button>
-                    <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:auto;" *ngIf="showComments && reject_yes"
-                        [disabled]="!commentTextModel" (click)="reject(question.id,commentTextModel)">Reject</button>
-                </div>
-            </div>
-        <!-- </form> -->
-    </ng-container>
-    <div class="col-md-12 float-left" *ngIf="question?.vetted">
-        <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;" (click)="back()">Back</button>
+      </div>
     </div>
+
+    <div class="row" *ngIf="!approve_yes && !reject_yes">
+      <div class="col-md-12 float-left">
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: 10%"
+          (click)="back()"
+          *ngIf="userRole !== 'SCERT'"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: auto"
+          *ngIf="showComments"
+          (click)="reject_box()"
+        >
+          Reject
+        </button>
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: auto"
+          *ngIf="showComments"
+          (click)="approval_box()"
+        >
+          Approve
+        </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="approve_yes || reject_yes || userRole === 'SCERT'">
+      <div class="col-md-12 float-left">
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: 10%"
+          (click)="approve_yes = false; reject_yes = false"
+          *ngIf="userRole !== 'SCERT'"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: 10%"
+          (click)="back()"
+          *ngIf="userRole === 'SCERT'"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: auto"
+          *ngIf="(showComments && approve_yes) || userRole === 'SCERT'"
+          [disabled]="!difficulty"
+          (click)="approve(question.id, difficulty)"
+        >
+          Approve
+        </button>
+        <button
+          type="button"
+          class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+          style="width: auto"
+          *ngIf="showComments && reject_yes"
+          [disabled]="!commentTextModel"
+          (click)="reject(question.id, commentTextModel)"
+        >
+          Reject
+        </button>
+      </div>
+    </div>
+    <!-- </form> -->
+  </ng-container>
+  <div class="col-md-12 float-left" *ngIf="question?.vetted">
+    <button
+      type="button"
+      class="btn btn-info mt-2 mr-2 ml-0 mb-4"
+      style="width: 10%"
+      (click)="back()"
+    >
+      Back
+    </button>
+  </div>
 </div>
 
-<div #questionpaper style="background-color:snow;display: none;">
-    <div class="row">
-        <div class="col-md-12" style="display: flex;justify-content: space-between;">
-            <p>Jul-Ass</p>
-            <p>Daily Test {{currentDateString}}</p>
-        </div>
+<div #questionpaper style="background-color: snow; display: none">
+  <div class="row">
+    <div
+      class="col-md-12"
+      style="display: flex; justify-content: space-between"
+    >
+      <p>Jul-Ass</p>
+      <p>Daily Test {{ currentDateString }}</p>
     </div>
-    <hr class="brhr">
-    <div class="row" style="display: flex;justify-content: center;margin: 10px 0;">
-        <h6>Test Code : XX XXX XXX</h6>
+  </div>
+  <hr class="brhr" />
+  <div
+    class="row"
+    style="display: flex; justify-content: center; margin: 10px 0"
+  >
+    <h6>Test Code : XX XXX XXX</h6>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="border: 2px solid black">
+      <h5>Instructions</h5>
+      <div>
+        <ol>
+          <li>This Paper Has 10 Questions.</li>
+          <li>
+            Each Question has Four options, Out of which onlt one is Correct.
+          </li>
+        </ol>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-md-1">
-
-        </div>
-        <div class="col-md-10" style="border: 2px solid black;">
-            <h5>Instructions</h5>
-            <div>
-                <ol>
-                    <li>This Paper Has 10 Questions.</li>
-                    <li>Each Question has Four options, Out of which onlt one is Correct.</li>
-                </ol>
-            </div>
-        </div>
-        <div class="col-md-1">
-
-        </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div
+      class="col-md-10"
+      style="
+        background-color: gray;
+        border-top: 2px solid black;
+        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-evenly;
+          width: 20%;
+          align-items: center;
+          color: black;
+        "
+      >
+        <span
+          ><p style="margin: 0">{{ question?.type }}</p></span
+        ><span
+          ><p style="margin: 0">{{ question?.class }}</p></span
+        ><span
+          ><p style="margin: 0">{{ question?.subject }}</p></span
+        >
+      </div>
     </div>
-    <div class="row">
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div
+      class="col-md-10"
+      style="
+        display: flex;
+        justify-content: left;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 15px 0;
+      "
+    >
+      <span>1 .</span><span [innerHTML]="question?.text | sanitizeHtml"> </span>
+      <span *ngIf="question?.img">
+        <img src="{{ question?.img }}" width="60px" />
+      </span>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div
+      class="col-md-10 choice p-0"
+      *ngIf="question?.format == 1 || question?.format == 2"
+    >
+      <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-10" style="background-color: gray;border-top: 2px solid black;border-bottom: 2px solid black;display: flex;justify-content: center;margin: 10px 0;">
-            <div style="display: flex;justify-content: space-evenly;width: 20%;align-items: center;color: black;">
-                <span><p style="margin: 0;">{{question?.type}} </p></span><span><p style="margin: 0;">{{question?.class}}</p></span><span><p style="margin: 0;">{{question?.subject}}</p></span>
-            </div>
+        <div class="col-md-10">
+          <ol style="list-style-type: lower-alpha">
+            <li *ngFor="let choiceText of choiceTextArray; let i = index">
+              <p [innerHTML]="choiceText | sanitizeHtml"></p>
+              <span *ngIf="question?.choices[i].choice_img"
+                ><img src="{{ question?.choices[i].choice_img }}" width="60px"
+              /></span>
+            </li>
+          </ol>
         </div>
         <div class="col-md-1"></div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
-            <span>1 .</span><span [innerHTML]="question?.text | sanitizeHtml"> </span>
-            <span *ngIf="question?.img">
-                <img src={{question?.img}} width="60px">
-            </span>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
-            <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                    <ol style="list-style-type: lower-alpha;">
-                        <li *ngFor="let choiceText of choiceTextArray;let i = index">
-                            <p [innerHTML]="choiceText | sanitizeHtml"></p>
-                            <span *ngIf="question?.choices[i].choice_img"><img src={{question?.choices[i].choice_img}} width="60px"></span>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
-    <hr class="brhr">
-    <div class="row" style="display: flex;justify-content: center;">
-        <p>TNGMS - Question Bank</p>
-    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <hr class="brhr" />
+  <div class="row" style="display: flex; justify-content: center">
+    <p>TNGMS - Question Bank</p>
+  </div>
 </div>
