@@ -186,6 +186,31 @@
                 </div>
             </div>
         </div>
+        <!-- ///////////// -->
+        <div class="row">
+            <div class="col-md-12" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
+                <span>1 .</span><span class="text" [innerHTML]="question?.text_tn | sanitizeHtml"> </span>
+                <span *ngIf="question?.img_tn">
+                    <img src={{question?.img_tn}} width="60px">
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <ol style="list-style-type: lower-alpha;">
+                            <li *ngFor="let choiceText of choiceTextArray_tn;let i = index">
+                                <p [innerHTML]="choiceText | sanitizeHtml"></p>
+                                <span *ngIf="question?.choices[i].choice_img_tn"><img src={{question?.choices[i].choice_img_tn}} width="60px"></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
         <hr class="brhr">
         <div class="row" style="display: flex;justify-content: center;">
             <p>TNGMS - Question Bank</p>
