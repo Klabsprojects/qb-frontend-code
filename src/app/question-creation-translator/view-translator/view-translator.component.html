@@ -1,10 +1,10 @@
 <div class="page-out">
 
     <div *ngIf="userRole != 'Admin'">
-        <div class="card p-3 mb-3">
+        <!-- <div class="card p-3 mb-3">
             <div class="col-md-12 float-left text-center">
                 <h4 class="title">{{question?.type}} - {{question?.class}} - {{question?.medium}} -
-                    {{question?.subject}} </h4>
+                    {{question?.subject}} <img src="../../../assets/images/printing.png" alt="" width="20" (click)="printQuestionPaper()"></h4>
             </div>
 
             <div class="col-md-12 float-left text-center">
@@ -25,7 +25,6 @@
                 <span *ngIf="question?.format == 3">Fill in the blank</span>
                 <span *ngIf="question?.format == 4">Descriptive</span>
             </p>
-            <!-- English start -->
             <p class="mt-3"><b>Question : </b>
                 <span class="text" [innerHTML]="question?.text | sanitizeHtml"> </span>
                 <span *ngIf="question?.img">
@@ -79,8 +78,6 @@
                 <b>Solution : </b>
                 <span>{{choicenotejoin(question) | sanitizeHtml}}</span>
             </div>
-            <!-- English end -->
-            <!-- tamil start -->
             <ng-container *ngIf="question?.text_tn">
                 <p class="mt-3"><b>கேள்வி : </b>
                     <span class="text" [innerHTML]="question?.text_tn | sanitizeHtml"> </span>
@@ -136,8 +133,62 @@
                     <span>{{choicenotejoin_tn(question) | sanitizeHtml}}</span>
                 </div>
             </ng-container>
-            <!-- tamil end -->
-
+        </div> -->
+        <div class="row">
+            <div class="col-md-12" style="display: flex;justify-content: space-between;">
+                <p>Jul-Ass</p>
+                <p>Daily Test {{currentDateString}}</p>
+            </div>
+        </div>
+        <hr class="brhr">
+        <div class="row" style="display: flex;justify-content: center;margin: 10px 0;">
+            <h6>Test Code : XX XXX XXX</h6>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="border: 2px solid black;">
+                <h5>Instructions</h5>
+                <div>
+                    <ol>
+                        <li>This Paper Has 10 Questions.</li>
+                        <li>Each Question has Four options, Out of which onlt one is Correct.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="background-color: gray;border-top: 2px solid black;border-bottom: 2px solid black;display: flex;justify-content: center;margin: 10px 0;">
+                <div style="display: flex;justify-content: space-evenly;width: 20%;align-items: center;color: black;">
+                    <span><p style="margin: 0;">{{question?.type}} </p></span><span><p style="margin: 0;">{{question?.class}}</p></span><span><p style="margin: 0;">{{question?.subject}}</p></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
+                <span>1 .</span><span [innerHTML]="question?.text | sanitizeHtml"> </span>
+                <span *ngIf="question?.img">
+                    <img src={{question?.img}} width="60px">
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <ol style="list-style-type: lower-alpha;">
+                            <li *ngFor="let choiceText of choiceTextArray;let i = index">
+                                <p [innerHTML]="choiceText | sanitizeHtml"></p>
+                                <span *ngIf="question?.choices[i].choice_img"><img src={{question?.choices[i].choice_img}} width="60px"></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+        <hr class="brhr">
+        <div class="row" style="display: flex;justify-content: center;">
+            <p>TNGMS - Question Bank</p>
         </div>
     </div>
 
@@ -273,5 +324,76 @@
     </ng-container>
     <div class="col-md-12 float-left" *ngIf="question?.vetted">
         <button type="button" class="btn btn-info mt-2 mr-2 ml-0 mb-4" style="width:10%;" (click)="back()">Back</button>
+    </div>
+</div>
+
+<div #questionpaper style="background-color:snow;display: none;">
+    <div class="row">
+        <div class="col-md-12" style="display: flex;justify-content: space-between;">
+            <p>Jul-Ass</p>
+            <p>Daily Test {{currentDateString}}</p>
+        </div>
+    </div>
+    <hr class="brhr">
+    <div class="row" style="display: flex;justify-content: center;margin: 10px 0;">
+        <h6>Test Code : XX XXX XXX</h6>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10" style="border: 2px solid black;">
+            <h5>Instructions</h5>
+            <div>
+                <ol>
+                    <li>This Paper Has 10 Questions.</li>
+                    <li>Each Question has Four options, Out of which onlt one is Correct.</li>
+                </ol>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" style="background-color: gray;border-top: 2px solid black;border-bottom: 2px solid black;display: flex;justify-content: center;margin: 10px 0;">
+            <div style="display: flex;justify-content: space-evenly;width: 20%;align-items: center;color: black;">
+                <span><p style="margin: 0;">{{question?.type}} </p></span><span><p style="margin: 0;">{{question?.class}}</p></span><span><p style="margin: 0;">{{question?.subject}}</p></span>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" style="display: flex;justify-content: left;padding-left: 0;padding-right: 0;margin: 15px 0;">
+            <span>1 .</span><span [innerHTML]="question?.text | sanitizeHtml"> </span>
+            <span *ngIf="question?.img">
+                <img src={{question?.img}} width="60px">
+            </span>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 choice p-0" *ngIf="question?.format == 1 || question?.format == 2">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <ol style="list-style-type: lower-alpha;">
+                        <li *ngFor="let choiceText of choiceTextArray;let i = index">
+                            <p [innerHTML]="choiceText | sanitizeHtml"></p>
+                            <span *ngIf="question?.choices[i].choice_img"><img src={{question?.choices[i].choice_img}} width="60px"></span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <hr class="brhr">
+    <div class="row" style="display: flex;justify-content: center;">
+        <p>TNGMS - Question Bank</p>
     </div>
 </div>

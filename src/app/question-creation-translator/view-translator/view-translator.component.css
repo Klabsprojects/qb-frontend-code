@@ -40,3 +40,34 @@ figure.table td {
     padding: 2px !important;
     text-align: center !important;
 }
+.brhr{
+    border: 2px solid black;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media print {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  
+    .question-paper {
+      margin: 0;
+      padding: 10mm;
+      width: 100%;
+    }
+  
+    .row, .col-md-10 {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .col-md-1 {
+      display: none;
+    }
+  }
+  

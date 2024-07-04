@@ -4,6 +4,8 @@ import {
   OnInit,
   ViewEncapsulation,
   AfterViewInit,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { QuestionCreationService } from '../question-creation-translator.service';
 import { List, QuestionApprove } from '../question-translator.model';
@@ -11,6 +13,8 @@ import { authService } from 'src/app/auth.service';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as CustomEditor from '../../../assets/ckeditor.js';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-view-translator',
@@ -19,6 +23,12 @@ import * as CustomEditor from '../../../assets/ckeditor.js';
   encapsulation: ViewEncapsulation.None,
 })
 export class ViewTranslatorComponent implements OnInit, AfterViewInit {
+  public currentDateString = new Date().toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+  @ViewChild('questionpaper') questionPaper!: ElementRef;
   currentIndex: number = -1;
   question: any;
   questions: any;
@@ -446,5 +456,13 @@ export class ViewTranslatorComponent implements OnInit, AfterViewInit {
       )
       .filter((choiceNote_tn: string | null) => choiceNote_tn !== null)
       .join(', ');
+  }
+  printQuestionPaper() {
+    const originalContent = document.body.innerHTML;
+    const printContent = this.questionPaper.nativeElement.innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
   }
 }
